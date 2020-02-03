@@ -1,0 +1,65 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Nhân Viên" nzOkText="Ok" nzCancelText="Cancel" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="60%">
+
+
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Họ tên</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
+            <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
+              Họ tên không được để trống!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone">Điện Thoại</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.phone" formControlName="phone" id="phone" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Số điện thoại không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mật khẩu</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.password" type="password" id="password" formControlName="password" />
+            <nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">mật
+              khẩu không được để trống!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="type" nzRequired>Quyền</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select id="type" formControlName="type" [(ngModel)]="dataEdit.type">
+              <nz-option nzValue="admin" nzLabel="admin"></nz-option>
+              <nz-option nzValue="user" nzLabel="user"></nz-option>
+            </nz-select>
+
+            <nz-form-explain *ngIf="validateForm.get('type')?.dirty && validateForm.get('type')?.errors">
+              Hãy chọn quyền cho người dùng!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <label nz-checkbox formControlName="active">
+              <span>Kích hoạt</span>
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</nz-modal>

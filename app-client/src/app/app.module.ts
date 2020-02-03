@@ -1,32 +1,87 @@
+import { ReportService } from './service/report/report.service';
+import { BdsService } from './service/bds/bds.service';
+import { CustomerService } from './service/customer/customer.service';
+import { UserService } from './service/user/user.service';
+import { LoginService } from './service/auth/login.service';
+import { CanActivateService } from './service/auth/can-activate.service';
+import { GlobalDataService } from './service/globalData/global-data.service';
+import { AppRoutingModule } from './router/app-routing.module';
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
-import { IconsProviderModule } from './icons-provider.module';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
-import { FormsModule } from '@angular/forms';
+import { NgZorroAntdModule, NZ_I18N, en_US, NzButtonModule } from 'ng-zorro-antd';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { DashboardComponent } from './container/dashboard/dashboard.component';
+import { MainComponent } from './container/main/main.component';
+import { MainService } from './service/main.service';
+import { TableComponent } from './components/table/table.component';
+import { ImageCtrComponent } from './components/image-ctr/image-ctr.component';
+import { FileUploadService } from './service/fileUpload/file-upload.service';
+import { UserComponent } from './container/user/user.component';
+import { CustomerComponent } from './container/customer/customer.component';
+import { CouUserComponent } from './container/user/cou-user/cou-user.component';
+import { CouCustomerComponent } from './container/customer/cou-customer/cou-customer.component';
+import { ProfileComponent } from './container/profile/profile.component';
+import { AssetComponent } from './container/asset/asset.component';
+import { BdsComponent } from './container/bds/bds.component';
+import { AddBdsComponent } from './container/bds/add-bds/add-bds.component';
+import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
+import { OnlyNumberDirective } from './directives/only-number.directive';
+import { FormatVNDirective } from './directives/format-vn.directive';
+import { PermDirective } from './directives/perm.directive';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent,
+    MainComponent,
+    LoginComponent,
+    TableComponent,
+    ImageCtrComponent,
+    UserComponent,
+    CustomerComponent,
+    CouUserComponent,
+    CouCustomerComponent,
+    ProfileComponent,
+    AssetComponent,
+    BdsComponent,
+    AddBdsComponent,
+    SellBdsComponent,
+    OnlyNumberDirective,
+    FormatVNDirective,
+    PermDirective
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    IconsProviderModule,
-    NgZorroAntdModule,
+    NgZorroAntdModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule,
+    NzButtonModule,
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },
+    GlobalDataService,
+    CanActivateService,
+    LoginService,
+    MainService,
+    UserService,
+    FileUploadService,
+    CustomerService,
+    BdsService,
+    ReportService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

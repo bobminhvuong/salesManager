@@ -1,0 +1,98 @@
+<div nz-row class="mgbt20">
+  <div nz-col nzSpan="12">
+    <h3>Khách Hàng</h3>
+  </div>
+  <div nz-col nzSpan="12">
+    <div class="float-right">
+      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>
+        Tạo mới </button>
+    </div>
+  </div>
+</div>
+<div class="box box-success">
+  <div class="box-header">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="key">
+            <input nz-input type="text" formControlName="find" placeholder="Từ khóa" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+
+  <div class="box-body">
+    <div class="table-responsive">
+      <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+        <thead>
+          <tr>
+            <th width="3%" class="text-center">STT</th>
+            <th width="15%" style="min-width: 150px;">
+              Họ tên
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Điện thoại
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Chứng minh
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Ngày cấp
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Nơi cấp
+            </th>
+            <th width="7%" style="min-width: 100px;" class="text-center">
+              <span>Hình ảnh</span>
+            </th>
+            <th width="15%" style="min-width: 200px;">
+              <span>Địa chỉ</span>
+            </th>
+
+            <th width="10%" class="text-center"><span>Action</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data;let i = index">
+            <td class="text-center">{{ i+ 1}}</td>
+            <td>{{ data.name }}</td>
+            <td class="text-center">{{ data.phone }}</td>
+            <td class="text-center">{{ data.identity_number }}</td>
+            <td class="text-center">{{ formatDate(data.identity_date)  }}</td>
+            <td class="text-center">{{ data.identity_issued_by  }}</td>
+            <td class="text-center">
+              <div *ngIf="data.identity_image && data.identity_image!=''">
+                <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary"
+                  style="font-size: 24px;" nzTheme="outline"></i>
+              </div>
+            </td>
+            <td>{{ data.address }}</td>
+            <td class="cttd" class="text-center">
+              <div zn-row>
+                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa khách hàng" class="iconAction text-warning"
+                  (click)="handleCorU(data)" nzTheme="outline"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+  </ng-template>
+</nz-modal>
+
+<app-cou-customer *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+  class="fade in">
+</app-cou-customer>

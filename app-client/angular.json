@@ -3,9 +3,13 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "clients": {
+    "hotline": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/clients",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -29,9 +33,9 @@
               }
             ],
             "styles": [
-              "src/theme.less",
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -57,11 +61,6 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
                 }
               ]
             }
@@ -70,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "clients:build"
+            "browserTarget": "hotline:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "clients:build:production"
+              "browserTarget": "hotline:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "clients:build"
+            "browserTarget": "hotline:build"
           }
         },
         "test": {
@@ -96,8 +95,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -119,16 +118,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "clients:serve"
+            "devServerTarget": "hotline:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "clients:serve:production"
+              "devServerTarget": "hotline:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "clients"
+  "defaultProject": "switchboard"
 }

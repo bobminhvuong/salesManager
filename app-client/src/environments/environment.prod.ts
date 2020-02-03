@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  APIHOST: 'http://vay.guone.vn/service',
+  APICURRENTSERVE: 'http://vay.guone.vn'
 };

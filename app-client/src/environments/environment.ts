@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  APIHOST: 'http://vay.guone.vn/service',
+  APICURRENTSERVE:'http://localhost:8082'
 };
 
 /*

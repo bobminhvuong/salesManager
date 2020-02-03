@@ -1,0 +1,65 @@
+<div nz-row class="mgbt20">
+  <div nz-col nzSpan="12">
+    <h3>Nhân Viên</h3>
+  </div>
+  <div nz-col nzSpan="12">
+    <div class="float-right">
+      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>
+        Tạo mới </button>
+    </div>
+
+  </div>
+</div>
+<div class="box box-success">
+  <div class="box-body">
+
+    <div class="table-responsive">
+      <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+        <thead>
+          <tr>
+            <th width="3%" class="text-center">STT</th>
+            <th width="15%" style="min-width: 150px;">
+              Họ tên
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Điện thoại
+            </th>
+            <th width="15%" style="min-width: 50px;" class="text-center">
+              Quyền
+            </th>
+            <th width="15%" style="min-width: 100px;" class="text-center">
+              Trạng thái
+            </th>
+            <th width="15%" class="text-center"><span>Action</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data; let i = index; ">
+            <td class="text-center">{{ i +1 }}</td>
+            <td>{{ data.name }}</td>
+            <td class="text-center">{{ data.phone }}</td>
+            <td class="text-center">{{ data.type }}</td>
+            <td class="text-center">
+              <span *ngIf="data.active" class="badge badge-success">
+                Kích hoạt
+              </span>
+              <span *ngIf="!data.active" class="badge badge-danger">
+                Không kích hoạt
+              </span>
+            </td>
+            <td class="cttd text-center">
+              <div zn-row>
+                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa người dùng" class="iconAction text-warning"
+                  (click)="handleCorU(data)" nzTheme="outline"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+
+    <app-cou-user *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)">
+    </app-cou-user>
+  </div>
+</div>
