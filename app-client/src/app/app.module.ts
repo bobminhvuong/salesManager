@@ -29,11 +29,12 @@ import { CouUserComponent } from './container/user/cou-user/cou-user.component';
 import { CouCustomerComponent } from './container/customer/cou-customer/cou-customer.component';
 import { ProfileComponent } from './container/profile/profile.component';
 import { AssetComponent } from './container/asset/asset.component';
-import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { FormatVNDirective } from './directives/format-vn.directive';
 import { PermDirective } from './directives/perm.directive';
+import { SupplierService } from './service/partner/supplier.service';
 import { SupplierComponent } from './container/partner/supplier/supplier.component';
+import { ProductService } from './service/product/product.service';
 
 registerLocaleData(en);
 
@@ -51,11 +52,10 @@ registerLocaleData(en);
     CouCustomerComponent,
     ProfileComponent,
     AssetComponent,
-    SellBdsComponent,
     OnlyNumberDirective,
     FormatVNDirective,
     PermDirective,
-    SupplierComponent
+    SupplierComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +76,9 @@ registerLocaleData(en);
     UserService,
     FileUploadService,
     CustomerService,
-    ReportService
+    ReportService,
+    SupplierService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })

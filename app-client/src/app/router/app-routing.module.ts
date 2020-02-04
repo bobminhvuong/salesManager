@@ -1,4 +1,3 @@
-import { SupplierComponent } from './../container/partner/supplier/supplier.component';
 import { AssetComponent } from './../container/asset/asset.component';
 import { ProfileComponent } from './../container/profile/profile.component';
 import { UserComponent } from './../container/user/user.component';
@@ -11,6 +10,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from '../container/main/main.component';
+import { SupplierComponent } from '../container/partner/supplier/supplier.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,10 +20,10 @@ const routes: Routes = [
             { path: '',  redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', data: {role: 'admin'}, component: CustomerComponent },
-            { path: 'supplier', component: SupplierComponent },
             { path: 'user', data: {role: 'admin'}, component: UserComponent },
             { path: 'profile', data: {role: 'admin'}, component: ProfileComponent },
-            { path: 'assets', data: {role: 'admin'}, component: AssetComponent }
+            { path: 'assets', data: {role: 'admin'}, component: AssetComponent },
+            { path: 'supplier', data: {role: 'admin'}, component: SupplierComponent },
         ]
     },
 ];
