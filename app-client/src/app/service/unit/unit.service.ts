@@ -8,28 +8,28 @@ import { environment } from './../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class UnitService {
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
-  getGroupProd(): Observable<any> {
+  getAll(): Observable<any> {
     let req = {
       api: this.mainSV.getApikey()
     };
-    return this.http.post(environment.APIHOST + '/api/Product/Group/Get',req, this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/Product/Unit/Get',req, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
-  updateOrCreateGroupProd(objectGroup): Observable<any> {
-    objectGroup.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/Product/Group/Add', objectGroup, this.mainSV.getHttpOptionsNotToken()).pipe(
+  updateOrCreate(objectUnit): Observable<any> {
+    objectUnit.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Unit/Add', objectUnit, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
-  deleteGroup(objectGroupId): Observable<any> {
-    objectGroupId.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/Product/Group/Delete', objectGroupId, this.mainSV.getHttpOptionsNotToken()).pipe(
+  delete(objectUnitId): Observable<any> {
+    objectUnitId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Unit/Delete', objectUnitId, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
