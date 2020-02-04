@@ -1,4 +1,4 @@
-import { BdsComponent } from './../container/bds/bds.component';
+import { SupplierComponent } from './../container/partner/supplier/supplier.component';
 import { AssetComponent } from './../container/asset/asset.component';
 import { ProfileComponent } from './../container/profile/profile.component';
 import { UserComponent } from './../container/user/user.component';
@@ -19,11 +19,11 @@ const routes: Routes = [
         path: 'manager', component: MainComponent,canActivate: [CanActivateService], data: {role: 'LOGIN'},  children: [
             { path: '',  redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'customer',canActivate: [CanActivateService], data: {role: 'admin'}, component: CustomerComponent },
-            { path: 'user',canActivate: [CanActivateService], data: {role: 'admin'}, component: UserComponent },
-            { path: 'profile',canActivate: [CanActivateService], data: {role: 'admin'}, component: ProfileComponent },
-            { path: 'assets',canActivate: [CanActivateService], data: {role: 'admin'}, component: AssetComponent },
-            { path: 'bds',canActivate: [CanActivateService], data: {role: 'admin'}, component: BdsComponent },
+            { path: 'customer', data: {role: 'admin'}, component: CustomerComponent },
+            { path: 'supplier', component: SupplierComponent },
+            { path: 'user', data: {role: 'admin'}, component: UserComponent },
+            { path: 'profile', data: {role: 'admin'}, component: ProfileComponent },
+            { path: 'assets', data: {role: 'admin'}, component: AssetComponent }
         ]
     },
 ];

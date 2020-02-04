@@ -1,5 +1,4 @@
 import { ReportService } from './service/report/report.service';
-import { BdsService } from './service/bds/bds.service';
 import { CustomerService } from './service/customer/customer.service';
 import { UserService } from './service/user/user.service';
 import { LoginService } from './service/auth/login.service';
@@ -30,12 +29,11 @@ import { CouUserComponent } from './container/user/cou-user/cou-user.component';
 import { CouCustomerComponent } from './container/customer/cou-customer/cou-customer.component';
 import { ProfileComponent } from './container/profile/profile.component';
 import { AssetComponent } from './container/asset/asset.component';
-import { BdsComponent } from './container/bds/bds.component';
-import { AddBdsComponent } from './container/bds/add-bds/add-bds.component';
 import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { FormatVNDirective } from './directives/format-vn.directive';
 import { PermDirective } from './directives/perm.directive';
+import { SupplierComponent } from './container/partner/supplier/supplier.component';
 
 registerLocaleData(en);
 
@@ -53,12 +51,11 @@ registerLocaleData(en);
     CouCustomerComponent,
     ProfileComponent,
     AssetComponent,
-    BdsComponent,
-    AddBdsComponent,
     SellBdsComponent,
     OnlyNumberDirective,
     FormatVNDirective,
-    PermDirective
+    PermDirective,
+    SupplierComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +76,6 @@ registerLocaleData(en);
     UserService,
     FileUploadService,
     CustomerService,
-    BdsService,
     ReportService
   ],
   bootstrap: [AppComponent]

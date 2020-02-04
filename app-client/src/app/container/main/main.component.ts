@@ -46,6 +46,19 @@ export class MainComponent implements OnInit {
         icon: 'home'
       },
       {
+        title: 'Đối tác',
+        url: '',
+        icon: 'user',
+        role: 'admin',
+        subMenu: [
+          {
+            title: 'Nhà cung cấp',
+            url: '/manager/supplier',
+            role: 'admin',
+          }
+        ]
+      },
+      {
         title: 'Nhân viên',
         url: '',
         icon: 'user',
