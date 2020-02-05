@@ -41,9 +41,12 @@ import { SettingProductComponent } from './container/product/setting-product/set
 import { BatchProductComponent } from './container/product/batch-product/batch-product.component';
 import { CouProductComponent } from './container/product/product/cou-product/cou-product.component';
 import { CouBatchComponent } from './container/product/batch-product/cou-batch/cou-batch.component';
-import { CouGroupProductComponent } from './container/product/setting-product/cou-group-product/cou-group-product.component';
-import { CouUnitComponent } from './container/product/setting-product/cou-unit/cou-unit.component';
-import { CouTypePackComponent } from './container/product/setting-product/cou-type-pack/cou-type-pack.component';
+import { CouGroupProductComponent } from './container/product/setting-product/group-product/cou-group-product/cou-group-product.component';
+import { CouTypePackComponent } from './container/product/setting-product/type-pack/cou-type-pack/cou-type-pack.component';
+import { UnitComponent } from './container/product/setting-product/unit/unit.component';
+import { TypePackComponent } from './container/product/setting-product/type-pack/type-pack.component';
+import { CouUnitComponent } from './container/product/setting-product/unit/cou-unit/cou-unit.component';
+import { GroupProductComponent } from './container/product/setting-product/group-product/group-product.component';
 
 registerLocaleData(en);
 
@@ -72,8 +75,11 @@ registerLocaleData(en);
     CouProductComponent,
     CouBatchComponent,
     CouGroupProductComponent,
+    CouTypePackComponent,
+    UnitComponent,
+    TypePackComponent,
     CouUnitComponent,
-    CouTypePackComponent
+    GroupProductComponent
   ],
   imports: [
     BrowserModule,

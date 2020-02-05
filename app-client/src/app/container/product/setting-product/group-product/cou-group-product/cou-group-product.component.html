@@ -1,0 +1,34 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật nhóm hàng hóa' : 'Tạo nhóm hàng hóa'}}"
+  nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="40%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="name" id="name" />
+        <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
+          Tên nhóm không được để trống
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="parent_id">Nhóm cha </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <select formControlName="parent_id" class="ant-input">
+          <option value="0">--Không--</option>
+          <option *ngFor="let item of productGroups"  value="{{item.id}}">{{ item.name }}</option>
+        </select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="active">
+          <span>Kích hoạt</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+</nz-modal>

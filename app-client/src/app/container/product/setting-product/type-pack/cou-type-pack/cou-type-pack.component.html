@@ -1,0 +1,47 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật kiểu đóng gói' : 'Tạo kiểu đóng gói'}}" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="40%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input  nz-input formControlName="name" id="name" />
+        <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
+          Tên không được để trống
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="value_one_pie">kích thước</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="value_one_pie" id="value_one_pie" />
+        <!-- <nz-form-explain *ngIf="validateForm.get('value_one_pie')?.dirty && validateForm.get('value_one_pie')?.errors">
+          Số điện thoại không được để trống
+        </nz-form-explain> -->
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="value_per_cartone">Số lượng thùng</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input id="value_per_cartone" formControlName="value_per_cartone" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note">Ghi chú</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="note" nz-input rows="2" placeholder="Ghi chú"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="active">
+          <span>Kích hoạt</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

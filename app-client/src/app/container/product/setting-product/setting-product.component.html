@@ -1,3 +1,20 @@
-<p>
-  setting-product works!
-</p>
+<div nz-row class="mgbt20">
+  <div nz-col nzSpan="12">
+    <h3>Cài đặt hàng hóa</h3>
+  </div>
+</div>
+<div class="box box-success">
+  <div class="box-body">
+    <nz-tabset>
+      <nz-tab nzTitle="Nhóm hàng hóa">
+        <app-group-product></app-group-product>
+      </nz-tab>
+      <nz-tab nzTitle="Đơn vị">
+        <app-unit></app-unit>
+      </nz-tab>
+      <nz-tab nzTitle="Quy cách đóng gói">
+        <app-type-pack></app-type-pack>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

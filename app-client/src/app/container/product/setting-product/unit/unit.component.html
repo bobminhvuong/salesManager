@@ -1,0 +1,46 @@
+<div class="row" style="margin-bottom: 15px;">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    
+  </div>
+  <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="float-right">
+      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>
+        Tạo mới </button>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+    [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+    <thead>
+      <tr>
+        <th width="1%" class="text-center">STT</th>
+        <th width="15%" style="min-width: 150px;">
+          Đơn vị
+        </th>
+        <th width="10%" class="text-center"><span>Hành động</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of ajaxTable.data;let i = index">
+        <td class="text-center">{{ i+ 1}}</td>
+        <td>{{ data.name }}</td>
+        <td class="cttd" class="text-center">
+          <div zn-row>
+            <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa đơn vị" class="iconAction text-warning"
+              (click)="handleCorU(data)" nzTheme="outline"></i>
+
+            <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa nhà đơn vị" class="iconAction text-danger"
+              (click)="confirmDelete(data.id)" nzTheme="outline"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+
+<app-cou-unit *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+  class="fade in">
+</app-cou-unit>
