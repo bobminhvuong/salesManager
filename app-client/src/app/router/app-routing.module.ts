@@ -1,3 +1,6 @@
+import { SettingProductComponent } from './../container/product/setting-product/setting-product.component';
+import { BatchProductComponent } from './../container/product/batch-product/batch-product.component';
+import { ProductComponent } from './../container/product/product/product.component';
 import { AssetComponent } from './../container/asset/asset.component';
 import { ProfileComponent } from './../container/profile/profile.component';
 import { UserComponent } from './../container/user/user.component';
@@ -24,6 +27,9 @@ const routes: Routes = [
             { path: 'profile', data: {role: 'admin'}, component: ProfileComponent },
             { path: 'assets', data: {role: 'admin'}, component: AssetComponent },
             { path: 'supplier', data: {role: 'admin'}, component: SupplierComponent },
+            { path: 'product', component: ProductComponent},
+            { path: 'batchProduct', component: BatchProductComponent},
+            { path: 'settingProduct', component: SettingProductComponent }
         ]
     },
 ];

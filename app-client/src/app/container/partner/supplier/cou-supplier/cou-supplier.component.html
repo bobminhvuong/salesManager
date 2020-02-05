@@ -1,0 +1,49 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật nhà cung cấp' : 'Tạo nhà cung cấp'}}" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="50%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input  nz-input formControlName="name" id="name" />
+        <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
+          Nhà cung cấp không được để trống!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone">Điện Thoại</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="phone" id="phone" />
+        <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+          Số điện thoại không được để trống
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Địa chỉ</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input id="address" formControlName="address" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Ghi chú</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="note" nz-input rows="2" placeholder="Ghi chú"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <label nz-checkbox formControlName="active">
+          <span>Kích hoạt</span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+</nz-modal>

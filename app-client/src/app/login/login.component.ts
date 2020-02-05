@@ -19,11 +19,10 @@ export class LoginComponent implements OnInit {
     }
 
     this.validateForm = this.fb.group({
-      phone: [null, [Validators.required]],
+      username: [null, [Validators.required]],
       password: [null, [Validators.required]],
       remember:[null]
     });
-
   }
 
   login(data) {

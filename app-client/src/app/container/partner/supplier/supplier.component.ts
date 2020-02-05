@@ -1,6 +1,7 @@
+import { SupplierService } from './../../../service/partner/supplier.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import * as moment from 'moment';
 import { CustomerService } from 'src/app/service/customer/customer.service';
 import { environment } from 'src/environments/environment';
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
 export class SupplierComponent implements OnInit {
   isVisible = false;
   pageIndex = 1;
-  pageSize = 20;
+  pageSize = 50;
   total = 1;
   listOfData = [];
   loading = true;
@@ -25,7 +26,10 @@ export class SupplierComponent implements OnInit {
   constructor(
     private modalService: NzModalService, 
     private fb: FormBuilder, 
-    private customerSV: CustomerService) { }
+    private customerSV: CustomerService,
+    private supplierSV: SupplierService,
+    private message: NzMessageService
+    ) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
@@ -41,7 +45,7 @@ export class SupplierComponent implements OnInit {
       limit: 50
     }
 
-    this.customerSV.getAll(val).subscribe(res => {
+    this.supplierSV.getAll().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -62,13 +66,25 @@ export class SupplierComponent implements OnInit {
     this.getAll(this.filterForm.value);
   }
 
-  handlePreviewImg = (url) => {
-    this.previewImage = environment.APICURRENTSERVE + '/' + url;
-    this.previewVisible = true;
-  };
+  confirmDeleteSup(id) {
+    this.modalService.confirm({
+      nzTitle: 'Bạn có chắc xóa nhà cung cấp này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteSup({id: id}),
+      nzCancelText: 'Hủy',
+    });
+  }
 
-  formatDate(date,fm){
-    return moment(date).format('DD/MM/YYYY');
+  deleteSup(objId) {
+    this.supplierSV.delete(objId).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Xóa thành công!');
+        this.getAll(this.filterForm.value);
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
+      }
+    })
   }
 }
 

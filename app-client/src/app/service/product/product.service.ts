@@ -33,5 +33,46 @@ export class ProductService {
       catchError(this.mainSV.handleError)
     );
   }
-  
+
+  getAllProduct(filter): Observable<any> {
+    filter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Get',filter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  updateOrCreateProduct(objectProduct): Observable<any> {
+    objectProduct.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Add', objectProduct, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  deleteProduct(objectProductId): Observable<any> {
+    objectProductId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Group/Delete', objectProductId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getBatchByProd(objectProductId): Observable<any> {
+    objectProductId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/product/batch/get', objectProductId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  updateOrCreateBatch(objectBatch): Observable<any> {
+    objectBatch.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/product/batch/add', objectBatch, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  deleteBatch(objectBatchId): Observable<any> {
+    objectBatchId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/Product/Group/Delete', objectBatchId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

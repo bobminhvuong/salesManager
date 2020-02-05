@@ -1,9 +1,6 @@
-<p>
-  supplier works!
-</p>
 <div nz-row class="mgbt20">
   <div nz-col nzSpan="12">
-    <h3>Khách Hàng</h3>
+    <h3>Nhà cung cấp</h3>
   </div>
   <div nz-col nzSpan="12">
     <div class="float-right">
@@ -13,7 +10,7 @@
   </div>
 </div>
 <div class="box box-success">
-  <div class="box-header">
+  <!-- <div class="box-header">
     <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
       <nz-form-item>
         <nz-form-control>
@@ -28,7 +25,7 @@
         </nz-form-control>
       </nz-form-item>
     </form>
-  </div>
+  </div> -->
 
   <div class="box-body">
     <div class="table-responsive">
@@ -36,29 +33,24 @@
         [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
         <thead>
           <tr>
-            <th width="3%" class="text-center">STT</th>
-            <th width="15%" style="min-width: 150px;">
-              Họ tên
-            <th width="10%" style="min-width: 100px;" class="text-center">
+            <th width="3%" class="text-center" >STT</th>
+            <th width="20%" class="mw-100">
+              Nhà cung cấp
+            </th>
+            <th width="10%" class="text-center mw-100">
               Điện thoại
             </th>
-            <th width="10%" style="min-width: 100px;" class="text-center">
-              Chứng minh
+            <th width="20%" class="mw-100">
+              Địa chỉ
             </th>
-            <th width="10%" style="min-width: 100px;" class="text-center">
-              Ngày cấp
+            
+            <th width="20%" class="text-center mw-100">
+              <span>Ghi chú</span>
             </th>
-            <th width="10%" style="min-width: 100px;" class="text-center">
-              Nơi cấp
+            <th width="15%" class="mw-100">
+              <span>Trạng thái</span>
             </th>
-            <th width="7%" style="min-width: 100px;" class="text-center">
-              <span>Hình ảnh</span>
-            </th>
-            <th width="15%" style="min-width: 200px;">
-              <span>Địa chỉ</span>
-            </th>
-
-            <th width="10%" class="text-center"><span>Action</span></th>
+            <th width="10%" class="text-center mw-100"><span>Hành động</span></th>
           </tr>
         </thead>
         <tbody>
@@ -66,20 +58,19 @@
             <td class="text-center">{{ i+ 1}}</td>
             <td>{{ data.name }}</td>
             <td class="text-center">{{ data.phone }}</td>
-            <td class="text-center">{{ data.identity_number }}</td>
-            <td class="text-center">{{ formatDate(data.identity_date)  }}</td>
-            <td class="text-center">{{ data.identity_issued_by  }}</td>
+            <td >{{ data.address }}</td>
+            <td class="text-center">{{ data.note  }}</td>
             <td class="text-center">
-              <div *ngIf="data.identity_image && data.identity_image!=''">
-                <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary"
-                  style="font-size: 24px;" nzTheme="outline"></i>
-              </div>
+              <span *ngIf="data.active" class="badge badge-success">Kích hoạt</span>
+              <span *ngIf="!data.active" class="badge badge-danger">Không kích hoạt</span>
             </td>
-            <td>{{ data.address }}</td>
             <td class="cttd" class="text-center">
               <div zn-row>
-                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa khách hàng" class="iconAction text-warning"
+                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa nhà cung cấp" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
+
+                  <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa nhà cung cấp" class="iconAction text-danger"
+                  (click)="confirmDeleteSup(data.id)" nzTheme="outline"></i>
               </div>
             </td>
           </tr>
@@ -89,6 +80,6 @@
   </div>
 </div>
 
-<!-- <app-cou-customer *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+<app-cou-supplier *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">
-</app-cou-customer> -->
+</app-cou-supplier>

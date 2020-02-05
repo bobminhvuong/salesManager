@@ -35,6 +35,15 @@ import { PermDirective } from './directives/perm.directive';
 import { SupplierService } from './service/partner/supplier.service';
 import { SupplierComponent } from './container/partner/supplier/supplier.component';
 import { ProductService } from './service/product/product.service';
+import { CouSupplierComponent } from './container/partner/supplier/cou-supplier/cou-supplier.component';
+import { ProductComponent } from './container/product/product/product.component';
+import { SettingProductComponent } from './container/product/setting-product/setting-product.component';
+import { BatchProductComponent } from './container/product/batch-product/batch-product.component';
+import { CouProductComponent } from './container/product/product/cou-product/cou-product.component';
+import { CouBatchComponent } from './container/product/batch-product/cou-batch/cou-batch.component';
+import { CouGroupProductComponent } from './container/product/setting-product/cou-group-product/cou-group-product.component';
+import { CouUnitComponent } from './container/product/setting-product/cou-unit/cou-unit.component';
+import { CouTypePackComponent } from './container/product/setting-product/cou-type-pack/cou-type-pack.component';
 
 registerLocaleData(en);
 
@@ -56,6 +65,15 @@ registerLocaleData(en);
     FormatVNDirective,
     PermDirective,
     SupplierComponent,
+    CouSupplierComponent,
+    ProductComponent,
+    SettingProductComponent,
+    BatchProductComponent,
+    CouProductComponent,
+    CouBatchComponent,
+    CouGroupProductComponent,
+    CouUnitComponent,
+    CouTypePackComponent
   ],
   imports: [
     BrowserModule,

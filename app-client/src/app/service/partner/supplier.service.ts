@@ -19,16 +19,16 @@ export class SupplierService {
     );
   }
 
-  updateOrCreate(sup): Observable<any> {
-    sup.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/supplier/add', sup, this.mainSV.getHttpOptionsNotToken()).pipe(
+  updateOrCreate(suplierObj): Observable<any> {
+    suplierObj.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/supplier/add', suplierObj, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
-  delete(sup): Observable<any> {
-    sup.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/supplier/add', sup, this.mainSV.getHttpOptionsNotToken()).pipe(
+  delete(SuplierObjId): Observable<any> {
+    SuplierObjId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/supplier/Delete', SuplierObjId, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
