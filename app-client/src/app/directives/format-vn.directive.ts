@@ -28,12 +28,12 @@ export class FormatVNDirective {
   }
 
   ngOnInit() {
-    this.appFormatVN = this.appFormatVN || '';
+    this.appFormatVN = this.appFormatVN == '' && Number(this.appFormatVN) !=0 ? '' : this.appFormatVN ;
     this.format(this.appFormatVN);
   }
 
   format(val) {
-    if (val && val != '') {
+    if ((val && val != '') || Number(this.appFormatVN) ==0 ) {
       // let val = Number((value + '').replace(/,/g, ""));
       // this.appFormatVNChange.next(val.toLocaleString());
       val = val+ '';
@@ -42,14 +42,12 @@ export class FormatVNDirective {
       let x = val.split('.');
       let x1 = x[0];
       let x2 = x.length > 1 ? '.' + x[1] : '';
-
       var rgx = /(\d+)(\d{3})/;
 
       while (rgx.test(x1)) {
         x1 = x1.replace(rgx, '$1' + ',' + '$2');
       }
       this.appFormatVNChange.next(x1 + x2)
-
     } else {
       this.appFormatVNChange.next('');
     }

@@ -22,14 +22,11 @@
         <th width="15%" class="mw-100 text-center">
           Kích thước
         </th>
-        <th width="15%" class="text-center mw-100">
+        <th width="20%" class="text-center mw-100">
           Số lượng đóng gói
         </th>
         <th width="20%" class="mw-100">
           ghi chú
-        </th>
-        <th width="20%" class="text-center mw-100">
-          Trạng thái
         </th>
         <th width="10%" class="text-center mw-100"><span>Hành động</span></th>
       </tr>
@@ -40,9 +37,8 @@
         <td>{{ data.name }}</td>
         <td class="text-center">{{ data.value_one_pie }}</td>
         <td class="text-center">{{ data.value_per_cartone }}</td>
-        <td class="text-center">
-          <span *ngIf="data.active" class="badge badge-success">Kích hoạt</span>
-          <span *ngIf="!data.active" class="badge badge-danger">Không kích hoạt</span>
+        <td>
+          {{ data.note }}
         </td>
         <td class="cttd" class="text-center">
           <div zn-row>

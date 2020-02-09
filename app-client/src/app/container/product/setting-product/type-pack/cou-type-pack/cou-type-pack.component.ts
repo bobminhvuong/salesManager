@@ -25,10 +25,9 @@ export class CouTypePackComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.fb.group({
       name: [this.dataEdit.id ? this.dataEdit.name : null, [Validators.required]],
-      value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null],
-      value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null],
-      note:[this.dataEdit.id ? this.dataEdit.note : null],
-      active: [this.dataEdit.id ? this.dataEdit.avtive : true]
+      value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null,[Validators.required]],
+      value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null,[Validators.required]],
+      note:[this.dataEdit.id ? this.dataEdit.note : null]
     });
   }
 
