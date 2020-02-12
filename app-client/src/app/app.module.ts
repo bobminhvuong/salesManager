@@ -47,6 +47,12 @@ import { UnitComponent } from './container/product/setting-product/unit/unit.com
 import { TypePackComponent } from './container/product/setting-product/type-pack/type-pack.component';
 import { CouUnitComponent } from './container/product/setting-product/unit/cou-unit/cou-unit.component';
 import { GroupProductComponent } from './container/product/setting-product/group-product/group-product.component';
+import { ListWarehouseComponent } from './container/warehouse/list-warehouse/list-warehouse.component';
+import { ImportWarehouseComponent } from './container/warehouse/import-warehouse/import-warehouse.component';
+import { ReportWarehouseComponent } from './container/warehouse/report-warehouse/report-warehouse.component';
+import { CouWarehouseComponent } from './container/warehouse/list-warehouse/cou-warehouse/cou-warehouse.component';
+import { ListStoreComponent } from './container/store/list-store/list-store.component';
+import { CouStoreComponent } from './container/store/list-store/cou-store/cou-store.component';
 
 registerLocaleData(en);
 
@@ -79,7 +85,13 @@ registerLocaleData(en);
     UnitComponent,
     TypePackComponent,
     CouUnitComponent,
-    GroupProductComponent
+    GroupProductComponent,
+    ListWarehouseComponent,
+    ImportWarehouseComponent,
+    ReportWarehouseComponent,
+    CouWarehouseComponent,
+    ListStoreComponent,
+    CouStoreComponent
   ],
   imports: [
     BrowserModule,

@@ -76,6 +76,40 @@ export class MenuService {
             role: 'admin',
           }
         ]
+      }, {
+        title: 'Chi nhánh',
+        url: '',
+        icon: 'shop',
+        role: 'admin',
+        subMenu: [
+          {
+            title: 'Danh sách chi nhánh',
+            url: '/manager/listStore',
+            role: 'admin',
+          }
+        ]
+      }, {
+        title: 'Kho hàng hóa',
+        url: '',
+        icon: 'database',
+        role: 'admin',
+        subMenu: [
+          {
+            title: 'Nhập kho',
+            url: '/manager/importWH',
+            role: 'admin',
+          },
+          {
+            title: 'Báo cáo kho',
+            url: '/manager/reportWH',
+            role: 'admin',
+          },
+          {
+            title: 'Danh sách kho',
+            url: '/manager/listWH',
+            role: 'admin',
+          }
+        ]
       }
     ]
   }
