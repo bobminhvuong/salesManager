@@ -48,11 +48,14 @@ import { TypePackComponent } from './container/product/setting-product/type-pack
 import { CouUnitComponent } from './container/product/setting-product/unit/cou-unit/cou-unit.component';
 import { GroupProductComponent } from './container/product/setting-product/group-product/group-product.component';
 import { ListWarehouseComponent } from './container/warehouse/list-warehouse/list-warehouse.component';
-import { ImportWarehouseComponent } from './container/warehouse/import-warehouse/import-warehouse.component';
 import { ReportWarehouseComponent } from './container/warehouse/report-warehouse/report-warehouse.component';
 import { CouWarehouseComponent } from './container/warehouse/list-warehouse/cou-warehouse/cou-warehouse.component';
 import { ListStoreComponent } from './container/store/list-store/list-store.component';
 import { CouStoreComponent } from './container/store/list-store/cou-store/cou-store.component';
+import { TransactionComponent } from './container/warehouse/transaction/transaction.component';
+import { InputWHComponent } from './container/warehouse/transaction/input-wh/input-wh.component';
+import { OutputWHComponent } from './container/warehouse/transaction/output-wh/output-wh.component';
+import { MoveWHComponent } from './container/warehouse/transaction/move-wh/move-wh.component';
 
 registerLocaleData(en);
 
@@ -87,11 +90,14 @@ registerLocaleData(en);
     CouUnitComponent,
     GroupProductComponent,
     ListWarehouseComponent,
-    ImportWarehouseComponent,
     ReportWarehouseComponent,
     CouWarehouseComponent,
     ListStoreComponent,
-    CouStoreComponent
+    CouStoreComponent,
+    TransactionComponent,
+    InputWHComponent,
+    OutputWHComponent,
+    MoveWHComponent
   ],
   imports: [
     BrowserModule,

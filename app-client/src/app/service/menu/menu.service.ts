@@ -96,7 +96,7 @@ export class MenuService {
         subMenu: [
           {
             title: 'Nhập kho',
-            url: '/manager/importWH',
+            url: '/manager/transaction',
             role: 'admin',
           },
           {

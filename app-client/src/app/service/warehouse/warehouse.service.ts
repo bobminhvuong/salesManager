@@ -34,9 +34,9 @@ export class WarehouseService {
     );
   }
 
-  getTransaction(object): Observable<any> {
-    object.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/transaction/get', object, this.mainSV.getHttpOptionsNotToken()).pipe(
+  getTransaction(objectFilter): Observable<any> {
+    objectFilter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/transaction/get', objectFilter, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

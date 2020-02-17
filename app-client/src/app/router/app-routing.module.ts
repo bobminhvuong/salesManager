@@ -1,6 +1,6 @@
+import { TransactionComponent } from './../container/warehouse/transaction/transaction.component';
 import { ListStoreComponent } from './../container/store/list-store/list-store.component';
 import { ListWarehouseComponent } from './../container/warehouse/list-warehouse/list-warehouse.component';
-import { ImportWarehouseComponent } from './../container/warehouse/import-warehouse/import-warehouse.component';
 import { SettingProductComponent } from './../container/product/setting-product/setting-product.component';
 import { BatchProductComponent } from './../container/product/batch-product/batch-product.component';
 import { ProductComponent } from './../container/product/product/product.component';
@@ -44,7 +44,7 @@ const routes: Routes = [
 
             //warehouse
             { path: 'listWH', component: ListWarehouseComponent },
-            { path: 'importWH', component: ImportWarehouseComponent },
+            { path: 'transaction', component: TransactionComponent },
             { path: 'reportWH', component: ReportWarehouseComponent },
 
         ]
