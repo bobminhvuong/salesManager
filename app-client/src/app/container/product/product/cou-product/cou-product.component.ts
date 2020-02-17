@@ -102,7 +102,7 @@ export class CouProductComponent implements OnInit {
 
       this.productSV.updateOrCreateProduct(sup).subscribe(r => {
         if (r && r.status == 1) {
-          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo khách hàng thành công!');
+          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo hàng hóa thành công!');
           this.handleCancel();
         } else {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');

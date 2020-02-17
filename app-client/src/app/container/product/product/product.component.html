@@ -10,22 +10,59 @@
   </div>
 </div>
 <div class="box box-success">
-  <!-- <div class="box-header">
-    <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
+  <div class="box-header">
+    <div nz-form [nzLayout]="'inline'">
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzPrefixIcon="key">
-            <input nz-input type="text" formControlName="find" placeholder="Từ khóa" />
+            <input nz-input type="text" placeholder="Từ khóa" [(ngModel)]="filter.find" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select style="width: 180px;" nzShowSearch nzAllowClear nzPlaceHolder="Nhà cung cấp"
+              [(ngModel)]="filter.supplier_id">
+              <nz-option nzLabel="Tất cả nhà cung cấp" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select style="width: 180px;" nzShowSearch nzAllowClear nzPlaceHolder="Nhóm hàng hóa"
+              [(ngModel)]="filter.group_id">
+              <nz-option nzLabel="Tất cả nhà nhóm" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of groups" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select style="width: 180px;" nzPlaceHolder="Trạng thái" [(ngModel)]="filter.activeTmp">
+              <nz-option nzLabel="Không kích hoạt" nzValue="0"></nz-option>
+              <nz-option nzLabel="Kích hoạt" nzValue="1"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+
       <nz-form-item>
         <nz-form-control>
           <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
         </nz-form-control>
       </nz-form-item>
-    </form>
-  </div> -->
+    </div>
+  </div>
 
   <div class="box-body">
     <div class="table-responsive">
@@ -33,7 +70,7 @@
         [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
         <thead>
           <tr>
-            <th width="3%" class="text-center" >STT</th>
+            <th width="3%" class="text-center">STT</th>
             <th width="15%" class="mw-100">
               Tên sản phẩm
             </th>
@@ -52,7 +89,7 @@
             <th width="15%" class="mw-100">
               Nhà cung cấp
             </th>
-            
+
             <th width="15%" class="mw-100">
               Ghi chú
             </th>
@@ -68,12 +105,12 @@
             <td>{{ data.name }}</td>
             <td class="text-center">{{ data.code }}</td>
             <td class="text-right">{{ data.price | number }} / {{ data.cost | number }}</td>
-            <td class="text-center">{{ data.unit_name  }} 
+            <td class="text-center">{{ data.unit_name  }}
               <span *ngIf="data.is_batch">(Lô)</span>
             </td>
             <td>{{ data.specification_name  }}</td>
             <td>{{ data.supplier_name  }}</td>
-            <td >{{ data.note  }}</td>
+            <td>{{ data.note  }}</td>
             <td class="text-center">
               <span *ngIf="data.active" class="badge badge-success">Kích hoạt</span>
               <span *ngIf="!data.active" class="badge badge-danger">Không kích hoạt</span>
@@ -83,7 +120,7 @@
                 <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa nhà cung cấp" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
 
-                  <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa nhà cung cấp" class="iconAction text-danger"
+                <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa nhà cung cấp" class="iconAction text-danger"
                   (click)="confirmDelete(data.id)" nzTheme="outline"></i>
               </div>
             </td>

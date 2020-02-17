@@ -1,3 +1,4 @@
+import { SupplierService } from './../../../service/partner/supplier.service';
 import { ProductService } from './../../../service/product/product.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -15,6 +16,17 @@ export class ProductComponent implements OnInit {
   pageSize = 50;
   total = 1;
   listOfData = [];
+  filter = {
+    find: '',
+    supplier_id : '0',
+    group_id :'0',
+    active: true,
+    activeTmp: '1',
+    offset: 0,
+    limit: this.pageSize
+  };
+  suppliers = [];
+  groups = [];
   loading = true;
   dataEdit: any | null = null;
   filterForm: FormGroup;
@@ -22,26 +34,26 @@ export class ProductComponent implements OnInit {
     private modalService: NzModalService,
     private fb: FormBuilder,
     private message: NzMessageService,
-    private productSV: ProductService) { }
+    private productSV: ProductService,
+    private partnerSV: SupplierService) { }
 
   ngOnInit() {
     this.getAll();
+    this.productSV.getGroupProd().subscribe(r=>{if(r && r.status ==1){ this.groups = r.data; }})
+    this.partnerSV.getAll().subscribe(r=>{if(r && r.status ==1){ this.suppliers = r.data; }})
   }
 
   getAll() {
-    let filter = {
-      find: '',
-      supllier_id : 0,
-      group_id :0,
-      active: true,
-      offset: 0,
-      limit: 20
-    };
-    this.productSV.getAllProduct(filter).subscribe(res => {
+    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
+    this.filter.limit = this.pageSize;
+    this.filter.active =  this.filter.activeTmp == '1' ? true : false; 
+    
+    this.productSV.getAllProduct(this.filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
     });
+    
   }
 
   handleCorU(client) {

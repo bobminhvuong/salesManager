@@ -1,8 +1,25 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{ getTitle() }}" nzOkText="Xác nhận" nzCancelText="Hủy"
   (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="65%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div style="margin-bottom: 15px;" class="row" *ngIf="dataEdit.id" >
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 offset-md-1">
+        <label for=""><b>Người tạo: {{ dataEdit.created_user_name }}</b></label>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+        <label for=""><b>Ngày tạo: {{ formatDate(dataEdit.created_date,'DD/MM/YYYY HH:mm') }}</b></label>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+        <span class="badge" [ngClass]="{
+          'badge-primary': dataEdit.status_id ==1,
+          'badge-success': dataEdit.status_id ==2,
+          'badge-warning': dataEdit.status_id ==3,
+          'badge-default': dataEdit.status_id ==4  }">
+          {{ dataEdit.status_name  }}
+        </span>
+      </div>
+    </div>
 
-    <div class="row">
+    <div class="row"> 
       <div class="col-12 col-sm-6 col-md-6 col-lg-6">
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Loại phiếu </nz-form-label>
@@ -85,19 +102,19 @@
             <th class="text-center" width="5%">STT</th>
             <th width="35%">Hàng hóa</th>
             <th width="20%" class="text-center">Mã</th>
-            <th class="text-center" width="10%">Số lượng</th>
+            <th class="text-center" width="15%">Số lượng</th>
             <th class="text-center" width="20%">Giá nhập</th>
-            <th class="text-center" width="10%"></th>
+            <th class="text-center" width="5%"></th>
           </tr>
         </thead>
         <tbody class="ant-table-tbody">
           <tr *ngFor="let item of listProduct;let i =index" class="ant-table-row">
             <td class="text-center"> {{i+1}} </td>
             <td>
-              {{item.name}}
+              {{item.product_name}}
             </td>
             <td class="text-center">
-              {{ item.code }}
+              {{ item.product_code }}
             </td>
             <td class="text-center">
               <input nz-input class="text-right" appOnlyNumber [(ngModel)]="item.quantity" />
@@ -107,7 +124,7 @@
             </td>
             <td class="text-center">
               <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa hàng hóa" class="iconAction text-danger"
-                (click)="deleteProd(item.id)" nzTheme="outline"></i>
+                (click)="deleteProd(item.product_id)" nzTheme="outline"></i>
             </td>
           </tr>
         </tbody>

@@ -5,6 +5,7 @@ import { ProductService } from './../../../../service/product/product.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-input-wh',
@@ -44,9 +45,9 @@ export class InputWHComponent implements OnInit {
     let dest_id = this.dataEdit.id ? this.dataEdit.dest_id : (this.dataEdit.transaction_type_id == 0 ? 0 : null);
     this.validateForm = this.fb.group({
       transaction_type_id: [this.dataEdit.transaction_type_id + '', [Validators.required]],
-      source_id: [source_id, [Validators.required]],
-      dest_id: [dest_id, [Validators.required]],
-      suplier_id: [this.dataEdit.id ? this.dataEdit.transaction_type_id : null, [Validators.required]],
+      source_id: [source_id+'', [Validators.required]],
+      dest_id: [dest_id+'', [Validators.required]],
+      suplier_id: [this.dataEdit.id ? this.dataEdit.suplier_id+'' : null, [Validators.required]],
       product_id: [null]
     });
 
@@ -77,9 +78,9 @@ export class InputWHComponent implements OnInit {
     this.productSV.getGroupProd().subscribe(r => { if (r && r.status == 1) this.groupProds = r.data; });
     this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; });
     this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
-    // if(this.dataEdit.id){
-    //   this.warehouseSV.getTransactionDetail({transaction_id: this.dataEdit.id}).subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
-    // }
+    if(this.dataEdit.id){
+      this.warehouseSV.getTransactionDetail({transaction_id: this.dataEdit.id}).subscribe(r => { if (r && r.status == 1) this.listProduct = r.data; });
+    }
   }
 
   getProducts(supplier_id) {
@@ -142,11 +143,11 @@ export class InputWHComponent implements OnInit {
     } else {
       if (prod) {
         let product = {
-          id: prod.id,
+          product_id: prod.id,
           quantity: 1,
           price: prod.price,
-          name: prod.name,
-          code: prod.code
+          product_name: prod.name,
+          product_code: prod.code
         }
         this.listProduct.unshift(product);
       }
@@ -159,5 +160,10 @@ export class InputWHComponent implements OnInit {
       this.listProduct.splice(index, 1);
     }
   }
+
+  formatDate(date,format){
+    return date ? moment(date).format(format) : '';
+  }
+
 }
 

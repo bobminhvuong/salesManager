@@ -14,20 +14,44 @@
 </div>
 <div class="box box-success">
   <div class="box-header">
-    <!-- <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
+    <div nz-form [nzLayout]="'inline'">
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzPrefixIcon="key">
-            <input nz-input type="text" formControlName="find" placeholder="Từ khóa" />
+            <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="filter.date"></nz-range-picker>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group >
+            <nz-select style="width: 140px;"  nzShowSearch nzAllowClear nzPlaceHolder="Hàng hóa" [(ngModel)]="filter.product_id">
+              <nz-option nzLabel="Tất cả hàng hóa" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of products"  nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group >
+            <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
+              <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of warehouses"  nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      
       <nz-form-item>
         <nz-form-control>
           <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
         </nz-form-control>
       </nz-form-item>
-    </form> -->
+    </div>
   </div>
 
   <div class="box-body">
@@ -37,7 +61,7 @@
         <thead>
           <tr>
             <th width="3%" class="text-center">STT</th>
-            <th width="5%" class="mw-100">
+            <th width="5%" class="mw-100 text-center">
               Số phiếu
             </th>
             <th width="12%" class="mw-100 text-center">

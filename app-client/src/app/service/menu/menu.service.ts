@@ -26,11 +26,11 @@ export class MenuService {
             url: '/manager/product',
             role: 'admin',
           },
-          {
-            title: 'Lô hàng hóa',
-            url: '/manager/batchProduct',
-            role: 'admin',
-          },
+          // {
+          //   title: 'Lô hàng hóa',
+          //   url: '/manager/batchProduct',
+          //   role: 'admin',
+          // },
           {
             title: 'Cài đặt hàng hóa',
             url: '/manager/settingProduct',
