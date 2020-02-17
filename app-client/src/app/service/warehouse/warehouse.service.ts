@@ -15,7 +15,7 @@ export class WarehouseService {
     let req = {
       api: this.mainSV.getApikey()
     };
-    return this.http.post(environment.APIHOST + '/api/warehouse/Get',req, this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/warehouse/Get', req, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
@@ -33,5 +33,32 @@ export class WarehouseService {
       catchError(this.mainSV.handleError)
     );
   }
-  
+
+  getTransaction(object): Observable<any> {
+    object.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/transaction/get', object, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getTransactionDetail(object): Observable<any> {
+    object.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/transaction/get', object, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  createTransaction(object): Observable<any> {
+    object.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/transaction/Add', object, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  deleteTransaction(objectId): Observable<any> {
+    objectId.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/transaction/delete', objectId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }
