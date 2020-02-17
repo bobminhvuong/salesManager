@@ -28,7 +28,7 @@ export class CouTypePackComponent implements OnInit {
       value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null],
       value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null],
       note:[this.dataEdit.id ? this.dataEdit.note : null],
-      active: [this.dataEdit.id ? this.dataEdit.avtive : true]
+      active: [this.dataEdit.id ? this.dataEdit.avtive : true]  
     });
   }
 
@@ -52,7 +52,6 @@ export class CouTypePackComponent implements OnInit {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
         }
       });
-
     }
   }
 }
