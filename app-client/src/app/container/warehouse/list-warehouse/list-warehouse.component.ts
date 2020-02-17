@@ -1,37 +1,35 @@
-import { ProductService } from './../../../service/product/product.service';
-import { PackageService } from './../../../service/package/package.service';
+import { WarehouseService } from './../../../service/warehouse/warehouse.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-batch-product',
-  templateUrl: './batch-product.component.html',
-  styleUrls: ['./batch-product.component.scss']
+  selector: 'app-list-warehouse',
+  templateUrl: './list-warehouse.component.html',
+  styleUrls: ['./list-warehouse.component.scss']
 })
-export class BatchProductComponent implements OnInit {
+export class ListWarehouseComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
-  pageSize = 50;
+  pageSize = 20;
   total = 1;
   listOfData = [];
   loading = true;
   dataEdit: any | null = null;
   filterForm: FormGroup;
   constructor(
-    private modalService: NzModalService,
-    private fb: FormBuilder,
+    private modalService: NzModalService, 
+    private fb: FormBuilder, 
     private message: NzMessageService,
-    private packageSV: PackageService,
-    private productSV: ProductService) { }
+    private whSV: WarehouseService) { }
 
   ngOnInit() {
     this.getAll();
   }
 
   getAll() {
-    this.packageSV.getAllTypePack().subscribe(res => {
+    this.whSV.getAllWH().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -57,13 +55,13 @@ export class BatchProductComponent implements OnInit {
       nzTitle: 'Bạn có chắc xóa trường này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
-      nzOnOk: () => this.delete({ id: id }),
+      nzOnOk: () => this.delete({id: id}),
       nzCancelText: 'Hủy',
     });
   }
 
   delete(objId) {
-    this.packageSV.deleteTypePack(objId).subscribe(r => {
+    this.whSV.deleteWH(objId).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Xóa thành công!');
         this.getAll();
@@ -72,5 +70,4 @@ export class BatchProductComponent implements OnInit {
       }
     })
   }
-
 }

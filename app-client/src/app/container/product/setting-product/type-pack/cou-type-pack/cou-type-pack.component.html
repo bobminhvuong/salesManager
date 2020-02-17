@@ -1,5 +1,5 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật kiểu đóng gói' : 'Tạo kiểu đóng gói'}}" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
-  (nzOnCancel)="handleCancel()" nzWidth="40%">
+  (nzOnCancel)="handleCancel()" nzWidth="50%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên </nz-form-label>
@@ -12,19 +12,22 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="value_one_pie">kích thước</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="value_one_pie" nzRequired>kích thước 1 viên</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="value_one_pie" id="value_one_pie" />
-        <!-- <nz-form-explain *ngIf="validateForm.get('value_one_pie')?.dirty && validateForm.get('value_one_pie')?.errors">
-          Số điện thoại không được để trống
-        </nz-form-explain> -->
+        <input nz-input formControlName="value_one_pie" appOnlyNumber id="value_one_pie" />
+        <nz-form-explain *ngIf="validateForm.get('value_one_pie')?.dirty && validateForm.get('value_one_pie')?.errors">
+          Kích thước không được để trống!
+        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="value_per_cartone">Số lượng thùng</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="value_per_cartone" nzRequired>Số viên/ 1 thùng</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input id="value_per_cartone" formControlName="value_per_cartone" />
+        <input nz-input id="value_per_cartone" appOnlyNumber  formControlName="value_per_cartone" />
+        <nz-form-explain *ngIf="validateForm.get('value_per_cartone')?.dirty && validateForm.get('value_per_cartone')?.errors">
+          Số lượng không được trống1
+        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
@@ -32,15 +35,6 @@
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note">Ghi chú</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <textarea formControlName="note" nz-input rows="2" placeholder="Ghi chú"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="active">
-          <span>Kích hoạt</span>
-        </label>
       </nz-form-control>
     </nz-form-item>
   </form>

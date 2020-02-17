@@ -1,6 +1,6 @@
 <div nz-row class="mgbt20">
   <div nz-col nzSpan="12">
-    <h3>Hàng hóa</h3>
+    <h3>Nhập / Xuất kho</h3>
   </div>
   <div nz-col nzSpan="12">
     <div class="float-right">
@@ -34,30 +34,30 @@
         <thead>
           <tr>
             <th width="3%" class="text-center" >STT</th>
-            <th width="15%" class="mw-100">
-              Tên sản phẩm
+            <th width="5%" class="mw-100">
+              Số phiếu
             </th>
             <th width="7%" class="mw-100 text-center">
-              Mã hàng
+              Ngày tạo
             </th>
-            <th width="15%" class="text-center mw-100">
-              Giá bán / Giá vốn
+            <th width="10%" class="text-center mw-100">
+              Loại phiếu
             </th>
             <th width="10%" class="mw-100 text-center">
-              Đơn vị
+              Kho xuất
             </th>
             <th width="10%" class="mw-100">
-              Kiểu đóng gói
+              Kho nhận
             </th>
-            <th width="15%" class="mw-100">
-              Nhà cung cấp
+            <th width="10%" class="mw-100">
+              Ngày nhận
             </th>
-            
-            <th width="15%" class="mw-100">
+
+             <th width="15%" class="mw-100">
               Ghi chú
             </th>
-            <th width="10%" class="mw-100 text-center">
-              Trạng thái
+            <th width="15%" class="mw-100">
+              trạng thái
             </th>
             <th width="10%" class="text-center mw-100"><span>Hành động</span></th>
           </tr>
@@ -65,25 +65,28 @@
         <tbody>
           <tr *ngFor="let data of ajaxTable.data;let i = index">
             <td class="text-center">{{ i+ 1}}</td>
-            <td>{{ data.name }}</td>
-            <td class="text-center">{{ data.code }}</td>
-            <td class="text-right">{{ data.price | number }} / {{ data.cost | number }}</td>
-            <td class="text-center">{{ data.unit_name  }} 
-              <span *ngIf="data.is_batch">(Lô)</span>
+            <td class="text-center">{{ data.id }}</td>
+            <td class="text-center">{{ data.created_date }}</td>
+            <td class="text-right">
+              <span class="badge" [ngClass]="{
+                'badge-primary': data.transaction_type_id ==1,
+                'badge-success': data.transaction_type_id ==2,
+                'badge-warning': data.transaction_type_id ==3,
+                'badge-default': data.transaction_type_id ==3  }">
+                {{ data.transaction_type_name }}
+              </span>
             </td>
-            <td>{{ data.specification_name  }}</td>
-            <td>{{ data.supplier_name  }}</td>
+            <td class="text-center">{{ data.source_name  }} </td>
+            <td class="text-center">{{ data.dest_name  }}</td>
+            <td class="text-center">{{ data.received_date  }}</td>
             <td >{{ data.note  }}</td>
-            <td class="text-center">
-              <span *ngIf="data.active" class="badge badge-success">Kích hoạt</span>
-              <span *ngIf="!data.active" class="badge badge-danger">Không kích hoạt</span>
-            </td>
+            <td class="text-center">{{ data.status_name  }}</td>
             <td class="cttd" class="text-center">
               <div zn-row>
-                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa nhà cung cấp" class="iconAction text-warning"
+                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
 
-                  <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa nhà cung cấp" class="iconAction text-danger"
+                  <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa phiếu" class="iconAction text-danger"
                   (click)="confirmDelete(data.id)" nzTheme="outline"></i>
               </div>
             </td>

@@ -1,15 +1,14 @@
-import { PackageService } from './../../../../../service/package/package.service';
-import { UnitService } from './../../../../../service/unit/unit.service';
+import { StoreService } from './../../../../service/store/store.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-cou-type-pack',
-  templateUrl: './cou-type-pack.component.html',
-  styleUrls: ['./cou-type-pack.component.scss']
+  selector: 'app-cou-store',
+  templateUrl: './cou-store.component.html',
+  styleUrls: ['./cou-store.component.scss']
 })
-export class CouTypePackComponent implements OnInit {
+export class CouStoreComponent implements OnInit {
 
   @Input() dataEdit: any;
   @Input() isVisible: boolean;
@@ -19,22 +18,14 @@ export class CouTypePackComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
-    private packageSV: PackageService
+    private storeSV: StoreService
   ) { }
 
   ngOnInit() {
     this.validateForm = this.fb.group({
       name: [this.dataEdit.id ? this.dataEdit.name : null, [Validators.required]],
-<<<<<<< HEAD
-      value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null],
-      value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null],
-      note:[this.dataEdit.id ? this.dataEdit.note : null],
-      active: [this.dataEdit.id ? this.dataEdit.avtive : true]  
-=======
-      value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null,[Validators.required]],
-      value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null,[Validators.required]],
-      note:[this.dataEdit.id ? this.dataEdit.note : null]
->>>>>>> 99aaf9170e903da44aec961287050e786a00257b
+      address: [this.dataEdit.id ? this.dataEdit.address : null, [Validators.required]],
+      active: [this.dataEdit.id ? this.dataEdit.active : true],
     });
   }
 
@@ -50,14 +41,15 @@ export class CouTypePackComponent implements OnInit {
     }
     if (this.validateForm.status === 'VALID') {
       let sup = { ...this.dataEdit, ...this.validateForm.value };
-      this.packageSV.updateOrCreateTypePack(sup).subscribe(r => {
+      this.storeSV.updateOrCreateStore(sup).subscribe(r => {
         if (r && r.status == 1) {
-          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo khách hàng thành công!');
+          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
           this.handleCancel();
         } else {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
         }
       });
+
     }
   }
 }

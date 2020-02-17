@@ -50,7 +50,7 @@ export class ProductService {
 
   deleteProduct(objectProductId): Observable<any> {
     objectProductId.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/Product/Group/Delete', objectProductId, this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/Product/Delete', objectProductId, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
@@ -72,6 +72,16 @@ export class ProductService {
   deleteBatch(objectBatchId): Observable<any> {
     objectBatchId.api = this.mainSV.getApikey();
     return this.http.post(environment.APIHOST + '/api/Product/Group/Delete', objectBatchId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getImageProduct(product_id): Observable<any>{
+    let req = {
+      api: this.mainSV.getApikey(),
+      product_id: product_id
+    };
+    return this.http.post(environment.APIHOST + '/api/Product/GetImage',req, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

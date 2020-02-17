@@ -1,3 +1,6 @@
+import { ListStoreComponent } from './../container/store/list-store/list-store.component';
+import { ListWarehouseComponent } from './../container/warehouse/list-warehouse/list-warehouse.component';
+import { ImportWarehouseComponent } from './../container/warehouse/import-warehouse/import-warehouse.component';
 import { SettingProductComponent } from './../container/product/setting-product/setting-product.component';
 import { BatchProductComponent } from './../container/product/batch-product/batch-product.component';
 import { ProductComponent } from './../container/product/product/product.component';
@@ -14,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from '../container/main/main.component';
 import { SupplierComponent } from '../container/partner/supplier/supplier.component';
+import { ReportWarehouseComponent } from '../container/warehouse/report-warehouse/report-warehouse.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,10 +30,23 @@ const routes: Routes = [
             { path: 'user', data: {role: 'admin'}, component: UserComponent },
             { path: 'profile', data: {role: 'admin'}, component: ProfileComponent },
             { path: 'assets', data: {role: 'admin'}, component: AssetComponent },
+
+            //parner
             { path: 'supplier', data: {role: 'admin'}, component: SupplierComponent },
+
+            //product
             { path: 'product', component: ProductComponent},
             { path: 'batchProduct', component: BatchProductComponent},
-            { path: 'settingProduct', component: SettingProductComponent }
+            { path: 'settingProduct', component: SettingProductComponent },
+
+            //store
+            { path: 'listStore', component: ListStoreComponent },
+
+            //warehouse
+            { path: 'listWH', component: ListWarehouseComponent },
+            { path: 'importWH', component: ImportWarehouseComponent },
+            { path: 'reportWH', component: ReportWarehouseComponent },
+
         ]
     },
 ];

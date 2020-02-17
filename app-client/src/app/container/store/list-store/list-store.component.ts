@@ -1,15 +1,15 @@
-import { ProductService } from './../../../service/product/product.service';
-import { PackageService } from './../../../service/package/package.service';
+import { StoreService } from './../../../service/store/store.service';
+import { UnitService } from './../../../service/unit/unit.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-batch-product',
-  templateUrl: './batch-product.component.html',
-  styleUrls: ['./batch-product.component.scss']
+  selector: 'app-list-store',
+  templateUrl: './list-store.component.html',
+  styleUrls: ['./list-store.component.scss']
 })
-export class BatchProductComponent implements OnInit {
+export class ListStoreComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
@@ -20,18 +20,17 @@ export class BatchProductComponent implements OnInit {
   dataEdit: any | null = null;
   filterForm: FormGroup;
   constructor(
-    private modalService: NzModalService,
-    private fb: FormBuilder,
-    private message: NzMessageService,
-    private packageSV: PackageService,
-    private productSV: ProductService) { }
+    private modalService: NzModalService, 
+    private fb: FormBuilder, 
+    private storeSV: StoreService,
+    private message: NzMessageService) { }
 
   ngOnInit() {
     this.getAll();
   }
 
   getAll() {
-    this.packageSV.getAllTypePack().subscribe(res => {
+    this.storeSV.getAllStore().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -57,13 +56,13 @@ export class BatchProductComponent implements OnInit {
       nzTitle: 'Bạn có chắc xóa trường này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
-      nzOnOk: () => this.delete({ id: id }),
+      nzOnOk: () => this.delete({id: id}),
       nzCancelText: 'Hủy',
     });
   }
 
   delete(objId) {
-    this.packageSV.deleteTypePack(objId).subscribe(r => {
+    this.storeSV.deleteStore(objId).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Xóa thành công!');
         this.getAll();

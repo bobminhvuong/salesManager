@@ -1,15 +1,14 @@
 import { ProductService } from './../../../service/product/product.service';
-import { PackageService } from './../../../service/package/package.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-batch-product',
-  templateUrl: './batch-product.component.html',
-  styleUrls: ['./batch-product.component.scss']
+  selector: 'app-import-warehouse',
+  templateUrl: './import-warehouse.component.html',
+  styleUrls: ['./import-warehouse.component.scss']
 })
-export class BatchProductComponent implements OnInit {
+export class ImportWarehouseComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
@@ -23,7 +22,6 @@ export class BatchProductComponent implements OnInit {
     private modalService: NzModalService,
     private fb: FormBuilder,
     private message: NzMessageService,
-    private packageSV: PackageService,
     private productSV: ProductService) { }
 
   ngOnInit() {
@@ -31,7 +29,15 @@ export class BatchProductComponent implements OnInit {
   }
 
   getAll() {
-    this.packageSV.getAllTypePack().subscribe(res => {
+    let filter = {
+      find: '',
+      supllier_id : 0,
+      group_id :0,
+      active: true,
+      offset: 0,
+      limit: 20
+    };
+    this.productSV.getAllProduct(filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -63,7 +69,7 @@ export class BatchProductComponent implements OnInit {
   }
 
   delete(objId) {
-    this.packageSV.deleteTypePack(objId).subscribe(r => {
+    this.productSV.deleteProduct(objId).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Xóa thành công!');
         this.getAll();
@@ -74,3 +80,5 @@ export class BatchProductComponent implements OnInit {
   }
 
 }
+
+
