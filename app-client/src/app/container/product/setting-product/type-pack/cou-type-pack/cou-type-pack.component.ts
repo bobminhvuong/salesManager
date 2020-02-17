@@ -25,9 +25,16 @@ export class CouTypePackComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.fb.group({
       name: [this.dataEdit.id ? this.dataEdit.name : null, [Validators.required]],
+<<<<<<< HEAD
+      value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null],
+      value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null],
+      note:[this.dataEdit.id ? this.dataEdit.note : null],
+      active: [this.dataEdit.id ? this.dataEdit.avtive : true]  
+=======
       value_one_pie: [this.dataEdit.id ? this.dataEdit.value_one_pie : null,[Validators.required]],
       value_per_cartone: [this.dataEdit.id ? this.dataEdit.value_per_cartone : null,[Validators.required]],
       note:[this.dataEdit.id ? this.dataEdit.note : null]
+>>>>>>> 99aaf9170e903da44aec961287050e786a00257b
     });
   }
 
@@ -51,7 +58,6 @@ export class CouTypePackComponent implements OnInit {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
         }
       });
-
     }
   }
 }
