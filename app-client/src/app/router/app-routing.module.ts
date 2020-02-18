@@ -1,3 +1,5 @@
+import { MoveOutTransactionComponent } from './../container/warehouse/transaction/move-out-transaction/move-out-transaction.component';
+import { InputTransactionComponent } from './../container/warehouse/transaction/input-transaction/input-transaction.component';
 import { TransactionComponent } from './../container/warehouse/transaction/transaction.component';
 import { ListStoreComponent } from './../container/store/list-store/list-store.component';
 import { ListWarehouseComponent } from './../container/warehouse/list-warehouse/list-warehouse.component';
@@ -45,6 +47,8 @@ const routes: Routes = [
             //warehouse
             { path: 'listWH', component: ListWarehouseComponent },
             { path: 'transaction', component: TransactionComponent },
+            { path: 'addTransaction/:id', component:InputTransactionComponent  },
+            { path: 'moveOutTransaction/:id', component:MoveOutTransactionComponent  },
             { path: 'reportWH', component: ReportWarehouseComponent },
 
         ]

@@ -64,6 +64,8 @@ export class ProductService {
 
   updateOrCreateBatch(objectBatch): Observable<any> {
     objectBatch.api = this.mainSV.getApikey();
+    let user = this.mainSV.getCurrentUser();
+    objectBatch.user_id = user.id;
     return this.http.post(environment.APIHOST + '/api/product/batch/add', objectBatch, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );

@@ -96,6 +96,16 @@ export class MenuService {
         subMenu: [
           {
             title: 'Nhập kho',
+            url: '/manager/addTransaction/0',
+            role: 'admin',
+          },
+          {
+            title: 'Xuất / Chuyển kho',
+            url: '/manager/moveOutTransaction/0',
+            role: 'admin',
+          },
+          {
+            title: 'Lịch sử nhập xuất',
             url: '/manager/transaction',
             role: 'admin',
           },

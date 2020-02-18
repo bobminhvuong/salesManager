@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{ getTitle() }}" nzOkText="Xác nhận" nzCancelText="Hủy"
   (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="65%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <div style="margin-bottom: 15px;" class="row" *ngIf="dataEdit.id" >
+    <div style="margin-bottom: 15px;" class="row" *ngIf="dataEdit.id">
       <div class="col-12 col-sm-6 col-md-4 col-lg-4 offset-md-1">
         <label for=""><b>Người tạo: {{ dataEdit.created_user_name }}</b></label>
       </div>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="row"> 
+    <div class="row">
       <div class="col-12 col-sm-6 col-md-6 col-lg-6">
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Loại phiếu </nz-form-label>
@@ -93,17 +93,18 @@
       </div>
     </div>
   </form>
-  <div class="col-12 col-sm-12 col-md-10 col-lg-10 offset-md-1">
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
 
     <div class="ant-table-body">
       <table class="table table-bordered" style="width: 100%;">
         <thead class=" ant-table-thead  ">
           <tr>
             <th class="text-center" width="5%">STT</th>
-            <th width="35%">Hàng hóa</th>
-            <th width="20%" class="text-center">Mã</th>
-            <th class="text-center" width="15%">Số lượng</th>
-            <th class="text-center" width="20%">Giá nhập</th>
+            <th width="20%">Hàng hóa</th>
+            <th width="15%" class="text-center">Mã</th>
+            <th width="30%" class="text-center">Lô hàng</th>
+            <th class="text-center" width="10%">Số lượng</th>
+            <th class="text-center" width="15%">Giá nhập</th>
             <th class="text-center" width="5%"></th>
           </tr>
         </thead>
@@ -117,7 +118,20 @@
               {{ item.product_code }}
             </td>
             <td class="text-center">
-              <input nz-input class="text-right" appOnlyNumber [(ngModel)]="item.quantity" />
+
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <nz-select style="width: 80%;float: left;" *ngIf="item.is_batch" nzShowSearch 
+                  nzPlaceHolder="Chọn lô hàng" [(ngModel)]="item.product_batch_id">
+                  <nz-option *ngFor="let i of batchs" nzLabel="{{ i.batch_code+' ('+ formatDate(i.mfg_date,'DD/MM/YYYY')+')' }}"
+                    nzValue="{{ i.id }}"></nz-option>
+                </nz-select>
+                <i nz-icon style="padding: 0;" nzType="plus" nz-tooltip nzTitle="Thêm lô"
+                  class="iconAction text-primary" (click)="addBatch(item.product_id)" nzTheme="outline"></i>
+              </div>
+
+            </td>
+            <td class="text-center">
+              <input nz-input class="text-right" appOnlyNumber [(ngModel)]="item.quantity_request" />
             </td>
             <td class="text-right">
               <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" />
@@ -131,4 +145,13 @@
       </table>
     </div>
   </div>
+  <app-cou-batch 
+    *ngIf="isVisibleBatch" 
+    [dataEdit]="batch" [isVisible]="isVisibleBatch" 
+    (closeModal)="closeModalBatch($event)"
+    (batchWasAdded)="onResponseBatch($event)"
+    class="fade in">
+</app-cou-batch>
 </nz-modal>
+
+

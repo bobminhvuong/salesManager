@@ -38,6 +38,11 @@ export class CouProductComponent implements OnInit {
 
   ngOnInit() {
     this.API_IMG = environment.APICURRENTSERVE;
+    this.loadInitForm();
+    this.loadInitData();
+
+  }
+  loadInitForm(){
     this.price = this.dataEdit.id ? this.dataEdit.price : 0;
     this.cost = this.dataEdit.id ? this.dataEdit.cost : 0;
     this.validateForm = this.fb.group({
@@ -53,9 +58,6 @@ export class CouProductComponent implements OnInit {
       note: [this.dataEdit.id ? this.dataEdit.note : ''],
       active: [this.dataEdit.id ? this.dataEdit.active : true]
     });
-
-    this.loadInitData();
-
   }
 
   loadInitData() {
@@ -82,7 +84,7 @@ export class CouProductComponent implements OnInit {
     this.closeModal.emit(this.isVisible);
   }
 
-  submitForm(): void {
+  submitForm(val): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
@@ -97,13 +99,18 @@ export class CouProductComponent implements OnInit {
     if (this.validateForm.status === 'VALID') {
       let sup = { ...this.dataEdit, ...this.validateForm.value };
       sup.images = images;
-      sup.price = Number(sup.price.replace(/,/g, ''));
-      sup.price = Number(sup.cost.replace(/,/g, ''));
+      sup.price = Number(sup.price.toString().replace(/,/g, ''));
+      sup.cost = Number(sup.cost.toString().replace(/,/g, ''));
 
       this.productSV.updateOrCreateProduct(sup).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo hàng hóa thành công!');
-          this.handleCancel();
+          if(val==1)  this.handleCancel();
+          if(val==2) {
+            this.dataEdit ={};
+            this.validateForm.reset();
+            this.loadInitForm();
+          }
         } else {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
         }

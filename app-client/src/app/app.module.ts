@@ -54,8 +54,8 @@ import { ListStoreComponent } from './container/store/list-store/list-store.comp
 import { CouStoreComponent } from './container/store/list-store/cou-store/cou-store.component';
 import { TransactionComponent } from './container/warehouse/transaction/transaction.component';
 import { InputWHComponent } from './container/warehouse/transaction/input-wh/input-wh.component';
-import { OutputWHComponent } from './container/warehouse/transaction/output-wh/output-wh.component';
-import { MoveWHComponent } from './container/warehouse/transaction/move-wh/move-wh.component';
+import { MoveOutTransactionComponent } from './container/warehouse/transaction/move-out-transaction/move-out-transaction.component';
+import { InputTransactionComponent } from './container/warehouse/transaction/input-transaction/input-transaction.component';
 
 registerLocaleData(en);
 
@@ -96,8 +96,8 @@ registerLocaleData(en);
     CouStoreComponent,
     TransactionComponent,
     InputWHComponent,
-    OutputWHComponent,
-    MoveWHComponent
+    MoveOutTransactionComponent,
+    InputTransactionComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật hàng hóa' : 'Tạo hàng hóa'}}" nzOkText="Xác nhận"
-  nzCancelText="Hủy" (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="75%">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật hàng hóa' : 'Tạo hàng hóa'}}" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()" nzWidth="75%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
     <div class="row">
@@ -125,4 +124,11 @@
       </div>
     </div>
   </form>
+
+  <ng-template #modalFooter>
+    <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
+    <button class="btn btn-primary btn-sm" (click)="submitForm(1)">{{dataEdit.id ? 'Cập nhật & đóng' : 'Tạo hàng hóa & đóng'}}</button>
+    <button class="btn btn-success btn-sm" (click)="submitForm(2)">{{dataEdit.id ? 'Cập nhật & tạo mới' : 'Tạo hàng hóa'}}</button>
+  </ng-template>
+
 </nz-modal>

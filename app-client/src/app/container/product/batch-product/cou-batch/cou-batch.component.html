@@ -1,3 +1,19 @@
-<p>
-  cou-batch works!
-</p>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật nhà cung cấp' : 'Tạo nhà cung cấp'}}" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel({})" nzWidth="35%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="batch_code">Mã lô </nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24">
+        <input  nz-input formControlName="batch_code" id="batch_code" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mfg_date">Ngày sản xuất</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker style="width: 100%;" formControlName="mfg_date"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

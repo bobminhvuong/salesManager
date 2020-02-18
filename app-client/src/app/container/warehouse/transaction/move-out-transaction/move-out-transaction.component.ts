@@ -8,18 +8,16 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-input-wh',
-  templateUrl: './input-wh.component.html',
-  styleUrls: ['./input-wh.component.scss']
+  selector: 'app-move-out-transaction',
+  templateUrl: './move-out-transaction.component.html',
+  styleUrls: ['./move-out-transaction.component.scss']
 })
-export class InputWHComponent implements OnInit {
+export class MoveOutTransactionComponent implements OnInit {
 
-  @Input() dataEdit: any;
-  @Input() isVisible: boolean;
-  @Output() closeModal = new EventEmitter();
   validateForm: FormGroup;
   units = [];
   isVisibleBatch = false;
+  isVisibleProduct = false;
   groupProds = [];
   typePacks = [];
   suppliers = [];
@@ -33,6 +31,11 @@ export class InputWHComponent implements OnInit {
   transaction_type = 0;
   batchs = [];
   batch = {};
+  timeId = null;
+  dataEdit: any = {
+    transaction_type_id: 1
+  };
+  inputSearchProd = '';
 
   constructor(
     private fb: FormBuilder,
@@ -43,15 +46,14 @@ export class InputWHComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    let source_id = this.dataEdit.id ? this.dataEdit.source_id : (this.dataEdit.transaction_type_id == 1 ? 0 : null);
-    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id : (this.dataEdit.transaction_type_id == 0 ? 0 : null);
+    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id + '' : null;
     this.validateForm = this.fb.group({
-      transaction_type_id: [this.dataEdit.transaction_type_id + '', [Validators.required]],
-      source_id: [source_id + '', [Validators.required]],
-      dest_id: [dest_id + '', [Validators.required]],
-      suplier_id: [this.dataEdit.id ? this.dataEdit.suplier_id + '' : null, [Validators.required]],
-      product_id: [null]
+      transaction_type_id: [null, [Validators.required]],
+      source_id: [null, [Validators.required]],
+      dest_id: [dest_id, [Validators.required]],
+      supplier_id: [0],
+      product_id: [null],
+      note: [null]
     });
 
     this.loadInitData();
@@ -75,6 +77,9 @@ export class InputWHComponent implements OnInit {
 
   handelChangeTransaction(e) {
     this.transaction_type = e;
+    if (e == 3) {
+      this.validateForm.patchValue({ source_id: null });
+    }
   }
 
   loadInitData() {
@@ -86,21 +91,15 @@ export class InputWHComponent implements OnInit {
     }
   }
 
-  getProducts(supplier_id) {
-    let filterProd = {
-      find: '',
-      supplier_id: supplier_id,
-      group_id: 0,
-      active: 1,
-      offset: 0,
-      limit: 10000000
-    }
-    this.productSV.getAllProduct(filterProd).subscribe(r => { if (r && r.status == 1) this.products = r.data; });
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-    this.closeModal.emit(this.isVisible);
+  getProducts(ft) {
+    this.productSV.getAllProduct(ft).subscribe(r => {
+      if (r && r.status == 1) {
+        this.products = r.data;
+        if (this.products.length == 0) {
+          this.products.push({ id: 0, name: 'Không tìm thấy hàng hóa!' })
+        }
+      };
+    });
   }
 
   submitForm(): void {
@@ -127,50 +126,27 @@ export class InputWHComponent implements OnInit {
         return;
       }
 
-      let checkNotBatch = prod.find(r=>{return r.is_batch && (!r.product_batch_id || r.product_batch_id == '')});
-      if(checkNotBatch){
-        
-        this.message.create('error', 'Chọn lô cho hàng hóa '+checkNotBatch.product_name+'!');
+      let checkNotBatch = prod.find(r => { return r.is_batch && (!r.product_batch_id || r.product_batch_id == '') });
+      if (checkNotBatch) {
+
+        this.message.create('error', 'Chọn lô cho hàng hóa ' + checkNotBatch.product_name + '!');
         return;
       }
 
-      let checkQuantity = prod.find(r=>{ return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <=0)})
-      if(checkQuantity){
-        this.message.create('error', 'Số lượng sản phẩm '+checkQuantity.product_name+' không hợp lệ!' );
+      let checkQuantity = prod.find(r => { return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <= 0) })
+      if (checkQuantity) {
+        this.message.create('error', 'Số lượng sản phẩm ' + checkQuantity.product_name + ' không hợp lệ!');
         return;
       }
-      
+
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
-          this.handleCancel();
+          this.refresh();
         } else {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
         }
       });
-    }
-  }
-
-  handelChangeProd(val) {
-    let prod = this.products.find(r => { return r.id == val; });
-    let checkHasProd = this.listProduct.find(r => { return r.product_id == val });
-    if (checkHasProd) {
-      this.message.create('error', 'Bạn đã chọn hàng hóa này!');
-    } else {
-      if (prod) {
-        let product = {
-          is_batch: prod.is_batch,
-          product_id: prod.id,
-          quantity_request: 1,
-          price: prod.price,
-          product_name: prod.name,
-          product_code: prod.code
-        }
-        this.listProduct.unshift(product);
-        if (prod.is_batch) {
-          this.getBatch(prod.id);
-        }
-      }
     }
   }
 
@@ -201,14 +177,85 @@ export class InputWHComponent implements OnInit {
       this.isVisibleBatch = false;
     }, 500);
   }
+
   onResponseBatch(val) {
     this.getBatch(val.product_id);
     if (val.id) {
       let index = this.listProduct.findIndex(r => { return r.product_id == val.product_id });
-      if(index >=0){
-        this.listProduct[index].product_batch_id = val.id+'';
-      } 
+      if (index >= 0) {
+        this.listProduct[index].product_batch_id = val.id + '';
+      }
     }
+  }
+
+  onSearchProduct(value) {
+    if (value != '') {
+      let ft = {
+        find: value,
+        supplier_id: 0,
+        group_id: 0,
+        active: 1,
+        offset: 0,
+        limit: 10
+      }
+      clearTimeout(this.timeId);
+      this.timeId = setTimeout(() => {
+        this.getProducts(ft);
+      }, 500);
+    }
+  }
+
+
+  chooseProd(val) {
+    if (val > 0) {
+      let prod = this.products.find(r => { return r.id == val; });
+      let checkHasProd = this.listProduct.find(r => { return r.product_id == val; });
+      
+      if (checkHasProd) {
+        this.message.create('error', 'Bạn đã chọn hàng hóa này!');
+      } else {
+        if (prod) {
+          let product = {
+            is_batch: prod.is_batch,
+            product_id: prod.id,
+            quantity_request: 1,
+            price: prod.price,
+            product_name: prod.name,
+            product_code: prod.code,
+            unit_name: prod.unit_name,
+            specification_name: prod.specification_name
+          }
+          this.listProduct.unshift(product);
+          if (prod.is_batch) {
+            this.getBatch(prod.id);
+          }
+        }
+      }
+    }
+    this.inputSearchProd = '';
+
+  }
+
+  refresh() {
+    this.validateForm.reset();
+
+    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id + '' : null;
+    this.validateForm = this.fb.group({
+      transaction_type_id: ['1'],
+      source_id: [0, [Validators.required]],
+      dest_id: [dest_id, [Validators.required]],
+      supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
+      product_id: [null],
+      note: ['']
+    });
+    this.listProduct = [];
+    this.products = [];
+  }
+
+  closeModalProduct(val) {
+    setTimeout(() => {
+      this.isVisibleProduct = false;
+    }, 500);
   }
 }
 

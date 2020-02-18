@@ -43,13 +43,15 @@ export class WarehouseService {
 
   getTransactionDetail(object): Observable<any> {
     object.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/transaction/get', object, this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/transaction/GetDetail', object, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
   createTransaction(object): Observable<any> {
-    object.api = this.mainSV.getApikey();
+    let user = this.mainSV.getCurrentUser();
+    object.api = user.api;
+    object.user_id = user.id;
     return this.http.post(environment.APIHOST + '/api/transaction/Add', object, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
