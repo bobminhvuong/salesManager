@@ -1,0 +1,187 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{ getTitle() }}" nzOkText="Xác nhận" nzCancelText="Hủy"
+  (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="75%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div style="margin-bottom: 15px;" class="row" *ngIf="dataEdit.id">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4 offset-md-1">
+        <label for=""><b>Người tạo: {{ dataEdit.created_user_name }}</b></label>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+        <label for=""><b>Ngày tạo: {{ formatDate(dataEdit.created_date,'DD/MM/YYYY HH:mm') }}</b></label>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+        <span class="badge" [ngClass]="{
+          'badge-primary': dataEdit.status_id ==1,
+          'badge-success': dataEdit.status_id ==2,
+          'badge-warning': dataEdit.status_id ==3,
+          'badge-default': dataEdit.status_id ==4  }">
+          {{ dataEdit.status_name  }}
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Loại phiếu </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Loại phiếu"
+              nzDisabled="{{dataEdit.transaction_type_id == 1 ? true : false}}" formControlName="transaction_type_id"
+              (ngModelChange)="handelChangeTransaction($event)">
+              <nz-option *ngIf="dataEdit.transaction_type_id == 1" nzLabel="Nhập kho" nzValue="1"></nz-option>
+              <nz-option nzLabel="Xuất kho" nzValue="2"></nz-option>
+              <nz-option nzLabel="Chuyển kho" nzValue="3"></nz-option>
+            </nz-select>
+            <nz-form-explain
+              *ngIf="validateForm.get('transaction_type_id')?.dirty && validateForm.get('transaction_type_id')?.errors">
+              Chọn một loại phiếu!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="dataEdit.transaction_type_id != 1 && transaction_type">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="source_id">Kho xuất </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Kho xuất" formControlName="source_id">
+              <nz-option *ngFor="let item of warehouses" nzLabel="{{item.name}}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="validateForm.get('source_id')?.dirty && validateForm.get('source_id')?.errors">
+              Chọn kho xuất!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6"
+        *ngIf="transaction_type ==3 || dataEdit.transaction_type_id == 1 ||  dataEdit.transaction_type_id == 3">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dest_id">Kho nhận </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Kho nhập" formControlName="dest_id">
+              <nz-option *ngFor="let item of warehouses" nzLabel="{{item.name}}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="validateForm.get('dest_id')?.dirty && validateForm.get('dest_id')?.errors">
+              Chọn kho nhập!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select [nzDisabled]="dataEdit.id" nzShowSearch nzAllowClear nzPlaceHolder="Nhà cung cấp"
+              formControlName="supplier_id" (ngModelChange)="getProducts($event)">
+              <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="validateForm.get('supplier_id')?.dirty && validateForm.get('supplier_id')?.errors">
+              Chọn nhà cung cấp
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">Ghi chú</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <textarea rows="2" formControlName="note" nz-input></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <nz-form-item>
+          <nz-form-label [nzXs]="24" [nzSm]="6">Hàng hóa </nz-form-label>
+          <nz-form-control [nzSm]="14">
+            <nz-input-group>
+              <input placeholder="Tìm hàng hóa" nz-input [nzAutocomplete]="autoSearchPrd"
+                (input)="onSearchProduct($event.target?.value)" [(ngModel)]="inputSearchProd"
+                [ngModelOptions]="{standalone: true}" style="width: 85%;" class="float-left" />
+              <div nz-tooltip nzTitle="Tạo hàng hóa" nz-button nzType="primary" style="margin-left: 5px;"
+                (click)="isVisibleProduct =true">
+                <i nz-icon nzType="plus" nzTheme="outline"></i>
+              </div>
+            </nz-input-group>
+            <ng-template #suffixIcon>
+              <i nz-icon nzType="search"></i>
+            </ng-template>
+
+            <nz-autocomplete nzBackfill #autoSearchPrd>
+              <nz-auto-option *ngFor="let option of products" [nzValue]="option.name" (click)="handelChangeProd(option.id)">
+                {{ option.name }}
+              </nz-auto-option>
+            </nz-autocomplete>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="ant-table-body">
+      <table class="table table-bordered" style="width: 100%;">
+        <thead class=" ant-table-thead  ">
+          <tr>
+            <th class="text-center" width="5%">STT</th>
+            <th width="15%">Hàng hóa</th>
+            <th width="10%" class="text-center">Mã</th>
+            <th width="10%" class="text-center">Đơn vị</th>
+            <th width="15%" class="text-center">Kiểu đóng gói</th>
+            <th width="20%" class="text-center">Lô hàng</th>
+            <th class="text-center" width="10%">Số lượng</th>
+            <th class="text-center" width="10%">Giá nhập</th>
+            <th class="text-center" width="5%"></th>
+          </tr>
+        </thead>
+        <tbody class="ant-table-tbody">
+          <tr *ngFor="let item of listProduct;let i =index" class="ant-table-row">
+            <td class="text-center"> {{i+1}} </td>
+            <td>
+              {{item.product_name}}
+            </td>
+            <td class="text-center">
+              {{ item.product_code }}
+            </td>
+            <td class="text-center">
+              {{ item.unit_name }}
+            </td>
+            <td class="text-center">
+              {{ item.specification_name }}
+            </td>
+            <td class="text-center">
+
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!item.id">
+                <nz-select style="width: 80%;float: left;" *ngIf="item.is_batch" nzShowSearch
+                  nzPlaceHolder="Chọn lô hàng" [(ngModel)]="item.product_batch_id">
+                  <nz-option *ngFor="let i of batchs"
+                    nzLabel="{{ i.batch_code+' ('+ formatDate(i.mfg_date,'DD/MM/YYYY')+')' }}" nzValue="{{ i.id }}">
+                  </nz-option>
+                </nz-select>
+                <i nz-icon style="padding: 0;" nzType="plus" nz-tooltip nzTitle="Thêm lô"
+                  class="iconAction text-primary" (click)="addBatch(item.product_id)" nzTheme="outline"></i>
+              </div>
+              <div *ngIf="item.id">
+                {{item.batch_code}}
+              </div>
+
+            </td>
+            <td class="text-center">
+              <input nz-input class="text-right" appOnlyNumber [(ngModel)]="item.quantity_request" />
+            </td>
+            <td class="text-right">
+              <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" />
+            </td>
+            <td class="text-center">
+              <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa hàng hóa" class="iconAction text-danger"
+                (click)="listProduct.splice(i,1)" nzTheme="outline"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <app-cou-batch *ngIf="isVisibleBatch" [dataEdit]="batch" [isVisible]="isVisibleBatch"
+    (closeModal)="closeModalBatch($event)" (batchWasAdded)="onResponseBatch($event)" class="fade in">
+  </app-cou-batch>
+</nz-modal>

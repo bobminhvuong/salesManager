@@ -41,7 +41,7 @@ export class MenuService {
       {
         title: 'Đối tác',
         url: '',
-        icon: 'user',
+        icon: 'solution',
         role: 'admin',
         subMenu: [
           {
@@ -96,12 +96,12 @@ export class MenuService {
         subMenu: [
           {
             title: 'Nhập kho',
-            url: '/manager/addTransaction/0',
+            url: '/manager/addTransaction',
             role: 'admin',
           },
           {
             title: 'Xuất / Chuyển kho',
-            url: '/manager/moveOutTransaction/0',
+            url: '/manager/moveOutTransaction',
             role: 'admin',
           },
           {

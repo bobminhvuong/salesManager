@@ -153,13 +153,6 @@ export class InputTransactionComponent implements OnInit {
     this.productSV.getBatchByProd({ product_id: prdId }).subscribe(r => { if (r && r.status == 1) this.batchs = r.data; })
   }
 
-  deleteProd(idProd) {
-    let index = this.listProduct.findIndex(r => { return r.id == idProd });
-    if (index >= 0 && this.listProduct.length > 1) {
-      this.listProduct.splice(index, 1);
-    }
-  }
-
   formatDate(date, format) {
     return date ? moment(date).format(format) : '';
   }
@@ -236,6 +229,10 @@ export class InputTransactionComponent implements OnInit {
       }
     }
     this.inputSearchProd = '';
+  }
+
+  checkSupplier(){
+    return this.validateForm.value.supplier_id ? true : false;
   }
 
   refresh() {

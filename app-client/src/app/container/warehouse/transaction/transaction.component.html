@@ -1,15 +1,6 @@
 <div nz-row class="mgbt20">
-  <div nz-col nzSpan="12">
+  <div nz-col nzSpan="24">
     <h3>Nhập / Xuất kho</h3>
-  </div>
-  <div nz-col nzSpan="12">
-    <div class="float-right">
-      <button style="margin-right: 5px;" (click)="handleCorU({transaction_type_id : 0})"  nz-button nzType="primary"><i nz-icon nzType="upload" nzTheme="outline"></i>
-        Xuất / Chuyển kho
-      </button>
-      <button (click)="handleCorU({transaction_type_id : 1})" nz-button nzType="danger"><i nz-icon nzType="import" nzTheme="outline"></i>
-        Nhập kho </button>
-    </div>
   </div>
 </div>
 <div class="box box-success">
@@ -132,6 +123,6 @@
   </div>
 </div>
 
-<app-input-wh *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+<app-view-transaction *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">
-</app-input-wh>
+</app-view-transaction>

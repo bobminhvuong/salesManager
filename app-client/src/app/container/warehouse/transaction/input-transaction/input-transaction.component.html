@@ -65,7 +65,7 @@
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp </nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Nhà cung cấp" formControlName="supplier_id">
+                <nz-select [nzDisabled]="checkSupplier()" nzShowSearch nzAllowClear nzPlaceHolder="Nhà cung cấp" formControlName="supplier_id">
                   <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}">
                   </nz-option>
                 </nz-select>
@@ -172,7 +172,7 @@
               </td>
               <td class="text-center">
                 <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa hàng hóa" class="iconAction text-danger"
-                  (click)="deleteProd(item.product_id)" nzTheme="outline"></i>
+                  (click)="listProduct.splice(index, 1)" nzTheme="outline"></i>
               </td>
             </tr>
             <tr *ngIf="listProduct.length ==0">

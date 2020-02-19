@@ -1,5 +1,5 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật hàng hóa' : 'Tạo hàng hóa'}}" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()" nzWidth="75%">
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(1)">
 
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
