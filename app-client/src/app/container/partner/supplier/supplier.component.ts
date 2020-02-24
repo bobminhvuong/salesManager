@@ -35,12 +35,12 @@ export class SupplierComponent implements OnInit {
     this.filterForm = this.fb.group({
       find: [''],
     });
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
-  getAll(filter) {
+  getAll() {
     let val = {
-      find: filter.find,
+      find: this.filterForm.value.find,
       offset: 0,
       limit: 50
     }
@@ -48,7 +48,7 @@ export class SupplierComponent implements OnInit {
     this.supplierSV.getAll().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 
@@ -59,11 +59,11 @@ export class SupplierComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   filterData() {
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   confirmDeleteSup(id) {
@@ -80,7 +80,7 @@ export class SupplierComponent implements OnInit {
     this.supplierSV.delete(objId).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Xóa thành công!');
-        this.getAll(this.filterForm.value);
+        this.getAll();
       } else {
         this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
       }

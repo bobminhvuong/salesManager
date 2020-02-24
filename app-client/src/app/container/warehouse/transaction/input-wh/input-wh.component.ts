@@ -161,7 +161,7 @@ export class InputWHComponent implements OnInit {
         let product = {
           is_batch: prod.is_batch,
           product_id: prod.id,
-          quantity_request: 1,
+          quantity_request: 0,
           price: prod.price,
           product_name: prod.name,
           product_code: prod.code

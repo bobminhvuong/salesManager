@@ -57,7 +57,7 @@ export class UserComponent implements OnInit {
       filter.where[this.searchDataFilter.key] = this.searchDataFilter.value;
     }
 
-    this.getAll(filter);
+    this.getAll();
   }
 
   updateFilter(value: string[], data): void {
@@ -107,11 +107,11 @@ export class UserComponent implements OnInit {
     });
   }
 
-  getAll(filter) {
+  getAll() {
     this.userSV.getAll(0).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

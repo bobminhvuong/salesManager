@@ -16,10 +16,11 @@
 
       <nz-form-item>
         <nz-form-control>
-          <nz-input-group >
-            <nz-select style="width: 140px;"  nzShowSearch nzAllowClear nzPlaceHolder="Hàng hóa" [(ngModel)]="filter.product_id">
+          <nz-input-group>
+            <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Hàng hóa"
+              [(ngModel)]="filter.product_id">
               <nz-option nzLabel="Tất cả hàng hóa" nzValue="0"></nz-option>
-              <nz-option *ngFor="let item of products"  nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+              <nz-option *ngFor="let item of products" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
             </nz-select>
           </nz-input-group>
         </nz-form-control>
@@ -27,16 +28,16 @@
 
       <nz-form-item>
         <nz-form-control>
-          <nz-input-group >
+          <nz-input-group>
             <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
               <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
-              <nz-option *ngFor="let item of warehouses"  nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+              <nz-option *ngFor="let item of warehouses" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
 
             </nz-select>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      
+
       <nz-form-item>
         <nz-form-control>
           <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
@@ -48,17 +49,19 @@
   <div class="box-body">
     <div class="table-responsive">
       <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+        nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
+        (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
         <thead>
           <tr>
             <th width="3%" class="text-center">STT</th>
             <th width="5%" class="mw-100 text-center">
               Số phiếu
             </th>
-            <th width="12%" class="mw-100 text-center">
+            <th width="10%" class="mw-100 text-center">
               Ngày tạo
             </th>
-            <th width="10%" class="text-center mw-100">
+            <th width="7%" class="text-center mw-100">
               Loại phiếu
             </th>
             <th width="10%" class="mw-100 text-center">
@@ -67,8 +70,11 @@
             <th width="10%" class="mw-100 text-center">
               Kho nhận
             </th>
-            <th width="12%" class="mw-100 text-center">
+            <th width="10%" class="mw-100 text-center">
               Ngày nhận
+            </th>
+            <th width="10%" class="mw-100 text-center">
+              Nhà cung cấp
             </th>
 
             <th width="15%" class="mw-100">
@@ -82,7 +88,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of ajaxTable.data;let i = index">
-            <td class="text-center">{{ i+ 1}}</td>
+            <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
             <td class="text-center">{{ data.id }}</td>
             <td class="text-center">{{ formatDate(data.created_date,'DD/MM/YYYY HH:mm') }}</td>
             <td class="text-center">
@@ -97,6 +103,7 @@
             <td class="text-center">{{ data.source_name  }} </td>
             <td class="text-center">{{ data.dest_name  }}</td>
             <td class="text-center">{{ formatDate(data.received_date,'DD/MM/YYYY HH:mm')  }}</td>
+            <td class="text-center">{{ data.supplier_name  }}</td>
             <td>{{ data.note  }}</td>
             <td class="text-center">
               <span class="badge" [ngClass]="{

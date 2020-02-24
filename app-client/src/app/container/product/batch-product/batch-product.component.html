@@ -30,7 +30,7 @@
   <div class="box-body">
     <div class="table-responsive">
       <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
         <thead>
           <tr>
             <th width="3%" class="text-center" >STT</th>
@@ -55,7 +55,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of ajaxTable.data;let i = index">
-            <td class="text-center">{{ i+ 1}}</td>
+            <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
             <td>{{ data.batch_code }}</td>
             <td class="text-center">{{ data.mfg_date }}</td>
             <td >{{ data.created_user }}</td>

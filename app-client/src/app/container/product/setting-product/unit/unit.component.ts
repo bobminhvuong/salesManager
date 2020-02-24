@@ -32,7 +32,7 @@ export class UnitComponent implements OnInit {
     this.unitSV.getAll().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

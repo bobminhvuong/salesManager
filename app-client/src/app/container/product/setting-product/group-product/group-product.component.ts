@@ -32,7 +32,7 @@ export class GroupProductComponent implements OnInit {
     this.productSV.getGroupProd().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

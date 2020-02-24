@@ -32,7 +32,7 @@ export class TypePackComponent implements OnInit {
     this.packageSV.getAllTypePack().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

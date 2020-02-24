@@ -210,7 +210,7 @@ export class MoveOutTransactionComponent implements OnInit {
     if (val > 0) {
       let prod = this.products.find(r => { return r.id == val; });
       let checkHasProd = this.listProduct.find(r => { return r.product_id == val; });
-      
+
       if (checkHasProd) {
         this.message.create('error', 'Bạn đã chọn hàng hóa này!');
       } else {
@@ -218,12 +218,14 @@ export class MoveOutTransactionComponent implements OnInit {
           let product = {
             is_batch: prod.is_batch,
             product_id: prod.id,
-            quantity_request: 1,
+            quantity_request: 0,
             price: prod.price,
             product_name: prod.name,
             product_code: prod.code,
             unit_name: prod.unit_name,
-            specification_name: prod.specification_name
+            specification_name: prod.specification_name,
+            supplier_name: prod.supplier_name,
+            supplier_id: prod.supplier_id
           }
           this.listProduct.unshift(product);
           if (prod.is_batch) {

@@ -30,6 +30,9 @@ export class InputTransactionComponent implements OnInit {
   cost = 0;
   transaction_type = 0;
   batchs = [];
+  checkNotBatch = [];
+  checkQuantity=[];
+  checkSuppliers=[];
   batch = {};
   timeId = null;
   dataEdit: any = {
@@ -101,6 +104,29 @@ export class InputTransactionComponent implements OnInit {
     });
   }
 
+  checkValidProd(id,type){
+    if(type =='BATCH'){
+      let hasError = this.checkNotBatch.find(r=>{
+        return r.product_id == id;
+      });
+      return hasError ? true : false;
+    }
+
+    if(type == 'QUANTITY'){
+      let hasError = this.checkQuantity.find(r=>{
+        return r.product_id == id;
+      });
+      return hasError ? true : false;
+    }
+
+    if(type == 'SUPPLIER'){
+      let hasError = this.checkSuppliers.find(r=>{
+        return r.product_id == id;
+      });
+      return hasError ? true : false;
+    }
+  }
+
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
@@ -125,16 +151,21 @@ export class InputTransactionComponent implements OnInit {
         return;
       }
 
-      let checkNotBatch = prod.find(r => { return r.is_batch && (!r.product_batch_id || r.product_batch_id == '') });
-      if (checkNotBatch) {
-
-        this.message.create('error', 'Chọn lô cho hàng hóa ' + checkNotBatch.product_name + '!');
+      this.checkSuppliers = prod.filter(r => { return r.supplier_id != tran.supplier_id });
+      if (this.checkSuppliers.length > 0) {
+        this.message.create('error', 'Nhà cung cấp sản phẩm không hợp lệ!');
         return;
       }
 
-      let checkQuantity = prod.find(r => { return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <= 0) })
-      if (checkQuantity) {
-        this.message.create('error', 'Số lượng sản phẩm ' + checkQuantity.product_name + ' không hợp lệ!');
+      this.checkNotBatch = prod.filter(r => { return r.is_batch && (!r.product_batch_id || r.product_batch_id == '') });
+      if (this.checkNotBatch.length > 0) {
+        this.message.create('error', 'Chọn lô cho hàng hóa!');
+        return;
+      }
+
+      this.checkQuantity = prod.filter(r => { return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <= 0) })
+      if (this.checkQuantity.length > 0) {
+        this.message.create('error', 'Số lượng sản phẩm không hợp lệ!');
         return;
       }
 
@@ -181,10 +212,10 @@ export class InputTransactionComponent implements OnInit {
   }
 
   onSearchProduct(value) {
-    if (value != '' && this.validateForm.value.supplier_id) {
+    if (value != '') {
       let ft = {
         find: value,
-        supplier_id: this.validateForm.value.supplier_id,
+        supplier_id: this.validateForm.value.supplier_id ? this.validateForm.value.supplier_id : 0,
         group_id: 0,
         active: 1,
         offset: 0,
@@ -194,11 +225,6 @@ export class InputTransactionComponent implements OnInit {
       this.timeId = setTimeout(() => {
         this.getProducts(ft);
       }, 500);
-    } else {
-      for (const i in this.validateForm.controls) {
-        this.validateForm.controls[i].markAsDirty();
-        this.validateForm.controls[i].updateValueAndValidity();
-      }
     }
   }
 
@@ -214,12 +240,14 @@ export class InputTransactionComponent implements OnInit {
           let product = {
             is_batch: prod.is_batch,
             product_id: prod.id,
-            quantity_request: 1,
+            quantity_request: 0,
             price: prod.price,
             product_name: prod.name,
             product_code: prod.code,
             unit_name: prod.unit_name,
-            specification_name: prod.specification_name
+            specification_name: prod.specification_name,
+            supplier_id: prod.supplier_id,
+            supplier_name: prod.supplier_name
           }
           this.listProduct.unshift(product);
           if (prod.is_batch) {
@@ -231,7 +259,7 @@ export class InputTransactionComponent implements OnInit {
     this.inputSearchProd = '';
   }
 
-  checkSupplier(){
+  checkSupplier() {
     return this.validateForm.value.supplier_id ? true : false;
   }
 

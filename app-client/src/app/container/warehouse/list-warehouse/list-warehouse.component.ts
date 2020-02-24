@@ -32,7 +32,7 @@ export class ListWarehouseComponent implements OnInit {
     this.whSV.getAllWH().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

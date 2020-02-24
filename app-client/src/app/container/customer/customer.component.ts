@@ -28,12 +28,12 @@ export class CustomerComponent implements OnInit {
     this.filterForm = this.fb.group({
       find: [''],
     });
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
-  getAll(filter) {
+  getAll() {
     let val = {
-      find: filter.find,
+      find: this.filterForm.value.find,
       offset: 0,
       limit: 50
     }
@@ -41,7 +41,7 @@ export class CustomerComponent implements OnInit {
     this.customerSV.getAll(val).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 
@@ -52,11 +52,11 @@ export class CustomerComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   filterData() {
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   handlePreviewImg = (url) => {

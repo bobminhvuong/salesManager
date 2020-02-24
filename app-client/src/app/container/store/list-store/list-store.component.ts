@@ -33,7 +33,7 @@ export class ListStoreComponent implements OnInit {
     this.storeSV.getAllStore().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 

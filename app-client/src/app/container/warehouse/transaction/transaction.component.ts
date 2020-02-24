@@ -64,7 +64,7 @@ export class TransactionComponent implements OnInit {
     this.warehouseSV.getTransaction(this.filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
-      this.total = res.count;
+      this.total = res.total;
     });
   }
 
