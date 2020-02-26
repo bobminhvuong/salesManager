@@ -116,6 +116,10 @@
             </td>
             <td class="cttd" class="text-center">
               <div zn-row>
+                <i nz-icon *ngIf="data.status_id ==1" nzType="shopping-cart" nz-tooltip nzTitle="Nhận hàng" 
+                class="iconAction text-success"
+                  (click)="openModalReceived(data)" nzTheme="outline"></i>
+
                 <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
 
@@ -129,6 +133,22 @@
     </div>
   </div>
 </div>
+
+
+<nz-modal [(nzVisible)]="isVisibleRecived" nzTitle="Xác nhận nhận hàng hóa" nzCancelText="Hủy" nzOkText="Xác nhận" (nzOnCancel)="handleCancelRecived()"
+  (nzOnOk)="handleConfirmRecived()">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">Ngày nhận</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="dateRecived" ></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+</nz-modal>
+
 
 <app-view-transaction *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">

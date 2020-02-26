@@ -39,6 +39,8 @@ export class InputTransactionComponent implements OnInit {
     transaction_type_id: 1
   };
   inputSearchProd = '';
+  dateFormat = 'yyyy/MM/dd';
+  isShowDate = false;
 
   constructor(
     private fb: FormBuilder,
@@ -56,10 +58,15 @@ export class InputTransactionComponent implements OnInit {
       dest_id: [dest_id, [Validators.required]],
       supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
       product_id: [null],
-      note: [null]
+      note: [''],
+      is_received: [false],
+      date: [new Date()]
     });
 
     this.loadInitData();
+  }
+  handelReceived(){
+    this.isShowDate =this.validateForm.value.is_received;
   }
 
   getTitle() {
@@ -168,6 +175,8 @@ export class InputTransactionComponent implements OnInit {
         this.message.create('error', 'Số lượng sản phẩm không hợp lệ!');
         return;
       }
+
+      tran.date = tran.is_received ? moment(tran.date).format('DD/MM/YYYY') : '';
 
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {

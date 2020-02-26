@@ -20,7 +20,10 @@ export class TransactionComponent implements OnInit {
   dataEdit: any | null = null;
   products: [];
   warehouses = [];
-  dateFormat ='yyyy/MM/dd'
+  dateFormat ='yyyy/MM/dd';
+  isVisibleRecived = false;
+  currentDataRecived: any | null= null;
+  dateRecived = new Date();
   filter = {
     date: null,
     dest_id: '0',
@@ -105,6 +108,30 @@ export class TransactionComponent implements OnInit {
 
   formatDate(date, format) {
     return date ? moment(date).format(format) : '';
+  }
+
+  openModalReceived(data){
+    this.currentDataRecived = data;
+    this.isVisibleRecived = true;
+  }
+
+  handleCancelRecived(){
+    this.isVisibleRecived = false;
+  }
+
+  handleConfirmRecived(){
+    let obj ={
+      id: this.currentDataRecived.id,
+      date: moment(this.dateRecived).format('DD/MM/YYYY')
+    };
+    this.warehouseSV.confirmRecivedDate(obj).subscribe(r=>{
+      if (r && r.status == 1) {
+        this.message.create('success', 'Nhận hàng thành công!');
+        this.getAll();
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
+      }
+    })
   }
 }
 

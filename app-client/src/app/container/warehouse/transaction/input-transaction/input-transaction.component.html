@@ -61,6 +61,7 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+          
           <div class="col-12 col-sm-6 col-md-6 col-lg-6">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp </nz-form-label>
@@ -78,11 +79,26 @@
             </nz-form-item>
           </div>
 
+
           <div class="col-12 col-sm-6 col-md-6 col-lg-6">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">Ghi chú</nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
                 <textarea rows="2" formControlName="note" nz-input></textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Nhận hàng</nz-form-label>
+              <nz-form-control [nzSm]="6" [nzXs]="6">
+                <label nz-checkbox formControlName="is_received"  (ngModelChange)="handelReceived()">
+                  <span>Đã nhận</span>
+                </label>
+              </nz-form-control>
+              <nz-form-control *ngIf="isShowDate"  [nzSm]="6" [nzXs]="6">
+                <nz-date-picker [nzFormat]="dateFormat" formControlName="date"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -149,29 +165,26 @@
                 {{ item.specification_name }}
               </td>
               <td class="text-center">
-                <span [ngClass]="{ 'text-danger': checkValidProd(item.product_id,'SUPPLIER')}" >
+                <span [ngClass]="{ 'text-danger': checkValidProd(item.product_id,'SUPPLIER')}">
                   {{ item.supplier_name }}
                 </span>
               </td>
               <td class="text-center">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                  <nz-select 
-                  [ngClass]="{'has-error': checkValidProd(item.product_id,'BATCH')}"
-                  style="width: 80%;float: left;" *ngIf="item.is_batch" nzShowSearch
-                    nzPlaceHolder="Chọn lô hàng" [(ngModel)]="item.product_batch_id">
+                  <nz-select [ngClass]="{'has-error': checkValidProd(item.product_id,'BATCH')}"
+                    style="width: 80%;float: left;" *ngIf="item.is_batch" nzShowSearch nzPlaceHolder="Chọn lô hàng"
+                    [(ngModel)]="item.product_batch_id">
                     <nz-option *ngFor="let i of batchs"
                       nzLabel="{{ i.batch_code+' ('+ formatDate(i.mfg_date,'DD/MM/YYYY')+')' }}" nzValue="{{ i.id }}">
                     </nz-option>
                   </nz-select>
-                  <i *ngIf="item.is_batch" nz-icon style="padding: 0;" nzType="plus" nz-tooltip nzTitle="Thêm lô" 
+                  <i *ngIf="item.is_batch" nz-icon style="padding: 0;" nzType="plus" nz-tooltip nzTitle="Thêm lô"
                     class="iconAction text-primary" (click)="addBatch(item.product_id)" nzTheme="outline"></i>
                 </div>
               </td>
               <td class="text-center">
-                <input nz-input class="text-right" 
-                  [ngClass]="{'red': checkValidProd(item.product_id,'QUANTITY')}"  
-                  appOnlyNumber 
-                  [(ngModel)]="item.quantity_request" />
+                <input nz-input class="text-right" [ngClass]="{'red': checkValidProd(item.product_id,'QUANTITY')}"
+                  appOnlyNumber [(ngModel)]="item.quantity_request" />
               </td>
               <td class="text-right">
                 <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" />

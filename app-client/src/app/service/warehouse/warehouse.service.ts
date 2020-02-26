@@ -63,4 +63,14 @@ export class WarehouseService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  confirmRecivedDate(objectId): Observable<any>{
+    objectId.api = this.mainSV.getApikey();
+    console.log(objectId);
+    debugger;
+    
+    return this.http.post(environment.APIHOST + '/api/transaction/Confirm', objectId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }
