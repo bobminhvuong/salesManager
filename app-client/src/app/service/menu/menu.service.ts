@@ -111,12 +111,12 @@ export class MenuService {
           },
           {
             title: 'Báo cáo kho',
-            url: '/manager/reportWH',
+            url: '/manager/report-warehouse',
             role: 'admin',
           },
           {
             title: 'Danh sách kho',
-            url: '/manager/listWH',
+            url: '/manager/list-warehouse',
             role: 'admin',
           }
         ]

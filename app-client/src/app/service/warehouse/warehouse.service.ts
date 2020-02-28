@@ -64,12 +64,23 @@ export class WarehouseService {
     );
   }
 
-  confirmRecivedDate(objectId): Observable<any>{
+  confirmRecivedDate(objectId): Observable<any> {
     objectId.api = this.mainSV.getApikey();
-    console.log(objectId);
-    debugger;
-    
     return this.http.post(environment.APIHOST + '/api/transaction/Confirm', objectId, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getInventoryProduct(objectFilter): Observable<any> {
+    objectFilter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/product/Inventory', objectFilter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getInventoryProductDetail(objectFilter): Observable<any> {
+    objectFilter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/product/History', objectFilter, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

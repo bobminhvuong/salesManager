@@ -45,11 +45,11 @@ const routes: Routes = [
             { path: 'listStore', component: ListStoreComponent },
 
             //warehouse
-            { path: 'listWH', component: ListWarehouseComponent },
+            { path: 'list-warehouse', component: ListWarehouseComponent },
             { path: 'transaction', component: TransactionComponent },
             { path: 'addTransaction', component:InputTransactionComponent  },
             { path: 'moveOutTransaction', component:MoveOutTransactionComponent  },
-            { path: 'reportWH', component: ReportWarehouseComponent },
+            { path: 'report-warehouse', component: ReportWarehouseComponent },
 
         ]
     },
