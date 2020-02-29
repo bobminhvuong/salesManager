@@ -25,9 +25,8 @@
         <nz-form-item>
           <nz-form-control>
             <nz-input-group>
-              <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Lọc theo kho"
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Lọc theo kho"
                 [(ngModel)]="filter.warehouse_id">
-                <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
                 <nz-option *ngFor="let item of warehouses" nzLabel="{{ item.name }}" nzValue="{{ item.id }}">
                 </nz-option>
               </nz-select>
@@ -38,7 +37,7 @@
         <nz-form-item>
           <nz-form-control>
             <nz-input-group>
-              <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Trạng thái"
+              <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Trạng thái"
                 [(ngModel)]="filter.active">
                 <nz-option nzLabel="Kích hoạt" nzValue="1"></nz-option>
                 <nz-option nzLabel="Không kích hoạt" nzValue="0"></nz-option>
@@ -80,22 +79,22 @@
             <th width="10%" class="text-center mw-50">
               Mã
             </th>
-            <th width="5%" class="text-center mw-50">
+            <th width="10%" class="text-center mw-50">
               Đơn vị
             </th>
-            <th width="8%" class="text-center mw-50">
+            <th width="8%" class="text-center mw-100">
               Giá
             </th>
-            <th width="15%" class="text-center mw-200">
+            <th width="17%" class="text-center mw-100">
               Chi tiết
             </th>
-            <th width="10%" class="text-center mw-200">
+            <th width="10%" class="text-center mw-100">
               Nhập / Xuất
             </th>
-            <th width="10%" class="text-center mw-200">
+            <th width="10%" class="text-center mw-100">
               Bán / Trả lại
             </th>
-            <th width="15%" class="text-center mw-200">
+            <th width="12%" class="text-center mw-100">
               Đặt hàng / Tồn kho
             </th>
             <th width="5%" class="text-center">Hành động</th>
@@ -115,48 +114,48 @@
             <td>
               <table>
                 <tr>
-                  <td width="100px"> Loại đóng gói: </td>
-                  <td class="text-left">{{ data.specification_name }}</td>
+                  <td style="min-width: 65px;">Quy cách</td>
+                  <td class="mw-150">{{ data.specification_name }}</td>
                 </tr>
                 <tr>
-                  <td width="100px">Nhà cung cấp: </td>
-                  <td class="text-left"> {{data.supplier_name }}</td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <table>
-                <tr>
-                  <td width="80px"><span class="badge badge-primary">Nhập kho:</span> </td>
-                  <td class="text-left">{{ data.total_import | number }}</td>
-                </tr>
-                <tr>
-                  <td width="80px"><span class="badge badge-success">Xuất kho: </span></td>
-                  <td class="text-left">{{ data.total_export | number }}</td>
+                  <td  style="min-width: 65px;">NCC</td>
+                  <td class="mw-150"> {{data.supplier_name }}</td>
                 </tr>
               </table>
             </td>
             <td>
               <table>
                 <tr>
-                  <td width="90px"><span class="badge badge-primary">SL bán ra:</span> </td>
-                  <td class="text-left">{{ data.total_sale | number }}</td>
+                  <td width="80px"><span class="badge badge-primary">Nhập kho</span> </td>
+                  <td class="mw-50 text-right">{{ data.total_import | number }}</td>
                 </tr>
                 <tr>
-                  <td width="90px"><span class="badge badge-success">SL trả lại:</span> </td>
-                  <td class="text-left">{{ data.total_sale_return | number }}</td>
+                  <td width="80px"><span class="badge badge-success">Xuất kho </span></td>
+                  <td class="mw-50 text-right">{{ data.total_export | number }}</td>
                 </tr>
               </table>
             </td>
             <td>
               <table>
                 <tr>
-                  <td width="110px"><span class="badge badge-primary">Đang đặt hàng:</span> </td>
-                  <td class="text-left">{{ data.total_order | number }}</td>
+                  <td width="90px"><span class="badge badge-primary">Bán ra</span> </td>
+                  <td class="text-right mw-50">{{ data.total_sale | number }}</td>
                 </tr>
                 <tr>
-                  <td width="110px"><span class="badge badge-success">Tổng tồn kho:</span> </td>
-                  <td class="text-left">{{ data.total | number }}</td>
+                  <td width="90px"><span class="badge badge-success">Trả lại</span> </td>
+                  <td class="text-right mw-50">{{ data.total_sale_return | number }}</td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td width="110px"><span class="badge badge-primary">Đặt hàng</span> </td>
+                  <td class="text-right mw-50">{{ data.total_order | number }}</td>
+                </tr>
+                <tr>
+                  <td width="110px"><span class="badge badge-success">Tồn kho</span> </td>
+                  <td class="text-right mw-50">{{ data.total | number }}</td>
                 </tr>
               </table>
             </td>

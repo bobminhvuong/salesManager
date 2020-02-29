@@ -34,8 +34,13 @@ export class ViewTransactionComponent implements OnInit {
   batchs = [];
   batch = {};
   timeId = null;
-  inputSearchProd='';
+  inputSearchProd = '';
   isVisibleProduct = false;
+  calProd = {
+    totalPrice: 0,
+    totalQuantity: 0,
+    total: 0
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -86,7 +91,12 @@ export class ViewTransactionComponent implements OnInit {
     this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; });
     this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
     if (this.dataEdit.id) {
-      this.warehouseSV.getTransactionDetail({ transaction_id: this.dataEdit.id }).subscribe(r => { if (r && r.status == 1) this.listProduct = r.data; });
+      this.warehouseSV.getTransactionDetail({ transaction_id: this.dataEdit.id }).subscribe(r => {
+        if (r && r.status == 1) {
+          this.listProduct = r.data;
+          this.handelCaculateProd();
+        }
+      });
     }
   }
 
@@ -132,19 +142,19 @@ export class ViewTransactionComponent implements OnInit {
         return;
       }
 
-      let checkNotBatch = prod.find(r=>{return r.is_batch && (!r.product_batch_id || r.product_batch_id == '') && (!r.batch_code || r.batch_code =='')});
-      if(checkNotBatch){
-        
-        this.message.create('error', 'Chọn lô cho hàng hóa '+checkNotBatch.product_name+'!');
+      let checkNotBatch = prod.find(r => { return r.is_batch && (!r.product_batch_id || r.product_batch_id == '') && (!r.batch_code || r.batch_code == '') });
+      if (checkNotBatch) {
+
+        this.message.create('error', 'Chọn lô cho hàng hóa ' + checkNotBatch.product_name + '!');
         return;
       }
 
-      let checkQuantity = prod.find(r=>{ return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <=0)})
-      if(checkQuantity){
-        this.message.create('error', 'Số lượng sản phẩm '+checkQuantity.product_name+' không hợp lệ!' );
+      let checkQuantity = prod.find(r => { return (!r.quantity_request || r.quantity_request == '') || (r.quantity_request && r.quantity_request <= 0) })
+      if (checkQuantity) {
+        this.message.create('error', 'Số lượng sản phẩm ' + checkQuantity.product_name + ' không hợp lệ!');
         return;
       }
-      
+
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
@@ -172,9 +182,11 @@ export class ViewTransactionComponent implements OnInit {
             product_name: prod.name,
             product_code: prod.code,
             unit_name: prod.unit_name,
-            specification_name: prod.specification_name
+            specification_name: prod.specification_name,
+            totaPrice: 0
           }
           this.listProduct.unshift(product);
+          this.handelCaculateProd();
           if (prod.is_batch) {
             this.getBatch(prod.id);
           }
@@ -216,9 +228,9 @@ export class ViewTransactionComponent implements OnInit {
     this.getBatch(val.product_id);
     if (val.id) {
       let index = this.listProduct.findIndex(r => { return r.product_id == val.product_id });
-      if(index >=0){
-        this.listProduct[index].product_batch_id = val.id+'';
-      } 
+      if (index >= 0) {
+        this.listProduct[index].product_batch_id = val.id + '';
+      }
     }
   }
 
@@ -242,6 +254,24 @@ export class ViewTransactionComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
+  }
+
+  handelCaculateProd() {
+    this.calProd = {
+      totalPrice: 0,
+      totalQuantity: 0,
+      total: 0
+    }
+    this.listProduct.forEach(prod => {
+      let price = (prod.price && prod.price != '') ? Number((prod.price + '').replace(/,/g, '')) : 0;
+      let quantity = (prod.quantity_request && prod.quantity_request != '') ? Number((prod.quantity_request + '').replace(/,/g, '')) : 0;
+
+      prod.totalPrice = price * quantity;
+
+      this.calProd.totalPrice = this.calProd.totalPrice + price;
+      this.calProd.totalQuantity = this.calProd.totalQuantity + quantity;
+      this.calProd.total = this.calProd.total + (price * quantity);
+    });
   }
 }
 

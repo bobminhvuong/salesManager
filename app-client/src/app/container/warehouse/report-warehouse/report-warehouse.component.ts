@@ -13,7 +13,7 @@ export class ReportWarehouseComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
-  pageSize = 20;
+  pageSize = 50;
   total = 1;
   listOfData = [];
   loading = true;
@@ -27,8 +27,8 @@ export class ReportWarehouseComponent implements OnInit {
     active: '1',
     dateft: new Date(),
     date: moment().format('DD/MM/YYYY'),
-    offset: 0,
-    limit: 10
+    offset: this.pageIndex - 1,
+    limit: this.pageSize
   }
   constructor(
     private modalService: NzModalService,
@@ -37,13 +37,19 @@ export class ReportWarehouseComponent implements OnInit {
     private whSV: WarehouseService) { }
 
   ngOnInit() {
-    this.getAll();
-    this.whSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; })
+    this.whSV.getAllWH().subscribe(r => { if (r && r.status == 1) {
+      this.warehouses = r.data;
+      this.filter.warehouse_id = this.warehouses[0].id+'';
+      this.getAll();
+    } });
   }
 
   getAll() {
     this.filter.date = this.filter.dateft ? moment(this.filter.dateft).format('DD/MM/YYYY') : this.filter.date;
     this.filter.warehouse_id = this.filter.warehouse_id ? this.filter.warehouse_id : '0'; 
+    this.filter.active = this.filter.active ? this.filter.active : '1'; 
+    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
+    this.filter.limit = this.pageSize;
     this.whSV.getInventoryProduct(this.filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;

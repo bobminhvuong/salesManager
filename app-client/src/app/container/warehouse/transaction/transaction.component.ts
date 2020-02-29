@@ -13,7 +13,7 @@ export class TransactionComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
-  pageSize = 20;
+  pageSize = 50;
   total = 1;
   listOfData = [];
   loading = true;

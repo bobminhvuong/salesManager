@@ -41,6 +41,11 @@ export class InputTransactionComponent implements OnInit {
   inputSearchProd = '';
   dateFormat = 'yyyy/MM/dd';
   isShowDate = false;
+  calProd ={
+    totalPrice: 0,
+    totalQuantity: 0,
+    total: 0
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -256,9 +261,11 @@ export class InputTransactionComponent implements OnInit {
             unit_name: prod.unit_name,
             specification_name: prod.specification_name,
             supplier_id: prod.supplier_id,
-            supplier_name: prod.supplier_name
+            supplier_name: prod.supplier_name,
+            totalPrice: 0
           }
           this.listProduct.unshift(product);
+          this.handelCaculateProd();
           if (prod.is_batch) {
             this.getBatch(prod.id);
           }
@@ -292,6 +299,24 @@ export class InputTransactionComponent implements OnInit {
     setTimeout(() => {
       this.isVisibleProduct = false;
     }, 500);
+  }
+
+  handelCaculateProd(){
+    this.calProd = {
+      totalPrice: 0,
+      totalQuantity: 0,
+      total: 0
+    }
+    this.listProduct.forEach(prod => {
+      let price = (prod.price && prod.price != '') ? Number((prod.price + '').replace(/,/g, '')) : 0;
+      let quantity = (prod.quantity_request && prod.quantity_request != '') ? Number((prod.quantity_request + '').replace(/,/g, '')) : 0;
+      
+      prod.totalPrice = price * quantity;
+
+      this.calProd.totalPrice = this.calProd.totalPrice + price;
+      this.calProd.totalQuantity = this.calProd.totalQuantity + quantity;
+      this.calProd.total = this.calProd.total + ( price * quantity);
+    });
   }
 }
 

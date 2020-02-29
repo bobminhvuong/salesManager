@@ -142,12 +142,13 @@
             <tr>
               <th class="text-center" width="5%">STT</th>
               <th width="15%">Hàng hóa</th>
-              <th width="10%" class="text-center">Đơn vị</th>
-              <th width="10%" class="text-center">Kiểu đóng gói</th>
+              <th width="7%" class="text-center">Đơn vị</th>
+              <th width="13%" class="text-center">Kiểu đóng gói</th>
               <th width="10%" class="text-center">Nhà cung cấp</th>
               <th width="15%" class="text-center">Lô hàng</th>
               <th class="text-center" width="10%">Số lượng</th>
               <th class="text-center" width="10%">Giá nhập</th>
+              <th class="text-center" width="10%">Thành tiền</th>
               <th class="text-center" width="5%"></th>
             </tr>
           </thead>
@@ -183,22 +184,43 @@
                 </div>
               </td>
               <td class="text-center">
-                <input nz-input class="text-right" [ngClass]="{'red': checkValidProd(item.product_id,'QUANTITY')}"
-                  appOnlyNumber [(ngModel)]="item.quantity_request" />
+                <input nz-input class="text-right" [ngClass]="{'red': checkValidProd(item.product_id,'QUANTITY')}" [(ngModel)]="item.quantity_request"  (ngModelChange)="handelCaculateProd()"
+                  appOnlyNumber />
               </td>
               <td class="text-right">
-                <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" />
+                <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" (ngModelChange)="handelCaculateProd()" />
+              </td>
+              <td class="text-right">
+                  {{ item.totalPrice | number }} đ
               </td>
               <td class="text-center">
                 <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa hàng hóa" class="iconAction text-danger"
                   (click)="listProduct.splice(index, 1)" nzTheme="outline"></i>
               </td>
             </tr>
+            <tr *ngIf="listProduct.length > 0">
+              <th colspan="6" class="text-right pd">
+                Tổng cộng
+              </th>
+              <th class="text-right pd">
+                <span style="padding-right: 10px;"> {{ calProd.totalQuantity | number }}</span>
+              </th>
+              <th class="text-right pd">
+                {{ calProd.totalPrice | number }} đ
+              </th>
+              <th class="text-right pd">
+                {{ calProd.total | number }} đ
+              </th>
+              <th class="text-center pd">
+              </th>
+            </tr>
+
             <tr *ngIf="listProduct.length ==0">
-              <th colspan="9" class="text-center">
+              <th colspan="10" class="text-center">
                 Chưa có hàng hóa nào được thêm!
               </th>
             </tr>
+           
           </tbody>
         </table>
       </div>
