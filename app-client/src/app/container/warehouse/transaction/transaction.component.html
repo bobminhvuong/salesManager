@@ -5,10 +5,11 @@
 </div>
 <div class="box box-success">
   <div class="box-header">
-    <div nz-form [nzLayout]="'inline'">
+    <div nz-form  [nzLayout]="'inline'">
+
       <nz-form-item>
         <nz-form-control>
-          <nz-input-group >
+          <nz-input-group>
             <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="filter.date"></nz-range-picker>
           </nz-input-group>
         </nz-form-control>
@@ -17,11 +18,15 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
-            <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Hàng hóa"
-              [(ngModel)]="filter.product_id">
-              <nz-option nzLabel="Tất cả hàng hóa" nzValue="0"></nz-option>
-              <nz-option *ngFor="let item of products" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
-            </nz-select>
+            <input style="border-radius:4px" nz-input type="text" placeholder="Tìm hàng hóa" [(ngModel)]="inputSearchProd"
+              (input)="onSearchProduct($event.target?.value)" [nzAutocomplete]="autoSearchPrd1"/>
+            <nz-autocomplete nzBackfill #autoSearchPrd1>
+              <nz-auto-option *ngFor="let option of products" [nzValue]="option.name" (click)="chooseProd(option.id)">
+                {{ option.name}}
+                {{ option.code ? ' - '+option.code: '' }}
+                {{ option.supplier_name ?  ' ('+option.supplier_name+')': '' }}
+              </nz-auto-option>
+            </nz-autocomplete>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -29,10 +34,9 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
-            <nz-select style="width: 140px;" nzShowSearch nzAllowClear nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
+            <nz-select style="width: 220px;" nzShowSearch nzAllowClear nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
               <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
               <nz-option *ngFor="let item of warehouses" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
-
             </nz-select>
           </nz-input-group>
         </nz-form-control>
@@ -40,13 +44,14 @@
 
       <nz-form-item>
         <nz-form-control>
-          <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
+          <button nz-button (click)="handleFilter()" nzType="primary">Hiển thị</button>
         </nz-form-control>
       </nz-form-item>
     </div>
   </div>
 
   <div class="box-body">
+
     <div class="table-responsive">
       <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
         [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
@@ -116,9 +121,8 @@
             </td>
             <td class="cttd" class="text-center">
               <div zn-row>
-                <i nz-icon *ngIf="data.status_id ==1" nzType="shopping-cart" nz-tooltip nzTitle="Nhận hàng" 
-                class="iconAction text-success"
-                  (click)="openModalReceived(data)" nzTheme="outline"></i>
+                <i nz-icon *ngIf="data.status_id ==1" nzType="shopping-cart" nz-tooltip nzTitle="Nhận hàng"
+                  class="iconAction text-success" (click)="openModalReceived(data)" nzTheme="outline"></i>
 
                 <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
@@ -135,14 +139,14 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isVisibleRecived" nzTitle="Xác nhận nhận hàng hóa" nzCancelText="Hủy" nzOkText="Xác nhận" (nzOnCancel)="handleCancelRecived()"
-  (nzOnOk)="handleConfirmRecived()">
+<nz-modal [(nzVisible)]="isVisibleRecived" nzTitle="Xác nhận nhận hàng hóa" nzCancelText="Hủy" nzOkText="Xác nhận"
+  (nzOnCancel)="handleCancelRecived()" (nzOnOk)="handleConfirmRecived()">
 
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">Ngày nhận</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="dateRecived" ></nz-date-picker>
+        <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="dateRecived"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
   </div>

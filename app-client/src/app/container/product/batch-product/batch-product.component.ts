@@ -32,9 +32,11 @@ export class BatchProductComponent implements OnInit {
 
   getAll() {
     this.packageSV.getAllTypePack().subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 

@@ -23,7 +23,7 @@ export class UserComponent implements OnInit {
   dataEdit: any | null = null;
 
 
-  constructor( private modalService: NzModalService, private userSV: UserService) { }
+  constructor(private modalService: NzModalService, private userSV: UserService) { }
 
   ngOnInit() {
     this.searchData();
@@ -109,9 +109,11 @@ export class UserComponent implements OnInit {
 
   getAll() {
     this.userSV.getAll(0).subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 

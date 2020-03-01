@@ -37,23 +37,27 @@ export class ReportWarehouseComponent implements OnInit {
     private whSV: WarehouseService) { }
 
   ngOnInit() {
-    this.whSV.getAllWH().subscribe(r => { if (r && r.status == 1) {
-      this.warehouses = r.data;
-      this.filter.warehouse_id = this.warehouses[0].id+'';
-      this.getAll();
-    } });
+    this.whSV.getAllWH().subscribe(r => {
+      if (r && r.status == 1) {
+        this.warehouses = r.data;
+        this.filter.warehouse_id = this.warehouses[0].id + '';
+        this.getAll();
+      }
+    });
   }
 
   getAll() {
     this.filter.date = this.filter.dateft ? moment(this.filter.dateft).format('DD/MM/YYYY') : this.filter.date;
-    this.filter.warehouse_id = this.filter.warehouse_id ? this.filter.warehouse_id : '0'; 
-    this.filter.active = this.filter.active ? this.filter.active : '1'; 
+    this.filter.warehouse_id = this.filter.warehouse_id ? this.filter.warehouse_id : '0';
+    this.filter.active = this.filter.active ? this.filter.active : '1';
     this.filter.offset = (this.pageIndex - 1) * this.pageSize;
     this.filter.limit = this.pageSize;
     this.whSV.getInventoryProduct(this.filter).subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 

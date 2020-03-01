@@ -20,8 +20,8 @@ export class ListStoreComponent implements OnInit {
   dataEdit: any | null = null;
   filterForm: FormGroup;
   constructor(
-    private modalService: NzModalService, 
-    private fb: FormBuilder, 
+    private modalService: NzModalService,
+    private fb: FormBuilder,
     private storeSV: StoreService,
     private message: NzMessageService) { }
 
@@ -31,9 +31,11 @@ export class ListStoreComponent implements OnInit {
 
   getAll() {
     this.storeSV.getAllStore().subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 
@@ -56,7 +58,7 @@ export class ListStoreComponent implements OnInit {
       nzTitle: 'Bạn có chắc xóa trường này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
-      nzOnOk: () => this.delete({id: id}),
+      nzOnOk: () => this.delete({ id: id }),
       nzCancelText: 'Hủy',
     });
   }

@@ -24,12 +24,12 @@ export class SupplierComponent implements OnInit {
   previewVisible = false;
 
   constructor(
-    private modalService: NzModalService, 
-    private fb: FormBuilder, 
+    private modalService: NzModalService,
+    private fb: FormBuilder,
     private customerSV: CustomerService,
     private supplierSV: SupplierService,
     private message: NzMessageService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
@@ -46,9 +46,11 @@ export class SupplierComponent implements OnInit {
     }
 
     this.supplierSV.getAll().subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 
@@ -71,7 +73,7 @@ export class SupplierComponent implements OnInit {
       nzTitle: 'Bạn có chắc xóa nhà cung cấp này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
-      nzOnOk: () => this.deleteSup({id: id}),
+      nzOnOk: () => this.deleteSup({ id: id }),
       nzCancelText: 'Hủy',
     });
   }

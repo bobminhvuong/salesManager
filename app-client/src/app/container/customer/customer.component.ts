@@ -39,9 +39,11 @@ export class CustomerComponent implements OnInit {
     }
 
     this.customerSV.getAll(val).subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 
@@ -64,7 +66,7 @@ export class CustomerComponent implements OnInit {
     this.previewVisible = true;
   };
 
-  formatDate(date,fm){
+  formatDate(date, fm) {
     return moment(date).format('DD/MM/YYYY');
   }
 }

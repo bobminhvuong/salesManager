@@ -18,8 +18,8 @@ export class ProductComponent implements OnInit {
   listOfData = [];
   filter = {
     find: '',
-    supplier_id : '0',
-    group_id :'0',
+    supplier_id: '0',
+    group_id: '0',
     active: true,
     activeTmp: '1',
     offset: 0,
@@ -39,21 +39,23 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.getAll();
-    this.productSV.getGroupProd().subscribe(r=>{if(r && r.status ==1){ this.groups = r.data; }})
-    this.partnerSV.getAll().subscribe(r=>{if(r && r.status ==1){ this.suppliers = r.data; }})
+    this.productSV.getGroupProd().subscribe(r => { if (r && r.status == 1) { this.groups = r.data; } })
+    this.partnerSV.getAll().subscribe(r => { if (r && r.status == 1) { this.suppliers = r.data; } })
   }
 
   getAll() {
     this.filter.offset = (this.pageIndex - 1) * this.pageSize;
     this.filter.limit = this.pageSize;
-    this.filter.active =  this.filter.activeTmp == '1' ? true : false; 
-    
+    this.filter.active = this.filter.activeTmp == '1' ? true : false;
+
     this.productSV.getAllProduct(this.filter).subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
-    
+
   }
 
   handleCorU(client) {
@@ -67,6 +69,7 @@ export class ProductComponent implements OnInit {
   }
 
   filterData() {
+    this.pageIndex = 1;
     this.getAll();
   }
 

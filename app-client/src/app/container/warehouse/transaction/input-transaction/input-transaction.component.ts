@@ -289,8 +289,11 @@ export class InputTransactionComponent implements OnInit {
       dest_id: [dest_id, [Validators.required]],
       supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
       product_id: [null],
-      note: ['']
+      note: [''],
+      is_received: [false],
+      date: [new Date()]
     });
+    this.isShowDate = false;
     this.listProduct = [];
     this.products = [];
   }

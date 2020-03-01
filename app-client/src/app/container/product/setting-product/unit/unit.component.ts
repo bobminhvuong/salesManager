@@ -19,8 +19,8 @@ export class UnitComponent implements OnInit {
   dataEdit: any | null = null;
   filterForm: FormGroup;
   constructor(
-    private modalService: NzModalService, 
-    private fb: FormBuilder, 
+    private modalService: NzModalService,
+    private fb: FormBuilder,
     private unitSV: UnitService,
     private message: NzMessageService) { }
 
@@ -30,9 +30,11 @@ export class UnitComponent implements OnInit {
 
   getAll() {
     this.unitSV.getAll().subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
   }
 
@@ -55,7 +57,7 @@ export class UnitComponent implements OnInit {
       nzTitle: 'Bạn có chắc xóa trường này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
-      nzOnOk: () => this.delete({id: id}),
+      nzOnOk: () => this.delete({ id: id }),
       nzCancelText: 'Hủy',
     });
   }

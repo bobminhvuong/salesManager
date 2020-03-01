@@ -20,14 +20,16 @@ export class TransactionComponent implements OnInit {
   dataEdit: any | null = null;
   products: [];
   warehouses = [];
-  dateFormat ='yyyy/MM/dd';
+  dateFormat = 'yyyy/MM/dd';
   isVisibleRecived = false;
-  currentDataRecived: any | null= null;
+  currentDataRecived: any | null = null;
   dateRecived = new Date();
+  timeId: any = null;
+  inputSearchProd = '';
   filter = {
     date: null,
     dest_id: '0',
-    product_id: '0',
+    product_id: 0,
     from: '',
     to: '',
     offset: this.pageIndex - 1,
@@ -38,24 +40,37 @@ export class TransactionComponent implements OnInit {
     private message: NzMessageService,
     private warehouseSV: WarehouseService,
     private productSV: ProductService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getAll();
-    this.getProd();
+    this.warehouseSV.getAllWH().subscribe(r => {
+      if (r && r.status == 1) {
+        this.warehouses = r.data;
+      }
+    })
   }
 
-  getProd(){
-    let filterProd = {
-      find: '',
-      supplier_id: 0,
-      group_id: 0,
-      active: 1,
-      offset: 0,
-      limit: 10000000
+  onSearchProduct(value) {
+    if (value != '') {
+      let ft = {
+        find: value,
+        supplier_id: 0,
+        group_id: 0,
+        active: 1,
+        offset: 0,
+        limit: 10
+      }
+      clearTimeout(this.timeId);
+      this.timeId = setTimeout(() => {
+        this.productSV.getAllProduct(ft).subscribe(r => { if (r && r.status == 1) this.products = r.data; });
+      }, 500);
     }
-    this.productSV.getAllProduct(filterProd).subscribe(r => { if (r && r.status == 1) this.products = r.data; });
-    this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
+  }
+
+  handleFilter() {
+    this.pageIndex = 1;
+    this.getAll();
   }
 
   getAll() {
@@ -63,11 +78,16 @@ export class TransactionComponent implements OnInit {
     this.filter.limit = this.pageSize;
     this.filter.from = this.filter.date && this.filter.date[0] ? moment(this.filter.date[0]).format('DD/MM/YYYY') : '';
     this.filter.to = this.filter.date && this.filter.date[1] ? moment(this.filter.date[1]).format('DD/MM/YYYY') : '';
+    this.filter.product_id = this.inputSearchProd == '' ? 0 : this.filter.product_id;
 
     this.warehouseSV.getTransaction(this.filter).subscribe(res => {
-      this.listOfData = res.data;
-      this.loading = false;
-      this.total = res.total;
+      if (res && res.status == 1) {
+        if (res && res.status == 1) {
+          this.listOfData = res.data;
+          this.loading = false;
+          this.total = res.total;
+        }
+      }
     });
   }
 
@@ -81,10 +101,6 @@ export class TransactionComponent implements OnInit {
     this.getAll();
   }
 
-  filterData() {
-    this.getAll();
-  }
-
   confirmDelete(id) {
     this.modalService.confirm({
       nzTitle: 'Bạn có chắc xóa trường này?',
@@ -93,6 +109,10 @@ export class TransactionComponent implements OnInit {
       nzOnOk: () => this.delete({ id: id }),
       nzCancelText: 'Hủy',
     });
+  }
+
+  chooseProd(id) {
+    this.filter.product_id = id;
   }
 
   delete(objId) {
@@ -110,21 +130,21 @@ export class TransactionComponent implements OnInit {
     return date ? moment(date).format(format) : '';
   }
 
-  openModalReceived(data){
+  openModalReceived(data) {
     this.currentDataRecived = data;
     this.isVisibleRecived = true;
   }
 
-  handleCancelRecived(){
+  handleCancelRecived() {
     this.isVisibleRecived = false;
   }
 
-  handleConfirmRecived(){
-    let obj ={
+  handleConfirmRecived() {
+    let obj = {
       id: this.currentDataRecived.id,
       date: moment(this.dateRecived).format('DD/MM/YYYY')
     };
-    this.warehouseSV.confirmRecivedDate(obj).subscribe(r=>{
+    this.warehouseSV.confirmRecivedDate(obj).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Nhận hàng thành công!');
         this.getAll();
