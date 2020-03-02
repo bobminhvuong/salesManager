@@ -121,7 +121,7 @@
             </td>
             <td class="cttd" class="text-center">
               <div zn-row>
-                <i nz-icon *ngIf="data.status_id ==1" nzType="shopping-cart" nz-tooltip nzTitle="Nhận hàng"
+                <i nz-icon nzType="shopping-cart" nz-tooltip nzTitle="{{ data.status_id ==1 ? 'Nhận hàng' : 'Chỉnh sửa ngày nhận hàng' }}"
                   class="iconAction text-success" (click)="openModalReceived(data)" nzTheme="outline"></i>
 
                 <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"

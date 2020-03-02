@@ -133,6 +133,7 @@ export class TransactionComponent implements OnInit {
   openModalReceived(data) {
     this.currentDataRecived = data;
     this.isVisibleRecived = true;
+    this.dateRecived = data.status_id == 2 ? new Date(data.received_date) : this.dateRecived;
   }
 
   handleCancelRecived() {
@@ -148,8 +149,10 @@ export class TransactionComponent implements OnInit {
       if (r && r.status == 1) {
         this.message.create('success', 'Nhận hàng thành công!');
         this.getAll();
+        this.dateRecived = new Date();
       } else {
         this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
+        this.dateRecived = new Date();
       }
     })
   }
