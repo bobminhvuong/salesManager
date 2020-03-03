@@ -58,6 +58,7 @@ import { MoveOutTransactionComponent } from './container/warehouse/transaction/m
 import { InputTransactionComponent } from './container/warehouse/transaction/input-transaction/input-transaction.component';
 import { ViewTransactionComponent } from './container/warehouse/transaction/view-transaction/view-transaction.component';
 import { ReportWarehouseDetailComponent } from './container/warehouse/report-warehouse/report-warehouse-detail/report-warehouse-detail.component';
+import { ReportBatchProductComponent } from './container/warehouse/report-warehouse/report-batch-product/report-batch-product.component';
 
 registerLocaleData(en);
 
@@ -101,7 +102,8 @@ registerLocaleData(en);
     MoveOutTransactionComponent,
     InputTransactionComponent,
     ViewTransactionComponent,
-    ReportWarehouseDetailComponent
+    ReportWarehouseDetailComponent,
+    ReportBatchProductComponent
   ],
   imports: [
     BrowserModule,
