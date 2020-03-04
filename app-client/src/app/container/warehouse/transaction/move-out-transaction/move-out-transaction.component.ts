@@ -46,33 +46,16 @@ export class MoveOutTransactionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id + '' : null;
     this.validateForm = this.fb.group({
       transaction_type_id: [null, [Validators.required]],
       source_id: [null, [Validators.required]],
-      dest_id: [dest_id, [Validators.required]],
+      dest_id: [0, [Validators.required]],
       supplier_id: [0],
       product_id: [null],
       note: [null]
     });
 
     this.loadInitData();
-  }
-
-  getTitle() {
-    if (this.dataEdit.id) {
-      if (this.dataEdit.transaction_type_id == 1) {
-        return 'Cập nhật phiếu nhập kho';
-      }
-      if (this.dataEdit.transaction_type_id == 2) {
-        return 'Cập nhật phiếu xuất kho';
-      }
-      if (this.dataEdit.transaction_type_id == 3) {
-        return 'Cập nhật phiếu chuyển kho';
-      }
-    } else {
-      return this.dataEdit.transaction_type_id == 1 ? 'Tạo phiếu nhập kho' : 'Tạo phiếu xuất / chuyển kho'
-    }
   }
 
   handelChangeTransaction(e) {
@@ -107,8 +90,8 @@ export class MoveOutTransactionComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-
-    if (this.validateForm.status === 'VALID') {
+    
+    if (this.validateForm.valid) {
       let tran = { ...this.dataEdit, ...this.validateForm.value };
       let prod = this.listProduct;
       prod.forEach(r => {

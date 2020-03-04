@@ -47,6 +47,7 @@ export class ReportWarehouseComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.filter.date = this.filter.dateft ? moment(this.filter.dateft).format('DD/MM/YYYY') : this.filter.date;
     this.filter.warehouse_id = this.filter.warehouse_id ? this.filter.warehouse_id : '0';
     this.filter.active = this.filter.active ? this.filter.active : '1';
@@ -62,6 +63,9 @@ export class ReportWarehouseComponent implements OnInit {
   }
 
   handleCorU(client) {
+    client.warehouse_id = this.filter.warehouse_id;
+    client.date = this.filter.dateft;
+    client.active = this.filter.active;
     this.dataEdit = client ? client : {};
     this.isVisible = true;
   }

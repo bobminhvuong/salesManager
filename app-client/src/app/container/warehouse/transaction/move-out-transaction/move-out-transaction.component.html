@@ -43,7 +43,7 @@
             </nz-form-item>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="transaction_type ==3">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6" >
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="source_id">Kho xuất </nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -58,7 +58,7 @@
             </nz-form-item>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="transaction_type ==3">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dest_id">Kho nhận </nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -160,7 +160,7 @@
                 <input nz-input class="text-right" appOnlyNumber [(ngModel)]="item.quantity_request" />
               </td>
               <td class="text-right">
-                <input nz-input class="text-right" [(ngModel)]="item.price" [(appFormatVN)]="item.price" />
+                {{item.price | number}}
               </td>
               <td class="text-center">
                 <i nz-icon nzType="delete" nz-tooltip nzTitle="Xóa hàng hóa" class="iconAction text-danger"

@@ -1,12 +1,6 @@
 <div class="row" style="margin-bottom: 15px;">
-  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>Báo cáo kho</h4>
-  </div>
-  <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-    <div class="float-right">
-      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>
-        Tạo mới </button>
-    </div>
   </div>
 </div>
 
@@ -66,7 +60,7 @@
     <div class="table-responsive">
       <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
         [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-        (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()"
+        (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()" 
         nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}">
         <thead>
           <tr>
@@ -160,6 +154,9 @@
 
             <td class="cttd" class="text-center">
               <div zn-row>
+                <i nz-icon nzType="switcher" *ngIf="data.is_batch"  nz-tooltip nzTitle="Xem tồn kho theo lô" (click)="handleCorU(data)" nzTheme="outline"
+                class="iconAction text-primary"></i>
+
                 <i nz-icon nzType="eye" nz-tooltip nzTitle="Xem chi tiết" class="iconAction text-warning"
                   (click)="handleCorU(data)" nzTheme="outline"></i>
               </div>
@@ -170,6 +167,11 @@
     </div>
   </div>
 </div>
+
+
+<app-report-batch-product *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible"
+  (closeModal)="closeModal($event)" class="fade in">
+</app-report-batch-product>
 
 <!-- 
 <app-report-warehouse-detail *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible"

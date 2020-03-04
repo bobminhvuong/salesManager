@@ -1,8 +1,8 @@
 import { StoreService } from './../../../../service/store/store.service';
 import { WarehouseService } from './../../../../service/warehouse/warehouse.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-report-batch-product',
@@ -14,23 +14,45 @@ export class ReportBatchProductComponent implements OnInit {
   @Input() dataEdit: any;
   @Input() isVisible: boolean;
   @Output() closeModal = new EventEmitter();
-  validateForm: FormGroup;
+  pageIndex = 1;
+  pageSize = 20;
+  total = 1;
+  listOfData = [];
+  loading = true;
   stores = [];
+  filter = {
+    warehouse_id: 0,
+    product_id: 0,
+    active: 1,
+    date: moment().format('DD/MM/YYYY'),
+    offset: this.pageIndex - 1,
+    limit: this.pageSize
+  }
 
   constructor(
-    private fb: FormBuilder,
-    private message: NzMessageService,
-    private whSV: WarehouseService,
-    private storeSV: StoreService
+    private whSV: WarehouseService
   ) { }
 
   ngOnInit() {
-    this.validateForm = this.fb.group({
-      name: [this.dataEdit.id ? this.dataEdit.name : null, [Validators.required]],
-      store_id: [this.dataEdit.id ? this.dataEdit.store_id + '' : null, [Validators.required]],
-      active: [this.dataEdit.id ? this.dataEdit.active + '' : true]
+    if(this.dataEdit){
+      this.filter.warehouse_id = this.dataEdit.warehouse_id;
+      this.filter.date = moment(this.dataEdit.date).format('DD/MM/YYYY');
+      this.filter.product_id = this.dataEdit.id;
+      this.filter.active = this.dataEdit.active;
+      this.getAll();
+    }
+  }
+
+  getAll() {
+    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
+    this.filter.limit = this.pageSize;
+    this.whSV.getInventoryBatchProduct(this.filter).subscribe(res => {
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
     });
-    this.storeSV.getAllStore().subscribe(r=>{ this.stores =r.data });
   }
 
   handleCancel(): void {
@@ -38,22 +60,7 @@ export class ReportBatchProductComponent implements OnInit {
     this.closeModal.emit(this.isVisible);
   }
 
-  submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
-    if (this.validateForm.status === 'VALID') {
-      let sup = { ...this.dataEdit, ...this.validateForm.value };
-      this.whSV.updateOrCreateWH(sup).subscribe(r => {
-        if (r && r.status == 1) {
-          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo khách hàng thành công!');
-          this.handleCancel();
-        } else {
-          this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
-        }
-      });
-
-    }
+  formatDate(date, format) {
+    return date ? moment(date).format(format) : '';
   }
 }
