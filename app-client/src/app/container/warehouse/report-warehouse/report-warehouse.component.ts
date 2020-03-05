@@ -12,6 +12,7 @@ import * as moment from 'moment';
 export class ReportWarehouseComponent implements OnInit {
 
   isVisible = false;
+  isVisibleDetail= false;
   pageIndex = 1;
   pageSize = 50;
   total = 1;
@@ -62,17 +63,24 @@ export class ReportWarehouseComponent implements OnInit {
     });
   }
 
-  handleCorU(client) {
+  handleCorU(client,type) {
     client.warehouse_id = this.filter.warehouse_id;
     client.date = this.filter.dateft;
     client.active = this.filter.active;
     this.dataEdit = client ? client : {};
-    this.isVisible = true;
+    if(type == 'BATCH'){
+      this.isVisible = true;
+    }else{
+      this.isVisibleDetail = true;
+    }
   }
 
   closeModal(e) {
     this.isVisible = e;
-    this.getAll();
+  }
+
+  closeModalDetail(e){
+    this.isVisibleDetail =e;
   }
 
   filterData() {

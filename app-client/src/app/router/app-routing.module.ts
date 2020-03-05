@@ -1,3 +1,5 @@
+import { DebitSupplierComponent } from './../container/debit/debit-supplier/debit-supplier.component';
+import { DebitHistoryComponent } from './../container/debit/debit-history/debit-history.component';
 import { MoveOutTransactionComponent } from './../container/warehouse/transaction/move-out-transaction/move-out-transaction.component';
 import { InputTransactionComponent } from './../container/warehouse/transaction/input-transaction/input-transaction.component';
 import { TransactionComponent } from './../container/warehouse/transaction/transaction.component';
@@ -50,6 +52,11 @@ const routes: Routes = [
             { path: 'addTransaction', component:InputTransactionComponent  },
             { path: 'moveOutTransaction', component:MoveOutTransactionComponent  },
             { path: 'report-warehouse', component: ReportWarehouseComponent },
+
+            //debit
+            { path: 'debit-history', component: DebitHistoryComponent },
+            { path: 'debit-supplier', component: DebitSupplierComponent },
+            
 
         ]
     },

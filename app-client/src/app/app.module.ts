@@ -59,6 +59,8 @@ import { InputTransactionComponent } from './container/warehouse/transaction/inp
 import { ViewTransactionComponent } from './container/warehouse/transaction/view-transaction/view-transaction.component';
 import { ReportWarehouseDetailComponent } from './container/warehouse/report-warehouse/report-warehouse-detail/report-warehouse-detail.component';
 import { ReportBatchProductComponent } from './container/warehouse/report-warehouse/report-batch-product/report-batch-product.component';
+import { DebitSupplierComponent } from './container/debit/debit-supplier/debit-supplier.component';
+import { DebitHistoryComponent } from './container/debit/debit-history/debit-history.component';
 
 registerLocaleData(en);
 
@@ -103,7 +105,9 @@ registerLocaleData(en);
     InputTransactionComponent,
     ViewTransactionComponent,
     ReportWarehouseDetailComponent,
-    ReportBatchProductComponent
+    ReportBatchProductComponent,
+    DebitSupplierComponent,
+    DebitHistoryComponent
   ],
   imports: [
     BrowserModule,

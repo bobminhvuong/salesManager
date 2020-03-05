@@ -154,11 +154,11 @@
 
             <td class="cttd" class="text-center">
               <div zn-row>
-                <i nz-icon nzType="switcher" *ngIf="data.is_batch"  nz-tooltip nzTitle="Xem tồn kho theo lô" (click)="handleCorU(data)" nzTheme="outline"
+                <i nz-icon nzType="switcher" *ngIf="data.is_batch"  nz-tooltip nzTitle="Xem tồn kho theo lô" (click)="handleCorU(data,'BATCH')" nzTheme="outline"
                 class="iconAction text-primary"></i>
 
-                <i nz-icon nzType="eye" nz-tooltip nzTitle="Xem chi tiết" class="iconAction text-warning"
-                  (click)="handleCorU(data)" nzTheme="outline"></i>
+                <i nz-icon nzType="eye" nz-tooltip nzTitle="Xem lịch sử chi tiết" class="iconAction text-warning"
+                  (click)="handleCorU(data,'ALL')" nzTheme="outline"></i>
               </div>
             </td>
           </tr>
@@ -173,7 +173,7 @@
   (closeModal)="closeModal($event)" class="fade in">
 </app-report-batch-product>
 
-<!-- 
-<app-report-warehouse-detail *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible"
-  (closeModal)="closeModal($event)" class="fade in">
-</app-report-warehouse-detail> -->
+
+<app-report-warehouse-detail *ngIf="isVisibleDetail" [dataEdit]="dataEdit" [isVisible]="isVisibleDetail"
+  (closeModal)="closeModalDetail($event)" class="fade in">
+</app-report-warehouse-detail>

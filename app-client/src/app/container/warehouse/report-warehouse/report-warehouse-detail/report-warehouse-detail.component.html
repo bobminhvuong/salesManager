@@ -1,34 +1,50 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Cập nhật kho' : 'Tạo kho hàng hóa'}}" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
-  (nzOnCancel)="handleCancel()" nzWidth="40%">
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Tên kho </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input  nz-input formControlName="name" id="name" />
-        <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
-          Tên kho không được để trống!
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="store_id" nzRequired>Chi nhánh </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-select formControlName="store_id" nzShowSearch nzAllowClear nzPlaceHolder="Chọn 1 chi nhánh">
-          <nz-option *ngFor="let item of stores"  nzLabel="{{ item.name }}" nzValue="{{item.id}}"></nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="validateForm.get('store_id')?.dirty && validateForm.get('store_id')?.errors">
-          Chọn 1 chi nhánh!
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{'Lịch sử nhập xuất '+dataEdit.name}}" 
+  (nzOnCancel)="handleCancel()" nzWidth="60%" [nzFooter]="modalFooter">
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="active">Trạng thái</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <label nz-checkbox formControlName="active">
-          <span>Kích hoạt</span>
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+  <div class="table-responsive">
+    <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()"
+      nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}">
+      <thead>
+        <tr>
+          <th width="3%" class="text-center">STT</th>
+          <th class="text-center" width="15% mw-50">
+            Ngày
+          </th>
+          <th width="10%" class=" mw-50">
+            Lô hàng
+          </th>
+          <th width="15%" class="text-center mw-50">
+            Loại
+          </th>
+          <th width="15%" class="text-center mw-100">
+            Kho nhận
+          </th>
+          <th width="15%" class="text-center mw-100">
+            Kho xuất
+          </th>
+          <th width="15%" class="text-center mw-100">
+            Số lượng
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of ajaxTable.data;let i = index">
+          <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
+          <td class="text-center">{{ data.date }}</td>
+          <td class="text-center">{{ data.product_batch_code }}</td>
+          <td class="text-center">{{ data.transaction_type }}</td>
+          <td class="text-center">{{ data.dest_name }}</td>
+          <td class="text-center">{{ data.source_name }}</td>
+          <td class="text-center">{{ data.quantity }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  
+  <ng-template #modalFooter>
+    <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
+  </ng-template>
 </nz-modal>

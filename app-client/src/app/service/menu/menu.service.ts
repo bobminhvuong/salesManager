@@ -120,6 +120,18 @@ export class MenuService {
             role: 'admin',
           }
         ]
+      }, {
+        title: 'Công nợ',
+        url: '',
+        icon: 'dollar',
+        role: 'admin',
+        subMenu: [
+          {
+            title: 'Nhà cung cấp',
+            url: '/manager/debit-history',
+            role: 'admin',
+          }
+        ]
       }
     ]
   }
