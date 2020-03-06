@@ -61,6 +61,7 @@ import { ReportWarehouseDetailComponent } from './container/warehouse/report-war
 import { ReportBatchProductComponent } from './container/warehouse/report-warehouse/report-batch-product/report-batch-product.component';
 import { DebitSupplierComponent } from './container/debit/debit-supplier/debit-supplier.component';
 import { DebitHistoryComponent } from './container/debit/debit-history/debit-history.component';
+import { CouDebitComponent } from './container/debit/debit-history/cou-debit/cou-debit.component';
 
 registerLocaleData(en);
 
@@ -107,7 +108,8 @@ registerLocaleData(en);
     ReportWarehouseDetailComponent,
     ReportBatchProductComponent,
     DebitSupplierComponent,
-    DebitHistoryComponent
+    DebitHistoryComponent,
+    CouDebitComponent
   ],
   imports: [
     BrowserModule,

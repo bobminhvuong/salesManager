@@ -29,6 +29,7 @@ export class UnitComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.unitSV.getAll().subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

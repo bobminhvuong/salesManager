@@ -29,6 +29,7 @@ export class TypePackComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.packageSV.getAllTypePack().subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

@@ -29,6 +29,7 @@ export class GroupProductComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.productSV.getGroupProd().subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

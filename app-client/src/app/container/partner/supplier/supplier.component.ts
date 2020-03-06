@@ -44,7 +44,7 @@ export class SupplierComponent implements OnInit {
       offset: 0,
       limit: 50
     }
-
+    this.loading = true;
     this.supplierSV.getAll().subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

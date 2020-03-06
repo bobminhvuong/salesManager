@@ -108,6 +108,7 @@ export class UserComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.userSV.getAll(0).subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

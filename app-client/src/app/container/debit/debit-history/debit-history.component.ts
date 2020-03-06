@@ -4,7 +4,7 @@ import { CustomerService } from './../../../service/customer/customer.service';
 import { environment } from './../../../../environments/environment.prod';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import * as moment from 'moment';
 
 @Component({
@@ -24,7 +24,8 @@ export class DebitHistoryComponent implements OnInit {
   previewImage: string | undefined = '';
   previewVisible = false;
   suppliers = [];
-
+  dateFormat = 'yyyy/MM/dd';
+  
   filter = {
     supplier_id: '0',
     from: '',
@@ -36,6 +37,7 @@ export class DebitHistoryComponent implements OnInit {
 
   constructor(
     private modalService: NzModalService,
+    private message: NzMessageService,
     private fb: FormBuilder,
     private debitSV: DebitService,
     private partnerSV: SupplierService
@@ -54,7 +56,7 @@ export class DebitHistoryComponent implements OnInit {
     this.filter.limit = this.pageSize;
     this.filter.from = this.filter.date && this.filter.date[0] ? moment(this.filter.date[0]).format('DD/MM/YYYY') : '';
     this.filter.to = this.filter.date && this.filter.date[1] ? moment(this.filter.date[1]).format('DD/MM/YYYY') : '';
-
+    this.loading = true;
     this.debitSV.getDebitHistory(this.filter).subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;
@@ -86,5 +88,26 @@ export class DebitHistoryComponent implements OnInit {
 
   formatDate(date, fm) {
     return moment(date).format('DD/MM/YYYY');
+  }
+
+  confirmDelete(id) {
+    this.modalService.confirm({
+      nzTitle: 'Bạn có chắc xóa dòng này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.delete({ id: id }),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  delete(objId) {
+    this.debitSV.deleteDebitSupplier(objId).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Xóa thành công!');
+        this.getAll();
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
+      }
+    })
   }
 }

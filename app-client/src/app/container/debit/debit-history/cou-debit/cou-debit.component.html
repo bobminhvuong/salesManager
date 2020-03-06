@@ -1,0 +1,70 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Sửa phiếu chi' : 'Tạo phiếu chi'}}" nzOkText="Xác nhận"
+  nzCancelText="Hủy" (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="40%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="store_id">Chi nhánh</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select nzShowSearch nzAllowClear formControlName="store_id" nzPlaceHolder="Chọn chi nhánh">
+          <nz-option *ngFor="let item of stores" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="validateForm.get('store_id')?.dirty && validateForm.get('store_id')?.errors">
+          Chọn chi nhánh!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select nzShowSearch nzAllowClear formControlName="supplier_id" nzPlaceHolder="Chọn nhà cung cấp">
+          <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="validateForm.get('supplier_id')?.dirty && validateForm.get('supplier_id')?.errors">
+          Chọn nhà cung cấp!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cashbook_source_id" nzRequired>Nguồn tiền</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select nzShowSearch nzAllowClear formControlName="supplier_id" nzPlaceHolder="Chọn nguồn tiền">
+          <nz-option *ngFor="let item of cashbooks" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="validateForm.get('cashbook_source_id')?.dirty && validateForm.get('cashbook_source_id')?.errors">
+          Chọn nhà nguồn tiền!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="date" nzRequired>Ngày trả tiền</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="date">
+        </nz-date-picker>
+        <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+          Ngày cấp không được để trống
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="price" nzRequired>Số tiền</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input id="price" formControlName="price"  [(appFormatVN)]="price" />
+        <nz-form-explain *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
+          Số tiền không được để trống!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note" nzRequired>Ghi chú</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="note" nz-input rows="2" placeholder="nhập ghi chú"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

@@ -111,10 +111,6 @@ export class TransactionComponent implements OnInit {
     });
   }
 
-  chooseProd(id) {
-    this.filter.product_id = id;
-  }
-
   delete(objId) {
     this.warehouseSV.deleteTransaction(objId).subscribe(r => {
       if (r && r.status == 1) {
@@ -125,6 +121,12 @@ export class TransactionComponent implements OnInit {
       }
     })
   }
+
+  chooseProd(id) {
+    this.filter.product_id = id;
+  }
+
+  
 
   formatDate(date, format) {
     return date ? moment(date).format(format) : '';

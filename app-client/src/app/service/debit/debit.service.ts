@@ -25,7 +25,7 @@ export class DebitService {
     );
   }
 
-  addDebitSupplier(object): Observable<any> {
+  addOrEditDebitSupplier(object): Observable<any> {
     object.api =this.mainSV.getApikey();
     return this.http.post(environment.APIHOST + '/api/Debit/Supplier/Add', object,this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)

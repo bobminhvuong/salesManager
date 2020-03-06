@@ -47,7 +47,7 @@ export class ProductComponent implements OnInit {
     this.filter.offset = (this.pageIndex - 1) * this.pageSize;
     this.filter.limit = this.pageSize;
     this.filter.active = this.filter.activeTmp == '1' ? true : false;
-
+    this.loading = true;
     this.productSV.getAllProduct(this.filter).subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;

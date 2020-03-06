@@ -29,6 +29,7 @@ export class ListWarehouseComponent implements OnInit {
   }
 
   getAll() {
+    this.loading = true;
     this.whSV.getAllWH().subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;

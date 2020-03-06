@@ -37,7 +37,7 @@ export class CustomerComponent implements OnInit {
       offset: 0,
       limit: 50
     }
-
+    this.loading = true;
     this.customerSV.getAll(val).subscribe(res => {
       if (res && res.status == 1) {
         this.listOfData = res.data;
