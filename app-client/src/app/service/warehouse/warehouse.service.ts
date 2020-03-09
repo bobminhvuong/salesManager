@@ -91,4 +91,11 @@ export class WarehouseService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  getTransactionBySupplier(objectFilter): Observable<any> {
+    objectFilter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/debit/supplier/GetTransaction', objectFilter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

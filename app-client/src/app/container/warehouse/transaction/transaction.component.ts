@@ -1,3 +1,4 @@
+import { SupplierService } from './../../../service/partner/supplier.service';
 import { ProductService } from './../../../service/product/product.service';
 import { WarehouseService } from './../../../service/warehouse/warehouse.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
@@ -26,12 +27,15 @@ export class TransactionComponent implements OnInit {
   dateRecived = new Date();
   timeId: any = null;
   inputSearchProd = '';
+  suppliers = [];
   filter = {
     date: null,
     dest_id: '0',
     product_id: 0,
     from: '',
     to: '',
+    supplier_id: '0',
+    transaction_type_id: '0',
     offset: this.pageIndex - 1,
     limit: this.pageSize
   };
@@ -40,15 +44,13 @@ export class TransactionComponent implements OnInit {
     private message: NzMessageService,
     private warehouseSV: WarehouseService,
     private productSV: ProductService,
+    private supplierSV: SupplierService
   ) { }
 
   ngOnInit() {
     this.getAll();
-    this.warehouseSV.getAllWH().subscribe(r => {
-      if (r && r.status == 1) {
-        this.warehouses = r.data;
-      }
-    })
+    this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) { this.warehouses = r.data; } })
+    this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) { this.suppliers = r.data; } })
   }
 
   onSearchProduct(value) {
@@ -126,7 +128,7 @@ export class TransactionComponent implements OnInit {
     this.filter.product_id = id;
   }
 
-  
+
 
   formatDate(date, format) {
     return date ? moment(date).format(format) : '';

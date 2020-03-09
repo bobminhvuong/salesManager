@@ -1,5 +1,5 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{dataEdit.id ? 'Sửa phiếu chi' : 'Tạo phiếu chi'}}" nzOkText="Xác nhận"
-  nzCancelText="Hủy" (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="40%">
+  nzCancelText="Hủy" (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="60%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
     <nz-form-item>
@@ -26,15 +26,63 @@
       </nz-form-control>
     </nz-form-item>
 
+    <div class="box box-success" *ngIf="listOfData.length > 0">
+      <div class="box-body">
+        <div class="table-responsive">
+          <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+            [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+            nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
+            (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
+            <thead>
+              <tr>
+                <th width="3%" class="text-center">STT</th>
+                <th width="5%" class="mw-50 text-center">
+                  ID
+                </th>
+                <th width="15%" class="mw-100">
+                  Người tạo
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Ngày tạo
+                </th>
+                <th width="10%" class="text-center mw-100">
+                  Kho nhận
+                </th>
+                <th width="20%" class="text-center mw-100">
+                  Thanh toán / Số nợ
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Ghi chú
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of ajaxTable.data;let i = index">
+                <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
+                <td class="text-center ">{{ data.id }}</td>
+                <td>{{ data.created_user_name }}</td>
+                <td class="text-center ">{{ data.created_date }}</td>
+                <td class="text-center ">{{ data.dest_name }}</td>
+                <td class="text-right" [ngClass]="{'text-danger': data.paid != data.debit}">{{ data.paid | number}} /
+                  {{ data.debit | number}} đ</td>
+                <td>{{ data.note }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+
+
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cashbook_source_id" nzRequired>Nguồn tiền</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-select nzShowSearch nzAllowClear formControlName="supplier_id" nzPlaceHolder="Chọn nguồn tiền">
+        <nz-select nzShowSearch nzAllowClear formControlName="cashbook_source_id" nzPlaceHolder="Chọn nguồn tiền">
           <nz-option *ngFor="let item of cashbooks" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
         </nz-select>
         <nz-form-explain
           *ngIf="validateForm.get('cashbook_source_id')?.dirty && validateForm.get('cashbook_source_id')?.errors">
-          Chọn nhà nguồn tiền!
+          Chọn nguồn tiền!
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
@@ -53,7 +101,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="price" nzRequired>Số tiền</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input id="price" formControlName="price"  [(appFormatVN)]="price" />
+        <input nz-input id="price" formControlName="price" [(appFormatVN)]="price" />
         <nz-form-explain *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
           Số tiền không được để trống!
         </nz-form-explain>
@@ -61,7 +109,7 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note" nzRequired>Ghi chú</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note">Ghi chú</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <textarea formControlName="note" nz-input rows="2" placeholder="nhập ghi chú"></textarea>
       </nz-form-control>

@@ -18,6 +18,41 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
+            <nz-select style="width: 220px;" nzShowSearch nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
+              <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of warehouses" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select style="width: 220px;" nzShowSearch nzPlaceHolder="Kho" [(ngModel)]="filter.supplier_id">
+              <nz-option nzLabel="Tất cả nhà cung cấp" nzValue="0"></nz-option>
+              <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select style="width: 220px;" nzShowSearch nzPlaceHolder="Kho" [(ngModel)]="filter.transaction_type_id">
+              <nz-option nzLabel="Tất cả loại" nzValue="0"></nz-option>
+              <nz-option nzLabel="Nhập kho" nzValue="1"></nz-option>
+              <nz-option nzLabel="Xuất kho" nzValue="2"></nz-option>
+              <nz-option nzLabel="Chuyển kho" nzValue="3"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
             <input style="border-radius:4px" nz-input type="text" placeholder="Tìm hàng hóa" [(ngModel)]="inputSearchProd"
               (input)="onSearchProduct($event.target?.value)" [nzAutocomplete]="autoSearchPrd1"/>
             <nz-autocomplete nzBackfill #autoSearchPrd1>
@@ -27,17 +62,6 @@
                 {{ option.supplier_name ?  ' ('+option.supplier_name+')': '' }}
               </nz-auto-option>
             </nz-autocomplete>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control>
-          <nz-input-group>
-            <nz-select style="width: 220px;" nzShowSearch nzAllowClear nzPlaceHolder="Kho" [(ngModel)]="filter.dest_id">
-              <nz-option nzLabel="Tất cả kho" nzValue="0"></nz-option>
-              <nz-option *ngFor="let item of warehouses" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
-            </nz-select>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>

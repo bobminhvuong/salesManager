@@ -31,7 +31,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
-            <nz-select style="width: 180px;" nzShowSearch nzAllowClear nzPlaceHolder="Nhà cung cấp"
+            <nz-select style="width: 180px;" nzShowSearch  nzPlaceHolder="Nhà cung cấp"
               [(ngModel)]="filter.supplier_id">
               <nz-option nzLabel="Tất cả nhà cung cấp" nzValue="0"></nz-option>
               <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>

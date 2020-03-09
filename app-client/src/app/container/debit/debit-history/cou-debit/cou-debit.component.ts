@@ -1,8 +1,8 @@
+import { WarehouseService } from './../../../../service/warehouse/warehouse.service';
 import { DebitService } from './../../../../service/debit/debit.service';
 import { SupplierService } from './../../../../service/partner/supplier.service';
 import { CashbookService } from './../../../../service/cashbook/cashbook.service';
 import { StoreService } from './../../../../service/store/store.service';
-import { CustomerService } from './../../../../service/customer/customer.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -23,15 +23,26 @@ export class CouDebitComponent implements OnInit {
   dateFormat = 'YYYY/MM/DD';
   suppliers = [];
   cashbooks = [];
+  pageIndex = 1;
+  pageSize = 10;
+  total = 1;
+  listOfData = [];
+  loading = true;
   stores = [];
   price = null;
+  filter={
+    offset: 0,
+    limit:20,
+    supplier_id: '0'
+  }
   constructor(
     private storeSV: StoreService,
     private cashbookSV: CashbookService,
     private supplierSV: SupplierService,
     private fb: FormBuilder,
     private message: NzMessageService,
-    private debitSV: DebitService) { }
+    private debitSV: DebitService,
+    private warehouseSV: WarehouseService) { }
 
   ngOnInit() {
     let data = this.dataEdit;
@@ -44,9 +55,27 @@ export class CouDebitComponent implements OnInit {
       price: [data && data.id ? data.price : null, [Validators.required]],
       note: [data && data.id ? data.note : null],
     });
-    this.storeSV.getAllStore().subscribe(r => { if (r && r.status == 1) this.stores = r.data; })
-    this.cashbookSV.getCashbookSource().subscribe(r => { if (r && r.status == 1) this.cashbooks = r.data; })
-    this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; })
+    this.storeSV.getAllStore().subscribe(r => { if (r && r.status == 1) this.stores = r.data; });
+    this.cashbookSV.getCashbookSource().subscribe(r => { if (r && r.status == 1) this.cashbooks = r.data; });
+    this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; });
+
+    this.validateForm.get('supplier_id').valueChanges.subscribe(r=>{
+      this.filter.supplier_id = r;
+      this.getAll();
+    })
+  }
+
+  getAll() {
+    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
+    this.filter.limit = this.pageSize;
+    this.loading = true;
+    this.warehouseSV.getTransactionBySupplier(this.filter).subscribe(res => {
+      if (res && res.status == 1) {
+        this.listOfData = res.data;
+        this.loading = false;
+        this.total = res.total;
+      }
+    });
   }
 
   handleCancel(): void {
