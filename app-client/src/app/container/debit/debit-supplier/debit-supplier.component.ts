@@ -17,9 +17,16 @@ export class DebitSupplierComponent implements OnInit {
   isVisible = false;
   pageIndex = 1;
   pageSize = 20;
-  total = 1;
+  total = 0;
   listOfData = [];
   loading = true;
+
+  pageIndexTran = 1;
+  pageSizeTran = 10;
+  totalTran = 0;
+  listOfDataTran = [];
+  loadingTran = false;
+
   dataEdit: any | null = null;
   filterForm: FormGroup;
   previewImage: string | undefined = '';
@@ -32,6 +39,12 @@ export class DebitSupplierComponent implements OnInit {
     offset: 0
   }
 
+  filterTran = {
+    supplier_id: 0,
+    limit: 0,
+    offset: 0
+  };
+  
   constructor(
     private modalService: NzModalService,
     private message: NzMessageService,
@@ -69,7 +82,7 @@ export class DebitSupplierComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.getAll();
+    this.getTransactionBySupplier();
   }
 
   handleFilter() {
@@ -81,14 +94,31 @@ export class DebitSupplierComponent implements OnInit {
     return moment(date).format(fm);
   }
 
-  handleView(data) {
-    let object = {
-      
-    }
-    this.warehouseSV.getTransactionBySupplier().subscribe(r=>{
-      if(r && r.status ==1){
-
+  getTransactionBySupplier(){
+    this.filterTran.offset = (this.pageIndexTran - 1) * this.pageSizeTran;
+    this.filterTran.limit = this.pageSizeTran;
+    this.loadingTran = true;
+    this.warehouseSV.getTransactionBySupplier(this.filterTran).subscribe(res => {
+      if (res && res.status == 1) {
+        this.listOfDataTran = res.data;
+        this.loadingTran = false;
+        this.totalTran = res.total;
       }
     })
+  }
+
+  handleView(data) {
+    console.log(data);
+    
+    if(data.id != this.filterTran.supplier_id){
+      this.listOfDataTran = [];
+      this.pageIndexTran =1;
+      this.pageSizeTran =10;
+      this.totalTran = 0;
+      this.filterTran.supplier_id = data.id;
+      this.getTransactionBySupplier();
+    }else{
+      this.filterTran.supplier_id = 0;
+    }
   }
 }

@@ -1,6 +1,11 @@
 <div nz-row class="mgbt20">
-  <div nz-col nzSpan="24">
+  <div nz-col nzSpan="18">
     <h3>Phiếu chi công nợ</h3>
+  </div>
+  <div nz-col nzSpan="6">
+    <a [routerLink]="['/manager/debit-history']" routerLinkActive="router-link-active"  class="float-right" nz-button nzType="primary">
+      <i nz-icon nzType="left" nzTheme="outline"></i>
+      Phiếu chi</a>
   </div>
 </div>
 <div class="box box-success">
@@ -30,6 +35,7 @@
     <div class="table-responsive">
       <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
         [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+        nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
         (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
         <thead>
           <tr>
@@ -47,15 +53,66 @@
 
           <ng-template ngFor let-data [ngForOf]="ajaxTable.data">
             <tr>
-              <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]" (nzExpandChange)="handleView(data)"></td>
+              <td nzShowExpand (nzExpandChange)="handleView(data)"></td>
               <!-- <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +index}}</td> -->
               <td>{{ data.name }}</td>
               <td class="text-right">{{ data.debit | number}} đ</td>
             </tr>
-            <tr [nzExpand]="mapOfExpandData[data.id]">
+            <tr *ngIf="filterTran.supplier_id == data.id">
               <td colspan="3">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1" >
+                  <div class="box box-success">
+                    <div class="table-responsive">
+                      <nz-table nzBordered #ajaxTable nzShowSizeChanger 
+                      [nzFrontPagination]="false" 
+                      [nzData]="listOfDataTran"
+                        [nzLoading]="loadingTran" 
+                        [nzTotal]="totalTran" 
+                        [(nzPageIndex)]="pageIndexTran" 
+                        [(nzPageSize)]="pageSizeTran" 
+                        (nzPageIndexChange)="getTransactionBySupplier()" 
+                        (nzPageSizeChange)="getTransactionBySupplier()"
+                        nzFooter="Hiển thị {{ (pageSizeTran > listOfDataTran.length) ? listOfDataTran.length : pageSizeTran  }} trên tổng số {{ totalTran}}">
+                        <thead>
+                          <tr>
+                            <th width="3%" class="text-center">STT</th>
+                            <th width="5%" class="mw-100 text-center">
+                              Số phiếu
+                            </th>
+                            <th width="10%" class="mw-100 text-center">
+                              Ngày tạo
+                            </th>
+                            <th width="10%" class="mw-100 text-center">
+                              Ngày nhận
+                            </th>
+                            <th width="10%" class="mw-100 text-center">
+                              Kho nhận
+                            </th>
+                            <th width="15%" class="mw-100">
+                              Ghi chú
+                            </th>
+                            <th width="10%" class="text-center mw-100"><span>Hành động</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let data of ajaxTable.data;let i = index">
+                            <td class="text-center">{{ ((pageIndexTran -1) * pageSizeTran)+ 1 +i}}</td>
+                            <td class="text-center">{{ data.id }}</td>
+                            <td class="text-center">{{ data.created_date }}</td>
+                            <td class="text-center">{{ data.received_date  }}</td>
+                            <td class="text-center">{{ data.dest_name  }}</td>
+                            <td>{{ data.note  }}</td>
+                            <td class="cttd" class="text-center">
+                              <div zn-row>
+                                <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"
+                                  (click)="handleCorU(data)" nzTheme="outline"></i>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </nz-table>
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -65,3 +122,8 @@
     </div>
   </div>
 </div>
+
+
+<app-view-transaction *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+  class="fade in">
+</app-view-transaction>

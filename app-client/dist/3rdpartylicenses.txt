@@ -162,6 +162,8 @@ ng-zorro-antd/button
 
 ng-zorro-antd/checkbox
 
+ng-zorro-antd/collapse
+
 ng-zorro-antd/date-picker
 
 ng-zorro-antd/drawer
