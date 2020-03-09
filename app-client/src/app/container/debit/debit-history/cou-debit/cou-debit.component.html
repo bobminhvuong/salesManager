@@ -14,64 +14,7 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-select nzShowSearch nzAllowClear formControlName="supplier_id" nzPlaceHolder="Chọn nhà cung cấp">
-          <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="validateForm.get('supplier_id')?.dirty && validateForm.get('supplier_id')?.errors">
-          Chọn nhà cung cấp!
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
 
-    <div class="box box-success" *ngIf="listOfData.length > 0">
-      <div class="box-body">
-        <div class="table-responsive">
-          <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-            [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-            nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
-            (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
-            <thead>
-              <tr>
-                <th width="3%" class="text-center">STT</th>
-                <th width="5%" class="mw-50 text-center">
-                  ID
-                </th>
-                <th width="15%" class="mw-100">
-                  Người tạo
-                </th>
-                <th width="15%" class="text-center mw-100">
-                  Ngày tạo
-                </th>
-                <th width="10%" class="text-center mw-100">
-                  Kho nhận
-                </th>
-                <th width="20%" class="text-center mw-100">
-                  Thanh toán / Số nợ
-                </th>
-                <th width="15%" class="text-center mw-100">
-                  Ghi chú
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of ajaxTable.data;let i = index">
-                <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
-                <td class="text-center ">{{ data.id }}</td>
-                <td>{{ data.created_user_name }}</td>
-                <td class="text-center ">{{ data.created_date }}</td>
-                <td class="text-center ">{{ data.dest_name }}</td>
-                <td class="text-right" [ngClass]="{'text-danger': data.paid != data.debit}">{{ data.paid | number}} /
-                  {{ data.debit | number}} đ</td>
-                <td>{{ data.note }}</td>
-              </tr>
-            </tbody>
-          </nz-table>
-        </div>
-      </div>
-    </div>
 
 
     <nz-form-item>
@@ -114,5 +57,66 @@
         <textarea formControlName="note" nz-input rows="2" placeholder="nhập ghi chú"></textarea>
       </nz-form-control>
     </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="supplier_id">Nhà cung cấp</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select nzShowSearch nzAllowClear formControlName="supplier_id" nzPlaceHolder="Chọn nhà cung cấp">
+          <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+        </nz-select>
+        <nz-form-explain *ngIf="validateForm.get('supplier_id')?.dirty && validateForm.get('supplier_id')?.errors">
+          Chọn nhà cung cấp!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="tran.name" [nzActive]="tran.active">
+        <div class="table-responsive">
+          <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+            [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+            nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
+            (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
+            <thead>
+              <tr>
+                <th width="3%" class="text-center">STT</th>
+                <th width="5%" class="mw-50 text-center">
+                  ID
+                </th>
+                <th width="15%" class="mw-100">
+                  Người tạo
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Ngày tạo
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Kho nhận
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Thanh toán / Số nợ
+                </th>
+                <th width="15%" class="text-center mw-100">
+                  Ghi chú
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of ajaxTable.data;let i = index" class=""
+                [ngClass]="{ 'bg-success':tran.id == data.id }" (click)="handleTransaction(data)">
+                <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +i}}</td>
+                <td class="text-center ">{{ data.id }}</td>
+                <td>{{ data.created_user_name }}</td>
+                <td class="text-center ">{{ data.created_date }}</td>
+                <td class="text-center ">{{ data.dest_name }}</td>
+                <td class="text-right" [ngClass]="{'text-danger': data.paid != data.debit}">
+                  {{ data.paid | number}} / {{ data.debit | number}} đ</td>
+                <td>{{ data.note }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
   </form>
 </nz-modal>

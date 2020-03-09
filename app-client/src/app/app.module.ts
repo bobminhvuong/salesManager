@@ -62,6 +62,7 @@ import { ReportBatchProductComponent } from './container/warehouse/report-wareho
 import { DebitSupplierComponent } from './container/debit/debit-supplier/debit-supplier.component';
 import { DebitHistoryComponent } from './container/debit/debit-history/debit-history.component';
 import { CouDebitComponent } from './container/debit/debit-history/cou-debit/cou-debit.component';
+import { NotFoundComponent } from './container/errPage/not-found/not-found.component';
 
 registerLocaleData(en);
 
@@ -109,7 +110,8 @@ registerLocaleData(en);
     ReportBatchProductComponent,
     DebitSupplierComponent,
     DebitHistoryComponent,
-    CouDebitComponent
+    CouDebitComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

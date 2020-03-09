@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './../container/errPage/not-found/not-found.component';
 import { DebitSupplierComponent } from './../container/debit/debit-supplier/debit-supplier.component';
 import { DebitHistoryComponent } from './../container/debit/debit-history/debit-history.component';
 import { MoveOutTransactionComponent } from './../container/warehouse/transaction/move-out-transaction/move-out-transaction.component';
@@ -60,6 +61,7 @@ const routes: Routes = [
 
         ]
     },
+    { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

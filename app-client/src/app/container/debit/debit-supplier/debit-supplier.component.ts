@@ -1,3 +1,4 @@
+import { WarehouseService } from './../../../service/warehouse/warehouse.service';
 import { SupplierService } from './../../../service/partner/supplier.service';
 import { DebitService } from './../../../service/debit/debit.service';
 import { CustomerService } from './../../../service/customer/customer.service';
@@ -24,7 +25,7 @@ export class DebitSupplierComponent implements OnInit {
   previewImage: string | undefined = '';
   previewVisible = false;
   suppliers = [];
-
+  mapOfExpandData: { [key: string]: boolean } = {};
   filter = {
     supplier_id: '0',
     limit: 0,
@@ -36,7 +37,8 @@ export class DebitSupplierComponent implements OnInit {
     private message: NzMessageService,
     private fb: FormBuilder,
     private debitSV: DebitService,
-    private supplierSV: SupplierService
+    private supplierSV: SupplierService,
+    private warehouseSV: WarehouseService
   ) { }
 
   ngOnInit() {
@@ -71,11 +73,22 @@ export class DebitSupplierComponent implements OnInit {
   }
 
   handleFilter() {
-    this.pageIndex =1;
+    this.pageIndex = 1;
     this.getAll();
   }
 
   formatDate(date, fm) {
     return moment(date).format(fm);
+  }
+
+  handleView(data) {
+    let object = {
+      
+    }
+    this.warehouseSV.getTransactionBySupplier().subscribe(r=>{
+      if(r && r.status ==1){
+
+      }
+    })
   }
 }

@@ -30,11 +30,17 @@ export class CouDebitComponent implements OnInit {
   loading = true;
   stores = [];
   price = null;
-  filter={
+  filter = {
     offset: 0,
-    limit:20,
+    limit: 20,
     supplier_id: '0'
-  }
+  };
+  tran = {
+    name: 'Chọn phiếu nhập kho',
+    active: false,
+    data: {},
+    id: 0
+  };
   constructor(
     private storeSV: StoreService,
     private cashbookSV: CashbookService,
@@ -59,9 +65,17 @@ export class CouDebitComponent implements OnInit {
     this.cashbookSV.getCashbookSource().subscribe(r => { if (r && r.status == 1) this.cashbooks = r.data; });
     this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; });
 
-    this.validateForm.get('supplier_id').valueChanges.subscribe(r=>{
-      this.filter.supplier_id = r;
-      this.getAll();
+    this.validateForm.get('supplier_id').valueChanges.subscribe(r => {
+      if(this.filter.supplier_id != r){
+        this.filter.supplier_id = r;
+        this.getAll();
+        this.tran = {
+          name: 'Chọn phiếu nhập kho',
+          active: false,
+          data: {},
+          id: 0
+        };
+      }
     })
   }
 
@@ -74,6 +88,7 @@ export class CouDebitComponent implements OnInit {
         this.listOfData = res.data;
         this.loading = false;
         this.total = res.total;
+        this.tran.active = true;
       }
     });
   }
@@ -93,6 +108,14 @@ export class CouDebitComponent implements OnInit {
       data = { ...this.dataEdit, ...data };
       data.date = moment(data.date).format('DD/MM/YYYY');
       data.price = Number(data.price.toString().replace(/,/g, ''));
+      console.log(this.tran);
+      console.log(123123123);
+      
+      if(this.tran.id ==0){
+        this.message.create('error','Bạn chưa chọn chiếu nhập kho!');
+        return;
+      }
+      data.warehouse_transaction_id = this.tran.id;
       this.debitSV.addOrEditDebitSupplier(data).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
@@ -103,5 +126,13 @@ export class CouDebitComponent implements OnInit {
       });
     }
   }
+  handleTransaction(tran) {
+    
+    this.tran.active = false;
+    this.tran.name = `Phiếu xuất: ${tran.id} (${tran.created_date})`;
+    this.tran.data = tran;
+    this.tran.id = tran.id;
+    console.log(this.tran);
 
+  }
 }
