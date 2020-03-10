@@ -76,6 +76,7 @@ export class DebitSupplierComponent implements OnInit {
   }
 
   handleCorU(client) {
+    client.getInfo = true;
     this.dataEdit = client ? client : {};
     this.isVisible = true;
   }

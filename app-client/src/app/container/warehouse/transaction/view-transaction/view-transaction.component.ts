@@ -19,6 +19,7 @@ export class ViewTransactionComponent implements OnInit {
   @Output() closeModal = new EventEmitter();
   validateForm: FormGroup;
   units = [];
+  loading = true;
   isVisibleBatch = false;
   groupProds = [];
   typePacks = [];
@@ -51,24 +52,28 @@ export class ViewTransactionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.dataEdit.id) {
+      let ft = {
+        transaction_id: this.dataEdit.id,
+        getinfo: this.dataEdit.getInfo ? this.dataEdit.getInfo : false
+      };
+      this.warehouseSV.getTransactionDetail(ft).subscribe(r => {
+        if (r && r.status == 1) {
+          if(this.dataEdit.getInfo){
+            this.dataEdit = { ...this.dataEdit, ...r.info[0] };
+          }
+          this.listProduct = r.data;
+          this.handelCaculateProd();
+          this.loadInitData();
+        }
+      });
+    }
 
-    let source_id = this.dataEdit.id ? this.dataEdit.source_id : (this.dataEdit.transaction_type_id == 1 ? 0 : null);
-    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id : (this.dataEdit.transaction_type_id == 0 ? 0 : null);
-    this.validateForm = this.fb.group({
-      transaction_type_id: [this.dataEdit.transaction_type_id + '', [Validators.required]],
-      source_id: [source_id + '', [Validators.required]],
-      dest_id: [dest_id + '', [Validators.required]],
-      supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
-      product_id: [null],
-      note: ['']
-    });
-
-    this.loadInitData();
   }
 
   getTitle() {
     if (this.dataEdit.id) {
-      if (this.dataEdit.transaction_type_id == 1) {
+      if (this.dataEdit.transaction_type_id == 1 || this.dataEdit.getInfo) {
         return 'Cập nhật phiếu nhập kho';
       }
       if (this.dataEdit.transaction_type_id == 2) {
@@ -90,14 +95,17 @@ export class ViewTransactionComponent implements OnInit {
     this.productSV.getGroupProd().subscribe(r => { if (r && r.status == 1) this.groupProds = r.data; });
     this.supplierSV.getAll().subscribe(r => { if (r && r.status == 1) this.suppliers = r.data; });
     this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
-    if (this.dataEdit.id) {
-      this.warehouseSV.getTransactionDetail({ transaction_id: this.dataEdit.id }).subscribe(r => {
-        if (r && r.status == 1) {
-          this.listProduct = r.data;
-          this.handelCaculateProd();
-        }
-      });
-    }
+    let source_id = this.dataEdit.id ? this.dataEdit.source_id : (this.dataEdit.transaction_type_id == 1 ? 0 : null);
+    let dest_id = this.dataEdit.id ? this.dataEdit.dest_id : (this.dataEdit.transaction_type_id == 0 ? 0 : null);
+    this.validateForm = this.fb.group({
+      transaction_type_id: [this.dataEdit.transaction_type_id + '', [Validators.required]],
+      source_id: [source_id + '', [Validators.required]],
+      dest_id: [dest_id + '', [Validators.required]],
+      supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
+      product_id: [null],
+      note: ['']
+    });
+    this.loading = false;
   }
 
   getProducts(ft) {
