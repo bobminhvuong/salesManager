@@ -82,7 +82,7 @@ export class DebitSupplierComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.getTransactionBySupplier();
+    this.getDebitBySupplier();
   }
 
   handleFilter() {
@@ -94,11 +94,11 @@ export class DebitSupplierComponent implements OnInit {
     return moment(date).format(fm);
   }
 
-  getTransactionBySupplier(){
+  getDebitBySupplier(){
     this.filterTran.offset = (this.pageIndexTran - 1) * this.pageSizeTran;
     this.filterTran.limit = this.pageSizeTran;
     this.loadingTran = true;
-    this.warehouseSV.getTransactionBySupplier(this.filterTran).subscribe(res => {
+    this.warehouseSV.getDebitBySupplier(this.filterTran).subscribe(res => {
       if (res && res.status == 1) {
         this.listOfDataTran = res.data;
         this.loadingTran = false;
@@ -108,15 +108,13 @@ export class DebitSupplierComponent implements OnInit {
   }
 
   handleView(data) {
-    console.log(data);
-    
     if(data.id != this.filterTran.supplier_id){
       this.listOfDataTran = [];
       this.pageIndexTran =1;
       this.pageSizeTran =10;
       this.totalTran = 0;
       this.filterTran.supplier_id = data.id;
-      this.getTransactionBySupplier();
+      this.getDebitBySupplier();
     }else{
       this.filterTran.supplier_id = 0;
     }

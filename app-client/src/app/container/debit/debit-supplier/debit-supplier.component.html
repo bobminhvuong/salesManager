@@ -70,37 +70,41 @@
                         [nzTotal]="totalTran" 
                         [(nzPageIndex)]="pageIndexTran" 
                         [(nzPageSize)]="pageSizeTran" 
-                        (nzPageIndexChange)="getTransactionBySupplier()" 
-                        (nzPageSizeChange)="getTransactionBySupplier()"
+                        (nzPageIndexChange)="getDebitBySupplier()" 
+                        (nzPageSizeChange)="getDebitBySupplier()"
                         nzFooter="Hiển thị {{ (pageSizeTran > listOfDataTran.length) ? listOfDataTran.length : pageSizeTran  }} trên tổng số {{ totalTran}}">
                         <thead>
                           <tr>
-                            <th width="3%" class="text-center">STT</th>
                             <th width="5%" class="mw-100 text-center">
                               Số phiếu
                             </th>
-                            <th width="10%" class="mw-100 text-center">
-                              Ngày tạo
+                            <th width="10%" class="mw-150 text-center">
+                              Ngày 
+                            </th>
+                            <th width="10%" class="mw-50 text-center">
+                             Loại
                             </th>
                             <th width="10%" class="mw-100 text-center">
-                              Ngày nhận
-                            </th>
-                            <th width="10%" class="mw-100 text-center">
-                              Kho nhận
-                            </th>
-                            <th width="15%" class="mw-100">
+                              Số tiền
+                             </th>
+                            <th width="15%" class="mw-150">
                               Ghi chú
                             </th>
-                            <th width="10%" class="text-center mw-100"><span>Hành động</span></th>
+                            <th width="10%" class="text-center mw-50"><span>Hành động</span></th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let data of ajaxTable.data;let i = index">
-                            <td class="text-center">{{ ((pageIndexTran -1) * pageSizeTran)+ 1 +i}}</td>
                             <td class="text-center">{{ data.id }}</td>
-                            <td class="text-center">{{ data.created_date }}</td>
-                            <td class="text-center">{{ data.received_date  }}</td>
-                            <td class="text-center">{{ data.dest_name  }}</td>
+                            <td class="text-center">{{ data.received_date }}</td>
+                            <td class="text-center">
+                              <span class="badge" [ngClass]="{ 'badge-danger': data.type =='debit' , 'badge-success': data.type =='paid' }" >
+                                {{ data.type == 'debit' ? 'Tiền nợ' : 'Đã trả' }}
+                              </span>
+                            </td>
+                            <td class="text-right">
+                              {{ data.price | number }} đ
+                            </td>
                             <td>{{ data.note  }}</td>
                             <td class="cttd" class="text-center">
                               <div zn-row>
