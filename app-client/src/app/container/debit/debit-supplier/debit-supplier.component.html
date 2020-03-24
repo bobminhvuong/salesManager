@@ -87,6 +87,9 @@
                             <th width="10%" class="mw-100 text-center">
                               Số tiền
                              </th>
+                             <th width="10%" class="mw-100 text-center">
+                              Dư nợ
+                             </th>
                             <th width="15%" class="mw-150">
                               Ghi chú
                             </th>
@@ -104,6 +107,9 @@
                             </td>
                             <td class="text-right">
                               {{ data.price | number }} đ
+                            </td>
+                            <td class="text-right">
+                              {{ data.debit | number }} đ
                             </td>
                             <td>{{ data.note  }}</td>
                             <td class="cttd" class="text-center">
