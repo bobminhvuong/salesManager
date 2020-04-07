@@ -34,6 +34,7 @@
                   (ngModelChange)="handelChangeTransaction($event)">
                   <nz-option nzLabel="Xuất kho" nzValue="2"></nz-option>
                   <nz-option nzLabel="Chuyển kho" nzValue="3"></nz-option>
+                  <nz-option nzLabel="Trả hàng NCC" nzValue="4"></nz-option>
                 </nz-select>
                 <nz-form-explain
                   *ngIf="validateForm.get('transaction_type_id')?.dirty && validateForm.get('transaction_type_id')?.errors">
@@ -58,7 +59,7 @@
             </nz-form-item>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="transaction_type ==3">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="transaction_type ==2">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="dest_id">Kho nhận </nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -72,6 +73,21 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+
+          <div class="col-12 col-sm-6 col-md-6 col-lg-6" *ngIf="transaction_type ==4">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="supplier_id">Nhà cung cấp </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-select  nzShowSearch  nzPlaceHolder="Nhà cung cấp"
+                  formControlName="supplier_id">
+                  <nz-option nzValue="0" nzLabel="--Không--"></nz-option>
+                  <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
 
           <div class="col-12 col-sm-6 col-md-6 col-lg-6">
             <nz-form-item>
@@ -146,14 +162,12 @@
               </td>
               <td class="text-center">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                  <nz-select style="width: 80%;float: left;" *ngIf="item.is_batch" nzShowSearch
+                  <nz-select style="width: 100%;" *ngIf="item.is_batch" nzShowSearch
                     nzPlaceHolder="Chọn lô hàng" [(ngModel)]="item.product_batch_id">
                     <nz-option *ngFor="let i of batchs"
                       nzLabel="{{ i.batch_code+' ('+ formatDate(i.mfg_date,'DD/MM/YYYY')+')' }}" nzValue="{{ i.id }}">
                     </nz-option>
                   </nz-select>
-                  <i nz-icon style="padding: 0;" nzType="plus" nz-tooltip nzTitle="Thêm lô"
-                    class="iconAction text-primary" (click)="addBatch(item.product_id)" nzTheme="outline"></i>
                 </div>
               </td>
               <td class="text-center">

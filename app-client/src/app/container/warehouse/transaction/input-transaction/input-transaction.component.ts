@@ -246,7 +246,8 @@ export class InputTransactionComponent implements OnInit {
   chooseProd(val) {
     if (val > 0) {
       let prod = this.products.find(r => { return r.id == val; });
-      let checkHasProd = this.listProduct.find(r => { return r.id == val });
+      let checkHasProd = this.listProduct.find(r => { return r.product_id == val });
+      
       if (checkHasProd) {
         this.message.create('error', 'Bạn đã chọn hàng hóa này!');
       } else {

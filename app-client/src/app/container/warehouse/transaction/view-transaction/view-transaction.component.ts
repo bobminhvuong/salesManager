@@ -59,7 +59,7 @@ export class ViewTransactionComponent implements OnInit {
       };
       this.warehouseSV.getTransactionDetail(ft).subscribe(r => {
         if (r && r.status == 1) {
-          if(this.dataEdit.getInfo){
+          if (this.dataEdit.getInfo) {
             this.dataEdit = { ...this.dataEdit, ...r.info[0] };
           }
           this.listProduct = r.data;
@@ -97,8 +97,11 @@ export class ViewTransactionComponent implements OnInit {
     this.warehouseSV.getAllWH().subscribe(r => { if (r && r.status == 1) this.warehouses = r.data; });
     let source_id = this.dataEdit.id ? this.dataEdit.source_id : (this.dataEdit.transaction_type_id == 1 ? 0 : null);
     let dest_id = this.dataEdit.id ? this.dataEdit.dest_id : (this.dataEdit.transaction_type_id == 0 ? 0 : null);
+    this.dataEdit.transaction_type_id = (this.dataEdit.transaction_type_id == 2 && this.dataEdit.supplier_id > 0) ? '4' : this.dataEdit.transaction_type_id + '';
+    this.transaction_type = this.dataEdit.transaction_type_id;
+
     this.validateForm = this.fb.group({
-      transaction_type_id: [this.dataEdit.transaction_type_id + '', [Validators.required]],
+      transaction_type_id: [this.dataEdit.transaction_type_id, [Validators.required]],
       source_id: [source_id + '', [Validators.required]],
       dest_id: [dest_id + '', [Validators.required]],
       supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
@@ -163,6 +166,15 @@ export class ViewTransactionComponent implements OnInit {
         return;
       }
 
+      if (tran.transaction_type_id == 1 || tran.transaction_type_id == 4) {
+        let checkSupplier = prod.find(r => { return (r.supplier_id != tran.supplier_id && !r.id) });
+        if (checkSupplier) {
+          this.message.create('error', 'Nhà cung cấp không hợp lệ! ');
+          return;
+        }
+      }
+      tran.transaction_type_id = tran.transaction_type_id == 4 ? 4 : tran.transaction_type_id;
+
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
@@ -177,7 +189,9 @@ export class ViewTransactionComponent implements OnInit {
   handelChangeProd(val) {
     if (val > 0) {
       let prod = this.products.find(r => { return r.id == val; });
-      let checkHasProd = this.listProduct.find(r => { return r.id == val });
+      console.log(prod);
+
+      let checkHasProd = this.listProduct.find(r => { return r.product_id == val });
       if (checkHasProd) {
         this.message.create('error', 'Bạn đã chọn hàng hóa này!');
       } else {
@@ -191,6 +205,8 @@ export class ViewTransactionComponent implements OnInit {
             product_code: prod.code,
             unit_name: prod.unit_name,
             specification_name: prod.specification_name,
+            supplier_name: prod.supplier_name,
+            supplier_id: prod.supplier_id,
             totaPrice: 0
           }
           this.listProduct.unshift(product);

@@ -50,7 +50,7 @@ export class MoveOutTransactionComponent implements OnInit {
       transaction_type_id: [null, [Validators.required]],
       source_id: [null, [Validators.required]],
       dest_id: [0, [Validators.required]],
-      supplier_id: [0],
+      supplier_id: ['0'],
       product_id: [null],
       note: [null]
     });
@@ -63,6 +63,10 @@ export class MoveOutTransactionComponent implements OnInit {
     if (e == 3) {
       this.validateForm.patchValue({ source_id: null });
     }
+  }
+
+  handelChangeSuplier(value){
+    
   }
 
   loadInitData() {
@@ -122,6 +126,17 @@ export class MoveOutTransactionComponent implements OnInit {
         return;
       }
 
+      if(tran.transaction_type_id == 4){
+        let checkSupplier = prod.find(r=>{return r.supplier_id != tran.supplier_id});
+        if(checkSupplier){
+          this.message.create('error', 'Nhà cung cấp không hợp lệ! ');
+          return;
+        }
+      }
+
+      //4 trả hàng ncc
+      tran.transaction_type_id = tran.transaction_type_id == 4 ? 4 : tran.transaction_type_id;
+
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo thành công!');
@@ -172,10 +187,13 @@ export class MoveOutTransactionComponent implements OnInit {
   }
 
   onSearchProduct(value) {
+   let tran = this.validateForm.value;
+   console.log(tran);
+   
     if (value != '') {
       let ft = {
         find: value,
-        supplier_id: 0,
+        supplier_id: this.transaction_type ==4 ?  tran.supplier_id : 0,
         group_id: 0,
         active: 1,
         offset: 0,
@@ -193,7 +211,6 @@ export class MoveOutTransactionComponent implements OnInit {
     if (val > 0) {
       let prod = this.products.find(r => { return r.id == val; });
       let checkHasProd = this.listProduct.find(r => { return r.product_id == val; });
-
       if (checkHasProd) {
         this.message.create('error', 'Bạn đã chọn hàng hóa này!');
       } else {
