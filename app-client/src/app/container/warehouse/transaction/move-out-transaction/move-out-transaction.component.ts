@@ -135,7 +135,7 @@ export class MoveOutTransactionComponent implements OnInit {
       }
 
       //4 trả hàng ncc
-      tran.transaction_type_id = tran.transaction_type_id == 4 ? 4 : tran.transaction_type_id;
+      tran.transaction_type_id = tran.transaction_type_id == 4 ? 2 : tran.transaction_type_id;
 
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
@@ -188,8 +188,6 @@ export class MoveOutTransactionComponent implements OnInit {
 
   onSearchProduct(value) {
    let tran = this.validateForm.value;
-   console.log(tran);
-   
     if (value != '') {
       let ft = {
         find: value,
