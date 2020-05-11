@@ -31,6 +31,7 @@ export class MoveOutTransactionComponent implements OnInit {
   transaction_type = 0;
   batchs = [];
   batch = {};
+  dateFormat = 'yyyy/MM/dd'
   timeId = null;
   dataEdit: any = {
     transaction_type_id: 1
@@ -52,7 +53,8 @@ export class MoveOutTransactionComponent implements OnInit {
       dest_id: [0, [Validators.required]],
       supplier_id: ['0'],
       product_id: [null],
-      note: [null]
+      note: [null],
+      date:[new Date()]
     });
 
     this.loadInitData();
@@ -65,8 +67,8 @@ export class MoveOutTransactionComponent implements OnInit {
     }
   }
 
-  handelChangeSuplier(value){
-    
+  handelChangeSuplier(value) {
+
   }
 
   loadInitData() {
@@ -94,7 +96,7 @@ export class MoveOutTransactionComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    
+
     if (this.validateForm.valid) {
       let tran = { ...this.dataEdit, ...this.validateForm.value };
       let prod = this.listProduct;
@@ -126,9 +128,9 @@ export class MoveOutTransactionComponent implements OnInit {
         return;
       }
 
-      if(tran.transaction_type_id == 4){
-        let checkSupplier = prod.find(r=>{return r.supplier_id != tran.supplier_id});
-        if(checkSupplier){
+      if (tran.transaction_type_id == 4) {
+        let checkSupplier = prod.find(r => { return r.supplier_id != tran.supplier_id });
+        if (checkSupplier) {
           this.message.create('error', 'Nhà cung cấp không hợp lệ! ');
           return;
         }
@@ -187,11 +189,11 @@ export class MoveOutTransactionComponent implements OnInit {
   }
 
   onSearchProduct(value) {
-   let tran = this.validateForm.value;
+    let tran = this.validateForm.value;
     if (value != '') {
       let ft = {
         find: value,
-        supplier_id: this.transaction_type ==4 ?  tran.supplier_id : 0,
+        supplier_id: this.transaction_type == 4 ? tran.supplier_id : 0,
         group_id: 0,
         active: 1,
         offset: 0,
@@ -241,12 +243,13 @@ export class MoveOutTransactionComponent implements OnInit {
 
     let dest_id = this.dataEdit.id ? this.dataEdit.dest_id + '' : null;
     this.validateForm = this.fb.group({
-      transaction_type_id: ['1'],
-      source_id: [0, [Validators.required]],
-      dest_id: [dest_id, [Validators.required]],
-      supplier_id: [this.dataEdit.id ? this.dataEdit.supplier_id + '' : null, [Validators.required]],
+      transaction_type_id: [null, [Validators.required]],
+      source_id: [null, [Validators.required]],
+      dest_id: [0, [Validators.required]],
+      supplier_id: ['0'],
       product_id: [null],
-      note: ['']
+      note: [null],
+      date:[new Date()]
     });
     this.listProduct = [];
     this.products = [];
