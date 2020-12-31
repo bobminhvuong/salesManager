@@ -138,6 +138,7 @@ export class MoveOutTransactionComponent implements OnInit {
 
       //4 trả hàng ncc
       tran.transaction_type_id = tran.transaction_type_id == 4 ? 2 : tran.transaction_type_id;
+      tran.date = moment(tran.date).format('DD/MM/YYYY');
 
       this.warehouseSV.createTransaction(tran).subscribe(r => {
         if (r && r.status == 1) {
@@ -155,8 +156,8 @@ export class MoveOutTransactionComponent implements OnInit {
   }
 
   deleteProd(idProd) {
-    let index = this.listProduct.findIndex(r => { return r.id == idProd });
-    if (index >= 0 && this.listProduct.length > 1) {
+    let index = this.listProduct.findIndex(r => { return r.product_id == idProd });
+    if (index >= 0 && this.listProduct.length >= 1) {
       this.listProduct.splice(index, 1);
     }
   }

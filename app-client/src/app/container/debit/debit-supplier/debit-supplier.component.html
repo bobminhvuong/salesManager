@@ -3,21 +3,36 @@
     <h3>Phiếu chi công nợ</h3>
   </div>
   <div nz-col nzSpan="6">
-    <a [routerLink]="['/manager/debit-history']" routerLinkActive="router-link-active"  class="float-right" nz-button nzType="primary">
+    <a
+      [routerLink]="['/manager/debit-history']"
+      routerLinkActive="router-link-active"
+      class="float-right"
+      nz-button
+      nzType="primary"
+    >
       <i nz-icon nzType="left" nzTheme="outline"></i>
-      Phiếu chi</a>
+      Phiếu chi</a
+    >
   </div>
 </div>
 <div class="box box-success">
   <div class="box-header">
     <div nz-form [nzLayout]="'inline'">
-
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
-            <nz-select style="width: 180px;" nzShowSearch nzPlaceHolder="Nhà cung cấp" [(ngModel)]="filter.supplier_id">
+            <nz-select
+              style="width: 180px;"
+              nzShowSearch
+              nzPlaceHolder="Nhà cung cấp"
+              [(ngModel)]="filter.supplier_id"
+            >
               <nz-option nzLabel="Tất cả nhà cung cấp" nzValue="0"></nz-option>
-              <nz-option *ngFor="let item of suppliers" nzLabel="{{ item.name }}" nzValue="{{ item.id }}"></nz-option>
+              <nz-option
+                *ngFor="let item of suppliers"
+                nzLabel="{{ item.name }}"
+                nzValue="{{ item.id }}"
+              ></nz-option>
             </nz-select>
           </nz-input-group>
         </nz-form-control>
@@ -25,7 +40,9 @@
 
       <nz-form-item>
         <nz-form-control>
-          <button nz-button (click)="handleFilter()" nzType="primary">Hiển thị</button>
+          <button nz-button (click)="handleFilter()" nzType="primary">
+            Hiển thị
+          </button>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -33,10 +50,22 @@
 
   <div class="box-body">
     <div class="table-responsive">
-      <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-        nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
-        (nzPageIndexChange)="getAll()" (nzPageSizeChange)="getAll()">
+      <nz-table
+        nzBordered
+        #ajaxTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="listOfData"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        nzFooter="Hiển thị {{
+          pageSize > listOfData.length ? listOfData.length : pageSize
+        }} trên tổng số {{ total }}"
+        (nzPageIndexChange)="getAll()"
+        (nzPageSizeChange)="getAll()"
+      >
         <thead>
           <tr>
             <th width="1%" class="text-center"></th>
@@ -47,62 +76,89 @@
               Tiền nợ
             </th>
           </tr>
-
         </thead>
         <tbody>
-
           <ng-template ngFor let-data [ngForOf]="ajaxTable.data">
             <tr>
               <td nzShowExpand (nzExpandChange)="handleView(data)"></td>
               <!-- <td class="text-center">{{ ((pageIndex -1) * pageSize)+ 1 +index}}</td> -->
               <td>{{ data.name }}</td>
-              <td class="text-right">{{ data.debit | number}} đ</td>
+              <td class="text-right">{{ data.debit | number }} đ</td>
             </tr>
             <tr *ngIf="filterTran.supplier_id == data.id">
               <td colspan="3">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1" >
+                <div
+                  class="col-xs-12 col-sm-12 col-md-12 col-lg-10 offset-lg-1"
+                >
                   <div class="box box-success">
                     <div class="table-responsive">
-                      <nz-table nzBordered #ajaxTable nzShowSizeChanger 
-                      [nzFrontPagination]="false" 
-                      [nzData]="listOfDataTran"
-                        [nzLoading]="loadingTran" 
-                        [nzTotal]="totalTran" 
-                        [(nzPageIndex)]="pageIndexTran" 
-                        [(nzPageSize)]="pageSizeTran" 
-                        (nzPageIndexChange)="getDebitBySupplier()" 
+                      <nz-table
+                        nzBordered
+                        #ajaxTable
+                        nzShowSizeChanger
+                        [nzFrontPagination]="false"
+                        [nzData]="listOfDataTran"
+                        [nzLoading]="loadingTran"
+                        [nzTotal]="totalTran"
+                        [(nzPageIndex)]="pageIndexTran"
+                        [(nzPageSize)]="pageSizeTran"
+                        (nzPageIndexChange)="getDebitBySupplier()"
                         (nzPageSizeChange)="getDebitBySupplier()"
-                        nzFooter="Hiển thị {{ (pageSizeTran > listOfDataTran.length) ? listOfDataTran.length : pageSizeTran  }} trên tổng số {{ totalTran}}">
+                        nzFooter="Hiển thị {{
+                          pageSizeTran > listOfDataTran.length
+                            ? listOfDataTran.length
+                            : pageSizeTran
+                        }} trên tổng số {{ totalTran }}"
+                      >
                         <thead>
                           <tr>
                             <th width="5%" class="mw-100 text-center">
                               Số phiếu
                             </th>
                             <th width="10%" class="mw-150 text-center">
-                              Ngày 
+                              Ngày
                             </th>
                             <th width="10%" class="mw-50 text-center">
-                             Loại
+                              Loại
                             </th>
                             <th width="10%" class="mw-100 text-center">
                               Số tiền
-                             </th>
-                             <th width="10%" class="mw-100 text-center">
+                            </th>
+                            <th width="10%" class="mw-100 text-center">
                               Dư nợ
-                             </th>
+                            </th>
                             <th width="15%" class="mw-150">
                               Ghi chú
                             </th>
-                            <th width="10%" class="text-center mw-50"><span>Hành động</span></th>
+                            <th width="10%" class="text-center mw-50">
+                              <span>Hành động</span>
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let data of ajaxTable.data;let i = index">
+                          <tr
+                            *ngFor="let data of ajaxTable.data; let i = index"
+                          >
                             <td class="text-center">{{ data.id }}</td>
-                            <td class="text-center">{{ data.received_date }}</td>
                             <td class="text-center">
-                              <span class="badge" [ngClass]="{ 'badge-danger': data.type =='debit' , 'badge-success': data.type =='paid' }" >
-                                {{ data.type == 'debit' ? 'Tiền nợ' : 'Đã trả' }}
+                              {{ data.received_date }}
+                            </td>
+                            <td class="text-center">
+                              <span
+                                class="badge"
+                                [ngClass]="{
+                                  'badge-danger': data.type == 'debit',
+                                  'badge-success': data.type == 'paid',
+                                  'badge-info': data.type == 'return'
+                                }"
+                              >
+                                <span *ngIf="data.type == 'debit'"
+                                  >Tiền nợ</span
+                                >
+                                <span *ngIf="data.type == 'paid'">Đã trả</span>
+                                <span *ngIf="data.type == 'return'"
+                                  >Trả hàng</span
+                                >
                               </span>
                             </td>
                             <td class="text-right">
@@ -111,11 +167,19 @@
                             <td class="text-right">
                               {{ data.debit | number }} đ
                             </td>
-                            <td>{{ data.note  }}</td>
+                            <td>{{ data.note }}</td>
                             <td class="cttd" class="text-center">
                               <div zn-row>
-                                <i *ngIf="data.type == 'debit'" nz-icon nzType="edit" nz-tooltip nzTitle="Sửa phiếu" class="iconAction text-warning"
-                                  (click)="handleCorU(data)" nzTheme="outline"></i>
+                                <i
+                                  *ngIf="data.type == 'debit'"
+                                  nz-icon
+                                  nzType="edit"
+                                  nz-tooltip
+                                  nzTitle="Sửa phiếu"
+                                  class="iconAction text-warning"
+                                  (click)="handleCorU(data)"
+                                  nzTheme="outline"
+                                ></i>
                               </div>
                             </td>
                           </tr>
@@ -133,7 +197,11 @@
   </div>
 </div>
 
-
-<app-view-transaction *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
-  class="fade in">
+<app-view-transaction
+  *ngIf="isVisible"
+  [dataEdit]="dataEdit"
+  [isVisible]="isVisible"
+  (closeModal)="closeModal($event)"
+  class="fade in"
+>
 </app-view-transaction>
